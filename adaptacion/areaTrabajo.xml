@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<its:areaTrabajoSet 
+	xmlns:its="IntelligentTransportSystem" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="IntelligentTransportSystem Schemas/areaTrabajo.xsd ">
+	<its:puntoTangencia>
+    	<its:latitud>43.4612459</its:latitud>
+    	<its:longitud>-3.8184800</its:longitud>
+  	</its:puntoTangencia>
+  	<its:radioTierra>6371000</its:radioTierra>
+  	<its:areaTrabajo>
+  		<its:minimaLatitud>43.4572182</its:minimaLatitud>
+  		<its:maximaLatitud>43.4632607</its:maximaLatitud>
+  		<its:minimaLongitud>-3.8312800</its:minimaLongitud>
+  		<its:maximaLongitud>-3.8116801</its:maximaLongitud>
+  	</its:areaTrabajo>
+</its:areaTrabajoSet>

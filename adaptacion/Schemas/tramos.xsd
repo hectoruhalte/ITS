@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Titulo	: tramos.xsd
+   Fecha	: 8/10/2017
+   Autor	: Hector Uhalte Bilbao
+-->
+<schema
+	attributeFormDefault="unqualified"
+   	elementFormDefault="qualified"
+   	finalDefault="#all"
+   	targetNamespace="IntelligentTransportSystem"
+   	version="1.0.0"
+   	xmlns="http://www.w3.org/2001/XMLSchema"
+   	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   	xmlns:its="IntelligentTransportSystem">
+   	
+   	<include schemaLocation="TiposBasicosAdaptacion.xsd"/>
+   	
+   	<annotation>
+    	<documentation>
+       		Esquema para definir la adaptacion de los tramos de carretera
+      	</documentation>
+   	</annotation>
+   	
+   	<!-- schema root element -->
+   	<element name="tramoSet" type="its:TramoTipoSet"/>	
+  	
+   	<complexType name="TramoTipoSet">
+    	<annotation>
+        	<documentation>
+				Tipo que va a contener la definicion de todos los tramos.
+         	</documentation>
+      	</annotation>
+      	<sequence>
+        	<element name="datosTramo" type="its:DatosTramoTipo" minOccurs="0" maxOccurs="1000000">
+            	<annotation>
+               		<documentation>
+                  		Conjunto de datos para el tipo tramo
+               		</documentation>
+            	</annotation>
+         	</element>
+     	 </sequence>
+   	</complexType>
+   	
+   	<complexType name="DatosTramoTipo">
+    	<annotation>
+        	<documentation>
+            	Conjunto de datos para el tipo tramo
+         	</documentation>
+      	</annotation>
+      	<sequence>
+      		<element name="id" minOccurs="1" maxOccurs="1">
+           		<annotation>
+            		<documentation>
+                		Id para identificar el tramo
+               		</documentation>
+            	</annotation>
+            <simpleType>
+           		<restriction base="integer">
+        			<minInclusive value="0"/>
+            		<maxInclusive value="1000000"/>
+        		</restriction>
+        	</simpleType>
+         	</element>
+         	<element name="nombreTramo" type="its:NombreTramo" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Nombre del tramo
+         			</documentation>
+         		</annotation>	
+         	</element>
+         	<element name="comienzoLatitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Coordenada X del comienzo del tramo.
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="comienzoLongitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Coordenada Y del comienzo del tramo.
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="finalLatitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Coordenada X del final del tramo.
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="finalLongitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Coordenada Y del final del tramo.
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="altura" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Altura de galibo del tramo. Si se establece en 10.0 es que no hay limite de altura en el tramo
+         			</documentation>
+         		</annotation>
+         		<simpleType>
+         			<restriction base="double">
+        				<minInclusive value="0.0"/>
+            			<maxInclusive value="10.0"/>
+        			</restriction>
+         		</simpleType>
+         	</element>
+         	<element name="velocidadMaxima" type="its:Velocidad" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Velocidad maxima permitida en el tramo
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="listaSegmentos" type="its:TipoSegmentos" minOccurs="1" maxOccurs="1">
+         		<annotation>
+         			<documentation>
+         				Elemento que va a contener la secuencia de segmentos que componen cada tramo
+         			</documentation>
+         		</annotation>
+         	</element>
+         	<element name="listaConexiones" type="its:TipoConexiones" minOccurs="1" maxOccurs="1">
+         	</element>
+      	</sequence>
+	</complexType>
+	
+	<complexType name="TipoSegmentos">
+		<annotation>
+			<documentation>
+				Tipo para almacenar los segmentos que componen cada tramo.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="segmento" type="its:TipoSegmento" minOccurs="1" maxOccurs="100"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="TipoConexiones">
+		<annotation>
+			<documentation>
+				Tipo para almacenar las conexiones que tiene cada tramo con otros.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="tramo" minOccurs="1" maxOccurs="8">
+				<annotation>
+         			<documentation>
+         				Id del tramo al que esta conectado el tramo actual. Por definicion cada tramo tendra como minimo 1 conexion y maximo 4.
+         			</documentation>
+         		</annotation>
+         		<simpleType>
+         			<restriction base="integer">
+        				<minInclusive value="0"/>
+            			<maxInclusive value="1000000"/>
+        			</restriction>
+         		</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+		
+	<complexType name="TipoSegmento">
+		<annotation>
+			<documentation>
+				Tipo para almacenar los datos de un segmento individual
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="posicionSegmentoLatitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Posicion del segmento. Coordenadas X.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="posicionSegmentoLongitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Posicion del segmento. Coordenadas Y.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="dobleSentido" type="boolean" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Para indicar si el segmento tiene al menos un carril adyacente en sentido contrario para adelantamientos.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="numeroCarriles" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Numero de carriles que tiene el segmento.
+					</documentation>
+				</annotation>
+				<simpleType>
+           		<restriction base="integer">
+        			<minInclusive value="1"/>
+            		<maxInclusive value="10"/>
+        		</restriction>
+        	</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	
+</schema>
