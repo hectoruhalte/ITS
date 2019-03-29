@@ -131,7 +131,7 @@ package Q_TRAMO is
 	private
 
 		-- Constante para definir el numero maximo de tramos.
-        	C_NUMERO_MAXIMO_TRAMOS : constant Integer := 128;
+        	C_NUMERO_MAXIMO_TRAMOS : constant Integer := 256;
 	
 		-- Constante para definir la longitud maxima del nombre del tramo.
 		C_LONGITUD_MAXIMA_NOMBRE_TRAMO : constant Natural := 32;
