@@ -1,0 +1,7 @@
+with "gtkada";
+
+project teseo is
+
+	for Main use ("teseo.adb");
+
+end teseo;
