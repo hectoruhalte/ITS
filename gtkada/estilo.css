@@ -3,8 +3,25 @@ GtkWindow#ventanaPrincipal {
 }
 
 GtkFrame {
+	border-width: 0px;
+}
+
+GtkBox#cajaIzquierda {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #2ECCFA;
 }
 
+GtkBox#cajaDerecha {
+	border-width: 0px;
+}
+
+GtkBox#cajaMapa {
+        border-style: solid;
+        border-width: 1px;
+        border-color: #2ECCFA;
+}
+
+GtkBox#cajaLogo {
+        border-width: 0px;
+}
