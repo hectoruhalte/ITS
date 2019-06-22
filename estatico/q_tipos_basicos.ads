@@ -67,6 +67,10 @@ package Q_TIPOS_BASICOS is
 	-- Funcion para obtener coordenadas X Y con referencia en el punto de tangencia. Traslacion
 	function F_OBTENER_REF_X_Y (V_POSICION_UTM : in T_POSICION_UTM) return T_POSICION_UTM;
 
+	-- Funcion para comprobar si dos posiciones dadas son iguales o no.
+	function "=" (V_POSICION_1 : T_POSICION_UTM;
+		      V_POSICION_2 : T_POSICION_UTM) return Boolean;
+
 	private
 
 		-- Valores mínimo y máximo para las coordenadas. Cada unidad equivaldrá a un metro.
