@@ -14,7 +14,7 @@ with Q_TIPOS_BASICOS;
 
 package Q_RUTA.Q_DIJKSTRA is
 
-	X_RUTA_NO_ENCONTRADA : Exception;
+	X_RUTA_NO_ENCONTRADA, X_RUTA_CIRCULAR : Exception;
 
 	type T_COSTE_TRAMO is record
 
@@ -56,16 +56,12 @@ package Q_RUTA.Q_DIJKSTRA is
                                                            "=" => F_IGUALDAD_ID,
                                                            V_MAXIMO_NUMERO_ELEMENTOS => Q_TRAMO.F_OBTENER_NUMERO_MAXIMO_TRAMOS);
 
-	-- Procedimiento para calcular la ruta entre dos puntos usando el algoritmo de Dijkstra.
-	procedure P_CALCULAR_RUTA (V_TRAMO_ORIGEN : in Q_TRAMO.T_TRAMO;
-				   V_TRAMO_DESTINO : in Q_TRAMO.T_TRAMO;
-				   V_PESO : in T_PESO;
-				   V_TRAMOS_A_VISITAR : in out Q_LISTA_TRAMOS_ID.T_LISTA;
-				   V_TRAMOS_A_EVITAR : in out Q_LISTA_TRAMOS_ID.T_LISTA;
-				   V_COSTE_TRAMOS : in out Q_LISTA_COSTE_TRAMOS.T_LISTA;
-				   V_RELACION_TRAMOS : in out Q_LISTA_RELACION_TRAMOS.T_LISTA;
-				   V_RUTA : out T_RUTA;
-				   V_COSTE_RUTA : out Integer);
-				   
+	-- Procedimiento para obtener una ruta dado un punto de origen y un punto de destino.
+	procedure P_OBTENER_RUTA (V_POSICION_ORIGEN : in Q_TIPOS_BASICOS.T_POSICION_UTM;
+				  V_POSICION_FINAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
+				  V_RUTA : out T_RUTA;
+				  V_COSTE_TIEMPO : out Integer;
+				  V_COSTE_DISTANCIA : out Integer);
+
 end Q_RUTA.Q_DIJKSTRA;
 ----------------------
