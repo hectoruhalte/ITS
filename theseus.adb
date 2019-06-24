@@ -143,7 +143,7 @@ begin
 
 	exception
 
-		when Q_RUTA.Q_DIJKSTRA.X_RUTA_NO_ENCONTRADA =>
+		when Q_RUTA.X_RUTA_NO_ENCONTRADA =>
 
 			Ada.Text_Io.Put_Line (" NO ES POSIBLE ENCONTRAR UNA RUTA");
 
