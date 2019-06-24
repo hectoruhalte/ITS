@@ -989,7 +989,7 @@ package body Q_RUTA.Q_DIJKSTRA is
                                                     Float(Q_TRAMO.F_OBTENER_TIEMPO_TRAMO (V_TRAMO_DESTINO))));
 
 			-- En el coste de la ruta esta el tiempo del tramo destino completo.
-			-- Al restar el 
+			-- Al restar el
 			V_COSTE_TIEMPO := V_COSTE_TIEMPO_ORIGEN + V_COSTE_RUTA - V_COSTE_TIEMPO_DESTINO;
 
 			exception

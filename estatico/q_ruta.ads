@@ -15,6 +15,8 @@ with Q_TRAMO;
 
 package Q_RUTA is
 
+	X_RUTA_NO_ENCONTRADA : Exception;
+
 	package Q_LISTA_TRAMOS is new Q_GENERICO_LISTA (T_ELEMENTO => Q_TRAMO.T_TRAMO,
                                                         "=" => Q_TRAMO."=",
                                                         V_MAXIMO_NUMERO_ELEMENTOS => Q_TRAMO.F_OBTENER_NUMERO_MAXIMO_TRAMOS);

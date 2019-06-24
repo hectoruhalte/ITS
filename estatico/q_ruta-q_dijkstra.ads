@@ -14,8 +14,6 @@ with Q_TIPOS_BASICOS;
 
 package Q_RUTA.Q_DIJKSTRA is
 
-	X_RUTA_NO_ENCONTRADA, X_RUTA_CIRCULAR : Exception;
-
 	type T_COSTE_TRAMO is record
 
                 R_TRAMO_ID : Integer range 1 .. Q_TRAMO.F_OBTENER_NUMERO_MAXIMO_TRAMOS;
