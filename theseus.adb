@@ -20,9 +20,13 @@ with Ada.Calendar;
 
 -- Ejecutable para realizar la función del cliente (vehículo).
 -- 
--- 1º- Establecer el vehículo (de entre los vehículos incluidos en la adaptación)
+-- 1º- Establecer el vehículo (de entre los vehículos incluidos en la adaptación).
 --
 -- 2º- Establecer el punto de origen del trayecto.
+--
+-- 3º- Establecer el punto final del trayecto.
+--
+-- 4º- Calcular la ruta y en caso de que exista, mostrarla.
 
 procedure theseus is
 
