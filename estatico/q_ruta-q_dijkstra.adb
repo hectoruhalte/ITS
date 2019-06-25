@@ -9,8 +9,6 @@
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 with Q_TRAMO.Q_ACCIONES;
-with Ada.Text_Io;
-with Ada.Characters.Latin_1;
 with Q_SEGMENTO;
 with Q_ADAPTACION_TRAMO;
 
@@ -654,10 +652,6 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 							-- Ruta circular
 							-- Forzar a visitar el tramo de origen.
-                                                	Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "RUTA CIRCULAR");
-
-                                                	Ada.Text_Io.Put_Line ("");
-
 							-- Inicializar la ruta circular provisional.
                                                		Q_LISTA_TRAMOS.P_INICIALIZAR_LISTA (V_RUTA_CIRCULAR_PROVISIONAL);
 
