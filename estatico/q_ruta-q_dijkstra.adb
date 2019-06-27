@@ -522,8 +522,8 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 		V_LISTA_CONEXIONES_CIRCULAR : Q_TRAMO.Q_LISTA_CONEXIONES.T_LISTA;
 
-		V_COSTE_RUTA, V_COSTE_TIEMPO_ORIGEN, V_COSTE_DISTANCIA_ORIGEN, V_COSTE_TIEMPO_DESTINO, V_COSTE_DISTANCIA_DESTINO : 
-			Integer := 0;
+		V_COSTE_RUTA, V_COSTE_TIEMPO_ORIGEN, V_COSTE_DISTANCIA_ORIGEN, V_COSTE_TIEMPO_DESTINO, V_COSTE_DISTANCIA_DESTINO, 
+		V_COSTE_DISTANCIA_RUTA : Integer := 0;
 
 		V_COSTE_PROVISIONAL_RUTA_CIRCULAR : Integer := 1_000_000;
 
@@ -825,10 +825,25 @@ package body Q_RUTA.Q_DIJKSTRA is
 											 V_LISTA => V_LISTA_TRAMOS)) -
 									Q_TRAMO.F_OBTENER_TIEMPO_TRAMO (V_TRAMO_DESTINO);
 
-								-- De momento siempre el coste es el coste en tiempo
+								-- Coste de tiempo
 								V_COSTE_TIEMPO := 
 									V_COSTE_RUTA + V_COSTE_TIEMPO_ORIGEN + V_COSTE_TIEMPO_DESTINO;
-															
+
+								for I in 2 .. Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) - 1 loop
+
+                                					V_COSTE_DISTANCIA_RUTA :=
+                                        					V_COSTE_DISTANCIA_RUTA +
+                                        					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO 
+											(Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
+												(V_POSICION => I,
+                                                                                                 V_LISTA => V_RUTA));
+
+                        					end loop;
+
+								V_COSTE_DISTANCIA := 
+									V_COSTE_DISTANCIA_ORIGEN + V_COSTE_DISTANCIA_RUTA + 
+									V_COSTE_DISTANCIA_DESTINO;
+
 							else
 
 
@@ -983,8 +998,19 @@ package body Q_RUTA.Q_DIJKSTRA is
                                                     Float(Q_TRAMO.F_OBTENER_TIEMPO_TRAMO (V_TRAMO_DESTINO))));
 
 			-- En el coste de la ruta esta el tiempo del tramo destino completo.
-			-- Al restar el
 			V_COSTE_TIEMPO := V_COSTE_TIEMPO_ORIGEN + V_COSTE_RUTA - V_COSTE_TIEMPO_DESTINO;
+
+			-- Calcular la distancia real de la ruta (todos los tramos menos origen y final)
+			for I in 2 .. Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) - 1 loop	
+
+				V_COSTE_DISTANCIA_RUTA := 
+					V_COSTE_DISTANCIA_RUTA + 
+					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+	  												       V_LISTA => V_RUTA));
+
+			end loop;
+
+			V_COSTE_DISTANCIA := V_COSTE_DISTANCIA_ORIGEN + V_COSTE_DISTANCIA_RUTA + V_COSTE_DISTANCIA_DESTINO;
 
 			exception
 
