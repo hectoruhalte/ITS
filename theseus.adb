@@ -121,11 +121,15 @@ begin
 
 	V_FINAL := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
 
-	ADA.TEXT_IO.PUT_LINE 
+	Ada.Text_Io.Put_Line 
 		(Ada.Characters.Latin_1.HT & "Se ha tardado : " & Integer'Image(V_FINAL - V_COMIENZO) & " segundos en encontrar la ruta");
+
+	Ada.Text_Io.Put_Line ("");
 
 	-- Visualizar la ruta:
 	Ada.Text_Io.Put_Line (" RUTA : ");
+
+	Ada.Text_Io.Put_Line ("");
 
 	Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_CABECERA_TRAMO;
 
@@ -142,6 +146,10 @@ begin
 	Ada.Text_Io.Put_Line ("");
 
 	Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "TIEMPO (s) : " & Integer'Image(V_COSTE_TIEMPO));
+
+	Ada.Text_Io.Put_Line ("");
+
+	Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "DISTANCIA RUTA (m) : " & Integer'Image(V_COSTE_DISTANCIA));
 
 	Ada.Text_Io.Put_Line ("");
 
