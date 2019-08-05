@@ -53,7 +53,7 @@ package Q_SEGMENTO is
 	private
 
 		-- Constante para definir el numero maximo de segmentos en un tramo.
-                C_NUMERO_MAXIMO_SEGMENTOS : constant Integer := 100;
+                C_NUMERO_MAXIMO_SEGMENTOS : constant Integer := 200;
 
 		-- Cada segmento estara compuesto por desde 1 hasta un numero maximo de segmentos, cada uno de los cuales tendra n carriles.
                 type T_SEGMENTO is record
