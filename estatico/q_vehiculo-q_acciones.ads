@@ -24,5 +24,17 @@ package Q_VEHICULO.Q_ACCIONES is
 
 	procedure P_MOSTRAR_VEHICULO (V_VEHICULO : in T_VEHICULO);
 
+	-- Procedimiento para acelerar un vehiculo.
+	procedure P_ACELERAR_VEHICULO (V_VELOCIDAD_MAXIMA_TRAMO : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_VELOCIDAD_INICIAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_VELOCIDAD_FINAL : out Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_T : out Integer);
+
+	-- Funcion para determinar la distancia a mover un vehiculo.
+	function F_OBTENER_DISTANCIA_MOVER_VEHICULO (V_VELOCIDAD_INICIAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+					             V_VELOCIDAD_FINAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+						     V_VELOCIDAD_MAXIMA_TRAMO : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+						     V_T : in Integer) return Float;
+
 end Q_VEHICULO.Q_ACCIONES;
 --------------------------

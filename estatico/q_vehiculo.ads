@@ -62,8 +62,8 @@ package Q_VEHICULO is
 		-- ISO 3779
 		C_LONGITUD_NUMERO_BASTIDOR : constant Integer := 17;
 
-		-- Modelo matricula espanola "1234 ABC"
-        	C_LONGITUD_MATRICULA : constant Integer := 8;
+		-- Modelo maricula espanola "1234 ABC"
+		C_LONGITUD_MATRICULA : constant Integer := 8;
 
 		C_LONGITUD_MAXIMA_NOMBRE_MARCA_MODELO : constant Integer := 16;
 
@@ -78,6 +78,14 @@ package Q_VEHICULO is
 		-- Strings vacios para los nombres de la marca y el modelo.
 		C_MARCA_VACIA, C_MODELO_VACIO : constant String (1 .. C_LONGITUD_MAXIMA_NOMBRE_MARCA_MODELO) 
 			:= (others => ADA.CHARACTERS.Latin_1.NUL);
+
+		type T_MATRICULA is record
+
+			R_NUMEROS : String (1..5);
+
+			R_LETRAS : String (1..3);
+
+		end record;
 
 		type T_DIMENSIONES_VEHICULO is record
 

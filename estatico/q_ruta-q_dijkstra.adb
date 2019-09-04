@@ -530,6 +530,11 @@ package body Q_RUTA.Q_DIJKSTRA is
 		V_TRAMO_ORIGEN_INICIO, V_TRAMO_ORIGEN_FINAL, V_TRAMO_2_INICIO, V_TRAMO_2_FINAL, V_TRAMO_DESTINO_INICIO, 
 		V_TRAMO_DESTINO_FINAL : Q_TIPOS_BASICOS.T_POSICION_UTM;
 
+		-- Numero de segmentos en el segundo tramo (tramo origen para dijkstra) en el caso de ruta circular.
+		V_NUMERO_SEGMENTOS : Natural := 0;
+
+		V_ARRAY_SEGMENTOS : Q_TRAMO.T_ARRAY_SEGMENTOS;
+
 	begin
 
 		-- Obtener el segmento mas cercano a esa posicion de origen dada.
@@ -680,7 +685,7 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 							-- Obtener las conexiones del tramo origen.
                                                 	V_LISTA_CONEXIONES_CIRCULAR := Q_TRAMO.F_OBTENER_LISTA_CONEXIONES (V_TRAMO_ORIGEN);
-						
+
 							for I in 1 .. Q_TRAMO.Q_LISTA_CONEXIONES.F_CUANTOS_ELEMENTOS 
 									(V_LISTA_CONEXIONES_CIRCULAR) loop
 								
@@ -688,11 +693,88 @@ package body Q_RUTA.Q_DIJKSTRA is
 								-- el tramo origen real.
                                                         	Q_TRAMO.P_INICIALIZAR_TRAMO (V_TRAMO_ORIGEN_BIS);
 
+								begin
+
 								-- Poner como tramo origen el de la conexion I.
                                                         	Q_TRAMO.P_PONER_ID (V_ID => Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO
                                                                                         	(V_POSICION => I,
                                                                                          	 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR),
                                                                             	    V_TRAMO => V_TRAMO_ORIGEN_BIS);
+
+								-- Rellenar el tramo. Origen, final, altura, velocidad maxima, segmentos
+								Q_TRAMO.P_PONER_ORIGEN 
+									(V_ORIGEN => 
+										Q_TRAMO.F_OBTENER_ORIGEN 
+											(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+												F_ENCONTRAR_ELEMENTO 
+													(V_ELEMENTO => V_TRAMO_ORIGEN_BIS,
+													 V_LISTA => V_LISTA_TRAMOS)),
+								         V_TRAMO => V_TRAMO_ORIGEN_BIS);
+
+								Q_TRAMO.P_PONER_FINAL
+                                                                        (V_FINAL => 
+										Q_TRAMO.F_OBTENER_FINAL 
+											(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+												F_ENCONTRAR_ELEMENTO 
+													(V_ELEMENTO => V_TRAMO_ORIGEN_BIS,
+                                                                                                         V_LISTA => V_LISTA_TRAMOS)),
+                                                                         V_TRAMO => V_TRAMO_ORIGEN_BIS);
+
+								Q_TRAMO.P_PONER_ALTURA 
+									(V_ALTURA => 
+										Q_TRAMO.F_OBTENER_ALTURA 
+											(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+												F_ENCONTRAR_ELEMENTO 
+													(V_ELEMENTO => V_TRAMO_ORIGEN_BIS,
+													 V_LISTA => V_LISTA_TRAMOS)),
+									 V_TRAMO => V_TRAMO_ORIGEN_BIS);
+
+								Q_TRAMO.P_PONER_VELOCIDAD_MAXIMA 
+									(V_VELOCIDAD_MAXIMA => 
+										Q_TRAMO.F_OBTENER_VELOCIDAD_MAXIMA 
+											(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+												F_ENCONTRAR_ELEMENTO 
+													(V_ELEMENTO => V_TRAMO_ORIGEN_BIS,
+													 V_LISTA => V_LISTA_TRAMOS)),
+									 V_TRAMO => V_TRAMO_ORIGEN_BIS);
+
+								V_NUMERO_SEGMENTOS := 
+									Q_TRAMO.Q_LISTA_SEGMENTOS.F_CUANTOS_ELEMENTOS 
+										(Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
+											(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+												F_ENCONTRAR_ELEMENTO 
+													(V_ELEMENTO => V_TRAMO_ORIGEN_BIS,
+													 V_LISTA => V_LISTA_TRAMOS)));
+
+								-- Crear array de segmentos para el segundo tramo del ruta.
+								for J in 1 .. V_NUMERO_SEGMENTOS loop
+
+									V_ARRAY_SEGMENTOS(J) := 
+										Q_TRAMO.Q_LISTA_SEGMENTOS.F_DEVOLVER_ELEMENTO 
+											(V_POSICION => V_NUMERO_SEGMENTOS - J + 1,
+											 V_LISTA => 
+												Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
+													(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+														F_ENCONTRAR_ELEMENTO 
+															(V_ELEMENTO => 
+															V_TRAMO_ORIGEN_BIS,
+															 V_LISTA =>
+															V_LISTA_TRAMOS)));
+
+								end loop;
+
+								exception 
+
+									when Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.X_ELEMENTO_NO_ENCONTRADO =>
+
+										null;
+
+								end;
+
+								Q_TRAMO.P_PONER_LISTA_SEGMENTOS 
+									(V_NUMERO_SEGMENTOS => V_NUMERO_SEGMENTOS,
+									 V_ARRAY_SEGMENTOS => V_ARRAY_SEGMENTOS, 
+									 V_TRAMO => V_TRAMO_ORIGEN_BIS); 
 
 								-- Establecer como tramo origen el de la conexion
                                                         	Q_LISTA_TRAMOS_ID.P_INSERTAR_ELEMENTO 
@@ -986,8 +1068,8 @@ package body Q_RUTA.Q_DIJKSTRA is
 			else
 
 				-- El segmento => Tramo origen es de doble sentido y esta recorrido en sentido "inverso"
-				V_COSTE_DISTANCIA_DESTINO :=
-                                        Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (V_TRAMO_DESTINO) - (V_POSICION_LISTA_SEGMENTO_DESTINO * 5);
+				V_COSTE_DISTANCIA_DESTINO := 
+					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (V_TRAMO_DESTINO) - (V_POSICION_LISTA_SEGMENTO_DESTINO * 5);	
 
 			end if;
 
@@ -997,7 +1079,7 @@ package body Q_RUTA.Q_DIJKSTRA is
 						    Float(Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (V_TRAMO_DESTINO))) *
                                                     Float(Q_TRAMO.F_OBTENER_TIEMPO_TRAMO (V_TRAMO_DESTINO))));
 
-			-- En el coste de la ruta esta el tiempo del tramo destino completo.
+			-- En el coste de la ruta esta el tiempo del tramo destino completo por eso se 
 			V_COSTE_TIEMPO := V_COSTE_TIEMPO_ORIGEN + V_COSTE_RUTA - V_COSTE_TIEMPO_DESTINO;
 
 			-- Calcular la distancia real de la ruta (todos los tramos menos origen y final)
@@ -1006,11 +1088,17 @@ package body Q_RUTA.Q_DIJKSTRA is
 				V_COSTE_DISTANCIA_RUTA := 
 					V_COSTE_DISTANCIA_RUTA + 
 					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
-	  												       V_LISTA => V_RUTA));
+	  												       V_LISTA => V_RUTA)) + 5;
+				-- El "+5" es para tener en cuenta las distancias de las conexiones
 
 			end loop;
 
-			V_COSTE_DISTANCIA := V_COSTE_DISTANCIA_ORIGEN + V_COSTE_DISTANCIA_RUTA + V_COSTE_DISTANCIA_DESTINO;
+			-- El "+5" es para tener en cuenta que hay n+1 conexiones, siendo n el numero de tramos que no son el tramo origen
+			-- o final.
+			-- La distancia en v_coste_distancia_destino es la de la parte del tramo destino que no se recorre
+			V_COSTE_DISTANCIA := 
+				V_COSTE_DISTANCIA_ORIGEN + V_COSTE_DISTANCIA_RUTA + Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO(V_TRAMO_DESTINO) - 
+				V_COSTE_DISTANCIA_DESTINO + 5;
 
 			exception
 
