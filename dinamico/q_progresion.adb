@@ -359,157 +359,99 @@ package body Q_PROGRESION is
 	end F_GENERAR_ENVELOPE_ESTATICO;
 	--------------------------------
 
-	-------------------------------------------------------------------------------------------
-	procedure P_GENERAR_PROGRESION_PUNTO_FRENADA_FINAL (V_PROGRESION_ESTATICA : in T_PROGRESION;
-							    V_PROGRESION_DINAMICA : out T_PROGRESION;
-							    V_PUNTO_FRENADA_FINAL : out Natural) is
+	------------------------------------------------------------------------------------
+	-- Se calcula la velocidad de frenada en funcion de la posicion: v = (I-1)*9
+	-- Cuando esta velocidad de frenada sea menor, entonces se usara esa velocidad en
+	-- el elemento de la progresion, si es mayor, se usara el elemento tal cual venga
+	-- en la progresion estatica.
+	------------------------------------------------------------------------------------
+	procedure P_GENERAR_PROGRESION_FRENADA (V_PROGRESION_ESTATICA : in T_PROGRESION;
+						V_PROGRESION_DINAMICA : out T_PROGRESION;
+						V_PUNTO_FRENADA_FINAL : out Natural) is
 
 		V_ELEMENTO_PROGRESION, V_ELEMENTO_PROGRESION_AUX : T_ELEMENTO_PROGRESION;
 
-		V_VELOCIDAD_ELEMENTO_PROGRESION, V_VELOCIDAD_FRENADO_INICIAL, V_VELOCIDAD_FRENADO : Q_TIPOS_BASICOS.T_VELOCIDAD;
-
-		V_HORIZONTE, V_HORIZONTE_SEGMENTOS : Natural := 0;
+		V_VELOCIDAD_AUX : Integer := 0;
 
 		V_RESTRICCION_AUX : Q_RESTRICCION.T_RESTRICCION;
 
-		V_CONTINUAR_A_SIGUIENTE_ELEMENTO : Boolean;
+		V_YA_HEMOS_LLEGADO_AL_PUNTO_FRENADO : Boolean := False;
 
 	begin
 
-		-- Inicializar la progresion dinamica.
-                P_INICIALIZAR_LISTA (V_PROGRESION_DINAMICA);
+		P_INICIALIZAR_LISTA (V_PROGRESION_DINAMICA);
 
-		for I in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_ESTATICA) loop
+		-- En caso de que el trayecto conste solo de un segmento => Fijar la velocidad a 9 Km/h.
+		if F_CUANTOS_ELEMENTOS (V_PROGRESION_ESTATICA) = 1 then
 
-			V_CONTINUAR_A_SIGUIENTE_ELEMENTO := False;
-
-			V_ELEMENTO_PROGRESION := F_DEVOLVER_ELEMENTO (V_POSICION => I,
+			V_ELEMENTO_PROGRESION := F_DEVOLVER_ELEMENTO (V_POSICION => 1,
                                                                       V_LISTA => V_PROGRESION_ESTATICA);
 
-			-- Obtener la velocidad del elemento de progresion.
-                        V_VELOCIDAD_ELEMENTO_PROGRESION := 
-				Q_RESTRICCION.F_OBTENER_RESTRICCION_VELOCIDAD (V_ELEMENTO_PROGRESION.R_RESTRICCION);
+			V_ELEMENTO_PROGRESION_AUX.R_ID_TRAMO_ACTUAL := F_OBTENER_ID_TRAMO_ACTUAL (V_ELEMENTO_PROGRESION);
 
-               		-- Obtener la distancia de seguridad en base a la velocidad => horizonte.
-                        V_HORIZONTE := (V_VELOCIDAD_ELEMENTO_PROGRESION / 10)**2;
+                        V_ELEMENTO_PROGRESION_AUX.R_POSICION := F_OBTENER_POSICION (V_ELEMENTO_PROGRESION);
 
-                        -- Obtener el horizonte en segmentos. Como minimo vamos a tomar un horizonte de un segmento.
-                 	-- De momento para una velocidad de 50 Km / h => horizonte = 25 metros => horizonte en segmentos seria, pero 
-			-- tomamos 6 por simplificar.
-                 	V_HORIZONTE_SEGMENTOS := (V_HORIZONTE / 5) + 1;
+                      	Q_RESTRICCION.P_PONER_RESTRICCION (V_VELOCIDAD => 10,
+                                                           V_SENAL => 
+								Q_RESTRICCION.F_OBTENER_RESTRICCION_SENAL 
+									(F_OBTENER_RESTRICCION (V_ELEMENTO_PROGRESION)),
+                                                           V_RESTRICCION => V_RESTRICCION_AUX);
 
-                      	-- Comprobar que en los "V_HORIZONTE_SEGMENTOS" siguientes no se llega al final => v = 0
-                    	-- Si no llegamos al final, comprobar que la velocidad en los siguiente "V_HORIZONTE_SEGMENTOS" siguiente no es 
-			-- menor que la del elemento actual.
-                        -- Si es menor => Cambiar la velocidad adecuadamente.
-                        if I - V_HORIZONTE_SEGMENTOS <= 1 then
+                   	V_ELEMENTO_PROGRESION_AUX.R_RESTRICCION := V_RESTRICCION_AUX;
 
-				-- Estamos llegando al final. Hay que reducir la velocidad de la progresion a 0 de manera adecuada
-               			-- Tenemos V_HORIZONTE_SEGMENTOS + 1 (el actual) segmentos para reducir la velocidad.
-                       		V_VELOCIDAD_FRENADO_INICIAL := 
-					Integer
-						(Float'Rounding
-							(Float(V_VELOCIDAD_ELEMENTO_PROGRESION) / Float(V_HORIZONTE_SEGMENTOS + 1)));
-                               	V_VELOCIDAD_FRENADO := V_VELOCIDAD_FRENADO_INICIAL;
+                        P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_AUX,
+                                  	     V_LISTA => V_PROGRESION_DINAMICA);
 
-				-- Si la velocidad a poner en la restriccion auxiliar es negativa es porque hay una velocidad inferior mas 
-				-- adelante en la progresion estatica. 
-                            	-- Habra que calcular el punto de inicio de frenada mas adelante. Hay que comprobarlo antes de hacer los
-				-- cambios, ya que si no hay que eliminar los elementos de la progresion dinamica.
-				for J in reverse 1 .. I loop
-				
-					if Q_RESTRICCION.F_OBTENER_RESTRICCION_VELOCIDAD 
-						(F_DEVOLVER_ELEMENTO (V_POSICION => J,
-                                                                      V_LISTA => V_PROGRESION_ESTATICA).R_RESTRICCION) -
-                                           V_VELOCIDAD_FRENADO < 0 then
+		else
 
-						V_CONTINUAR_A_SIGUIENTE_ELEMENTO := True;
+			-- Recorrer la progresion estatica
+			for I in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_ESTATICA) loop
+
+				V_VELOCIDAD_AUX := (I - 1) * 9;
+
+				V_ELEMENTO_PROGRESION := F_DEVOLVER_ELEMENTO (V_POSICION => I,
+                                	                                      V_LISTA => V_PROGRESION_ESTATICA);
+
+				if Q_RESTRICCION.F_OBTENER_RESTRICCION_VELOCIDAD (V_ELEMENTO_PROGRESION.R_RESTRICCION) <= V_VELOCIDAD_AUX 
+				then
+
+					-- Insertar el elemento de progresion estatica tal cual.
+					P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION,
+                                        	             V_LISTA => V_PROGRESION_DINAMICA);
+
+				else
+
+					if not V_YA_HEMOS_LLEGADO_AL_PUNTO_FRENADO then
+
+						V_PUNTO_FRENADA_FINAL := I;
+						V_YA_HEMOS_LLEGADO_AL_PUNTO_FRENADO := True;
 
 					end if;
 
-					V_VELOCIDAD_FRENADO := V_VELOCIDAD_FRENADO + V_VELOCIDAD_FRENADO_INICIAL;
-				
-				end loop;
+					-- Crear un elemento de progresion con la velocidad auxiliar e insertarlo en la progresion dinamica.
+					V_ELEMENTO_PROGRESION_AUX.R_ID_TRAMO_ACTUAL := F_OBTENER_ID_TRAMO_ACTUAL (V_ELEMENTO_PROGRESION);
 
-				-- Reiniciar la velocidad de frenado.
-				V_VELOCIDAD_FRENADO := V_VELOCIDAD_FRENADO_INICIAL;
+					V_ELEMENTO_PROGRESION_AUX.R_POSICION := F_OBTENER_POSICION (V_ELEMENTO_PROGRESION);
 
-				-- Si hemos llegado aqui es porque hay que cambiar las velocidades de los siguientes elementos de progresion
-				-- para frenar hasta 0 en el final de la progresion.
+					Q_RESTRICCION.P_PONER_RESTRICCION (V_VELOCIDAD => V_VELOCIDAD_AUX,
+                                        	                           V_SENAL => 
+										Q_RESTRICCION.F_OBTENER_RESTRICCION_SENAL 
+											(F_OBTENER_RESTRICCION (V_ELEMENTO_PROGRESION)),
+                                                                	   V_RESTRICCION => V_RESTRICCION_AUX);
 
-				if not V_CONTINUAR_A_SIGUIENTE_ELEMENTO then
+					V_ELEMENTO_PROGRESION_AUX.R_RESTRICCION := V_RESTRICCION_AUX;
 
-                            		-- Cambiar la velocidad de los elementos de progresion.
-                            		for J in reverse 1 .. I loop
-
-						V_ELEMENTO_PROGRESION_AUX.R_ID_TRAMO_ACTUAL := 
-							F_DEVOLVER_ELEMENTO (V_POSICION => J,
-									     V_LISTA => V_PROGRESION_ESTATICA).R_ID_TRAMO_ACTUAL;
-	
-                                		V_ELEMENTO_PROGRESION_AUX.R_POSICION := 
-							F_DEVOLVER_ELEMENTO (V_POSICION => J,
-                                                        	             V_LISTA => V_PROGRESION_ESTATICA).R_POSICION;
-
-						if J /= 1 then
-
-							-- Si la velocidad a poner en la restriccion auxiliar es negativa es porque hay una 
-							-- velocidad inferior mas adelante en la progresion estatica. 
-							-- Habra que calcular el punto de inicio de frenada mas adelante
-
-                                        		Q_RESTRICCION.P_PONER_RESTRICCION 
-								(V_VELOCIDAD => 
-									Q_RESTRICCION.F_OBTENER_RESTRICCION_VELOCIDAD 
-										(F_DEVOLVER_ELEMENTO 
-											(V_POSICION => J,
-                                                                                 	 V_LISTA => V_PROGRESION_ESTATICA).R_RESTRICCION) -
-                                                                 	V_VELOCIDAD_FRENADO,
-                                              		 	 V_SENAL => 
-									Q_RESTRICCION.F_OBTENER_RESTRICCION_SENAL 
-										(F_DEVOLVER_ELEMENTO 
-											(V_POSICION => J,
-                                                                                 	 V_LISTA => V_PROGRESION_ESTATICA).R_RESTRICCION),
-                                                         	 V_RESTRICCION => V_RESTRICCION_AUX);
-
-                                      		else
-
-							Q_RESTRICCION.P_PONER_RESTRICCION 
-								(V_VELOCIDAD => 0,
-                                                         	 V_SENAL => 
-									Q_RESTRICCION.F_OBTENER_RESTRICCION_SENAL 
-										(F_DEVOLVER_ELEMENTO 
-											(V_POSICION => J,
-                                                                                 	 V_LISTA => V_PROGRESION_ESTATICA).R_RESTRICCION),
-                                                         	 V_RESTRICCION => V_RESTRICCION_AUX);
-
-						end if;
-
-						V_ELEMENTO_PROGRESION_AUX.R_RESTRICCION := V_RESTRICCION_AUX;
-
-                                        	P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_AUX,
-                                                	             V_LISTA => V_PROGRESION_DINAMICA);
-
-                                      		V_VELOCIDAD_FRENADO := V_VELOCIDAD_FRENADO + V_VELOCIDAD_FRENADO_INICIAL;
-
-					end loop;
-
-					-- Aqui ya hemos generado la progresion dinamica de los ultimos segmentos.
-                                	-- No hay que buscar el segmento I + 1.
-					V_PUNTO_FRENADA_FINAL := I;
-                                	exit;
+					P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_AUX,
+							     V_LISTA => V_PROGRESION_DINAMICA);
 
 				end if;
 
-			else
+			end loop;
 
-				P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION,
-						     V_LISTA => V_PROGRESION_DINAMICA);
+		end if;
 
-			end if;
-
-		end loop;
-
-	end P_GENERAR_PROGRESION_PUNTO_FRENADA_FINAL;
-	---------------------------------------------
+	end P_GENERAR_PROGRESION_FRENADA;
+	---------------------------------
 
 	-------------------------------------------------------------------
 	procedure P_GENERAR_PROGRESION (V_POSICION_INICIAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
@@ -539,12 +481,12 @@ package body Q_PROGRESION is
 		V_PROGRESION_ESTATICA := F_GENERAR_ENVELOPE_ESTATICO (V_POSICION_INICIAL => V_POSICION_INICIAL,
 								      V_POSICION_FINAL => V_POSICION_FINAL,
 								      V_RUTA => V_RUTA);
-		
+
 		P_INICIALIZAR_LISTA (V_PROGRESION_DINAMICA);
 		
-		P_GENERAR_PROGRESION_PUNTO_FRENADA_FINAL (V_PROGRESION_ESTATICA => V_PROGRESION_ESTATICA,
-							  V_PROGRESION_DINAMICA => V_PROGRESION_DINAMICA,
-							  V_PUNTO_FRENADA_FINAL => V_PUNTO_FRENADA_FINAL);
+		P_GENERAR_PROGRESION_FRENADA (V_PROGRESION_ESTATICA => V_PROGRESION_ESTATICA,
+                                              V_PROGRESION_DINAMICA => V_PROGRESION_DINAMICA,
+                                              V_PUNTO_FRENADA_FINAL => V_PUNTO_FRENADA_FINAL);
 
 		P_INICIALIZAR_LISTA (V_PROGRESION);
 
@@ -810,8 +752,7 @@ package body Q_PROGRESION is
 
 	begin
 
-		P_ELIMINAR_ELEMENTO (V_ELEMENTO => F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_PROGRESION),
-				     V_LISTA => V_PROGRESION);
+		P_ELIMINAR_ULTIMO_ELEMENTO (V_LISTA => V_PROGRESION);
 
 	end P_ELIMINAR_ELEMENTO_ACTUAL_PROGRESION;
 	---------------------------------------------------------------------------------------
@@ -826,6 +767,7 @@ package body Q_PROGRESION is
 	end F_ESTA_PROGRESION_ACABADA;
 	-------------------------------------------------------------------------------------
 
+	------------------------------------------------------------------------------------------
 	function F_CUANTOS_ELEMENTOS_PROGRESION (V_PROGRESION : in T_PROGRESION) return Natural is
 
 	begin
@@ -833,6 +775,7 @@ package body Q_PROGRESION is
 		return F_CUANTOS_ELEMENTOS (V_PROGRESION);
 	
 	end F_CUANTOS_ELEMENTOS_PROGRESION;
+	------------------------------------------------------------------------------------------
 
 end Q_PROGRESION;
 --------------------------------------------------------------------------------------------------------------------------------------------

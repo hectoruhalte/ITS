@@ -159,7 +159,7 @@ package body Q_TRAYECTO.Q_ACCIONES is
                 Ada.Integer_Text_Io.Put (Item => V_TRAYECTO.R_TIEMPO_TRANSCURRIDO,
                                  	 Width => 3);
                 Ada.Text_Io.Put ("           |");
-                Ada.Integer_Text_Io.Put (Item => Integer(V_TRAYECTO.R_DISTANCIA_RECORRIDA),
+                Ada.Integer_Text_Io.Put (Item => Integer(Float'Rounding(V_TRAYECTO.R_DISTANCIA_RECORRIDA)),
 				 Width => 4);
 		Ada.Text_Io.Put_Line ("           |");
 		
@@ -259,12 +259,12 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 			end if;
 
-                else
-
+		else
                         -- La nueva velocidad sera la del elemento de la progresion. Si ya hemos alcanzado el "envelope" solo hay que 
                         -- seguirlo. Y si hay que frenar se cambia la velocidad a la velocidad objetivo. No se va a frenar muy bruscamente
 			-- porque de esa "suavidad" ya se ha encargado la progresion.
                         V_TRAYECTO.R_VELOCIDAD_ACTUAL := V_VELOCIDAD_OBJETIVO;
+			V_VELOCIDAD_OBJETIVO_ALCANZADA := True;
 
                 end if;
 
@@ -284,13 +284,23 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 		elsif V_VELOCIDAD_OBJETIVO_ALCANZADA and V_VELOCIDAD_INICIAL /= V_TRAYECTO.R_VELOCIDAD_ACTUAL then
 
-			-- Calcular el "t" en el que se alcanza la velocidad objetivo.
-			V_T_VELOCIDAD_OBJETIVO := (Float(V_VELOCIDAD_OBJETIVO)/3.6 - Float(V_VELOCIDAD_INICIAL)/3.6) / 2.5;
 
-			V_DISTANCIA_RECORRIDA := 
-				V_T_VELOCIDAD_OBJETIVO * Float(V_VELOCIDAD_INICIAL)/3.6 + 
-				Float(V_VELOCIDAD_OBJETIVO - V_VELOCIDAD_INICIAL) * V_T_VELOCIDAD_OBJETIVO/7.2 +
-				Float(V_VELOCIDAD_OBJETIVO) * (1.0 - V_T_VELOCIDAD_OBJETIVO)/3.6;
+			if V_VELOCIDAD_INICIAL < V_VELOCIDAD_OBJETIVO then
+
+				-- Calcular el "t" en el que se alcanza la velocidad objetivo.
+                        	V_T_VELOCIDAD_OBJETIVO := (Float(V_VELOCIDAD_OBJETIVO)/3.6 - Float(V_VELOCIDAD_INICIAL)/3.6) / 2.5;
+
+                        	V_DISTANCIA_RECORRIDA := 
+                                	V_T_VELOCIDAD_OBJETIVO * Float(V_VELOCIDAD_INICIAL)/3.6 + 
+                                	Float(V_VELOCIDAD_OBJETIVO - V_VELOCIDAD_INICIAL) * V_T_VELOCIDAD_OBJETIVO/7.2 +
+                                	Float(V_VELOCIDAD_OBJETIVO) * (1.0 - V_T_VELOCIDAD_OBJETIVO)/3.6;
+
+			else
+
+				V_DISTANCIA_RECORRIDA := 
+					Float(V_VELOCIDAD_OBJETIVO)/3.6 + Float(V_VELOCIDAD_INICIAL - V_VELOCIDAD_OBJETIVO)/7.2;
+
+			end if;
 
 		elsif V_VELOCIDAD_INICIAL = V_VELOCIDAD_OBJETIVO then
 
