@@ -672,7 +672,8 @@ package body Q_RUTA.Q_DIJKSTRA is
                                                                          	 V_LISTA => 
 											Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS (V_TRAMO_ORIGEN));
 
-							V_COSTE_DISTANCIA_ORIGEN := V_POSICION_LISTA_SEGMENTO_ORIGEN * 5;
+							V_COSTE_DISTANCIA_ORIGEN := V_POSICION_LISTA_SEGMENTO_ORIGEN * 5 + 5;
+							-- El "+5" es para la conexion entre el tramo origen y el segundo tramo. 
 
                                                 	V_COSTE_TIEMPO_ORIGEN :=
                                                         	Integer(Float'Rounding
@@ -871,8 +872,9 @@ package body Q_RUTA.Q_DIJKSTRA is
 											Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
 												(V_TRAMO_DESTINO));
 
-								V_COSTE_DISTANCIA_DESTINO := V_POSICION_LISTA_SEGMENTO_DESTINO * 5;
-
+								V_COSTE_DISTANCIA_DESTINO := 
+									Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (V_TRAMO_DESTINO) - 
+									(V_POSICION_LISTA_SEGMENTO_DESTINO * 5);
 
                                                         	V_COSTE_TIEMPO_DESTINO := 
 									Q_TRAMO.F_OBTENER_TIEMPO_TRAMO (V_TRAMO_DESTINO) - 
@@ -911,6 +913,17 @@ package body Q_RUTA.Q_DIJKSTRA is
 								V_COSTE_TIEMPO := 
 									V_COSTE_RUTA + V_COSTE_TIEMPO_ORIGEN + V_COSTE_TIEMPO_DESTINO;
 
+								-- Introducir el coste en distancia del segundo tramo.
+								V_COSTE_DISTANCIA_RUTA := 
+									Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO 
+										(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.
+											F_ENCONTRAR_ELEMENTO 
+												(V_ELEMENTO => 
+													Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
+														(V_POSICION => 2,
+														 V_LISTA => V_RUTA),
+												 V_LISTA => V_LISTA_TRAMOS));
+
 								for I in 2 .. Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) - 1 loop
 
                                 					V_COSTE_DISTANCIA_RUTA :=
@@ -918,7 +931,9 @@ package body Q_RUTA.Q_DIJKSTRA is
                                         					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO 
 											(Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
 												(V_POSICION => I,
-                                                                                                 V_LISTA => V_RUTA));
+                                                                                                 V_LISTA => V_RUTA)) + 5;
+
+									-- El "+5" es para tener en cuenta las distancias de las conexiones.
 
                         					end loop;
 
@@ -1089,7 +1104,7 @@ package body Q_RUTA.Q_DIJKSTRA is
 					V_COSTE_DISTANCIA_RUTA + 
 					Q_TRAMO.F_OBTENER_DISTANCIA_TRAMO (Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
 	  												       V_LISTA => V_RUTA)) + 5;
-				-- El "+5" es para tener en cuenta las distancias de las conexiones
+				-- El "+5" es para tener en cuenta las distancias de las conexiones.
 
 			end loop;
 
