@@ -9,9 +9,9 @@
 	</its:puntoTangencia>
 	<its:radioTierra>6371000</its:radioTierra>
 	<its:areaTrabajo>
-		<its:minimaLatitud>43.4562492</its:minimaLatitud>
-		<its:maximaLatitud>43.4645119</its:maximaLatitud>
-		<its:minimaLongitud>-3.8342478</its:minimaLongitud>
-		<its:maximaLongitud>-3.8084199</its:maximaLongitud>
+		<its:minimaLatitud>43.4550209</its:minimaLatitud>
+		<its:maximaLatitud>43.4663277</its:maximaLatitud>
+		<its:minimaLongitud>-3.8356698</its:minimaLongitud>
+		<its:maximaLongitud>-3.8022900</its:maximaLongitud>
 	</its:areaTrabajo>
 </its:areaTrabajoSet>
