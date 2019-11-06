@@ -391,7 +391,7 @@ package body Q_PROGRESION is
 
                         V_ELEMENTO_PROGRESION_AUX.R_POSICION := F_OBTENER_POSICION (V_ELEMENTO_PROGRESION);
 
-                      	Q_RESTRICCION.P_PONER_RESTRICCION (V_VELOCIDAD => 10,
+                      	Q_RESTRICCION.P_PONER_RESTRICCION (V_VELOCIDAD => 9,
                                                            V_SENAL => 
 								Q_RESTRICCION.F_OBTENER_RESTRICCION_SENAL 
 									(F_OBTENER_RESTRICCION (V_ELEMENTO_PROGRESION)),
@@ -407,7 +407,8 @@ package body Q_PROGRESION is
 			-- Recorrer la progresion estatica
 			for I in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_ESTATICA) loop
 
-				V_VELOCIDAD_AUX := (I - 1) * 9;
+				-- Frenamos a 8 Km/h por segundo.
+				V_VELOCIDAD_AUX := (I - 1) * 8;
 
 				V_ELEMENTO_PROGRESION := F_DEVOLVER_ELEMENTO (V_POSICION => I,
                                 	                                      V_LISTA => V_PROGRESION_ESTATICA);

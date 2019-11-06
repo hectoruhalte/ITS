@@ -230,8 +230,12 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
                 end if;
 
+		-- Ojo con esto. Si la posicion actual y la final son la misma Y SI LA PROGRESION SOLO TIENE EL ELEMENTO PUNTO FINAL.
+		-- Esto es asi porque se puede dar el caso de calles con dos carriles (ida y vuelta) que tengan la misma posicion para un
+		-- segmento.
 		if Q_TIPOS_BASICOS."=" (V_POSICION_1 => V_TRAYECTO.R_POSICION_ACTUAL,
-                    	                V_POSICION_2 => V_TRAYECTO.R_POSICION_FINAL) then
+                    	                V_POSICION_2 => V_TRAYECTO.R_POSICION_FINAL) and 
+		   Q_PROGRESION.F_CUANTOS_ELEMENTOS_PROGRESION (V_TRAYECTO.R_PROGRESION) = 1 then
 
                         V_TRAYECTO.R_ESTADO := E_TERMINADO;
 
@@ -324,7 +328,7 @@ package body Q_TRAYECTO.Q_ACCIONES is
 		V_TRAYECTO.R_ACARREO := V_DISTANCIA_RECORRIDA + V_TRAYECTO.R_ACARREO - Float(V_NUMERO_SEGMENTOS_A_AVANZAR) * 5.0;
 
 		-- Eliminar el numero de segmentos a avanzar el vehiculo de la progresion del trayecto y actualizar la posicion actual con 
-		-- la del siguiente segmento .
+		-- la del siguiente segmento.
 		for I in 1 .. V_NUMERO_SEGMENTOS_A_AVANZAR loop
 
 			-- Ya hemos avanzado al segmento siguiente. Eliminar dicho segmento de la progresion.
