@@ -71,6 +71,9 @@ package Q_GENERICO_LISTA is
 	function F_ESTA_ELEMENTO_EN_LISTA (V_ELEMENTO : in T_ELEMENTO;
 					   V_LISTA : in T_LISTA) return Boolean;
 
+	-- Al insertar el ultimo elemento en la primera posicion. Eliminar el ultimo elemento es eliminar el primer elemento de la lista.
+	procedure P_ELIMINAR_ULTIMO_ELEMENTO (V_LISTA : in out T_LISTA);
+
 	private
 
 		type T_CELDA;

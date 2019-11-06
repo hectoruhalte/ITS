@@ -8,6 +8,8 @@
 --      
 --------------------------------------------------------------------------------------------------------------------------------------------
 
+with Ada.Text_Io;
+
 package body Q_GENERICO_LISTA is
 
 	--------------------------------------------------------------------
@@ -304,6 +306,50 @@ package body Q_GENERICO_LISTA is
 
 	end F_ESTA_ELEMENTO_EN_LISTA;
 	--------------------------------------------------------------------------
+
+	------------------------------------------------------------------
+	procedure P_ELIMINAR_ULTIMO_ELEMENTO (V_LISTA : in out T_LISTA) is
+
+		-- Variable para contener el puntero para recorrer la lista
+                -- Se inicializa el puntero a la primera celda.
+                V_PUNTERO : T_PUNTERO_A_CELDA := V_LISTA.R_CELDA_INICIAL;
+
+	begin
+
+		-- Comprobar que la lista no este vacia.
+		-- Comprobar que la lista no esta vacia
+                if F_ESTA_VACIA_LISTA(V_LISTA) then
+
+                        -- Elevar una excepcion. No se puede eliminar un elemento de la lista, si esta vacia.
+                        raise X_NO_SE_PUEDE_ELIMINAR_ELEMENTO_LISTA_ESTA_VACIA;
+
+                elsif V_LISTA.R_NUMERO_ELEMENTOS = 1 then
+
+			-- La lista tiene solo un elemento que habra que eliminar.
+			P_INICIALIZAR_LISTA (V_LISTA);
+
+		else
+
+			-- La lista no esta vacia y tiene mas de un elemento.
+			-- Hay que recorrer la lista hasta el penultimo elemento.
+			-- Cambiar el puntero del penultimo elemento a null, convirtiendo asi al penultimo en el ultimo elemento.
+			-- Reducir el numero de elementos en 1.
+			for I in 1 .. V_LISTA.R_NUMERO_ELEMENTOS - 2 loop
+
+				V_PUNTERO := V_PUNTERO.R_PUNTERO_A_CELDA;
+
+			end loop;
+
+			-- Aqui ya estamos en el penultimo elemento.
+			V_PUNTERO.R_PUNTERO_A_CELDA := V_PUNTERO.R_PUNTERO_A_CELDA.R_PUNTERO_A_CELDA;
+
+                        -- Reducir el numero de elementos.
+                        V_LISTA.R_NUMERO_ELEMENTOS := V_LISTA.R_NUMERO_ELEMENTOS - 1;
+
+		end if;
+
+	end P_ELIMINAR_ULTIMO_ELEMENTO;
+	------------------------------------------------------------------
 
 end Q_GENERICO_LISTA;
 --------------------------------------------------------------------------------------------------------------------------------------------
