@@ -1,127 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-   Titulo	: vehiculos.xsd
-   Fecha	: 6/10/2017
-   Autor	: Hector Uhalte Bilbao
--->
-<schema
-	attributeFormDefault="unqualified"
-   	elementFormDefault="qualified"
-   	finalDefault="#all"
-   	targetNamespace="IntelligentTransportSystem"
-   	version="1.0.0"
-   	xmlns="http://www.w3.org/2001/XMLSchema"
-   	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   	xmlns:its="IntelligentTransportSystem">
+<!-- Titulo : vehiculos.xsd Fecha : 6/10/2017 Autor : Hector Uhalte Bilbao -->
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified" finalDefault="#all"
+	targetNamespace="IntelligentTransportSystem" version="1.0.0"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:its="IntelligentTransportSystem">
 
-   	<include schemaLocation="TiposBasicosAdaptacion.xsd"/>
+	<include schemaLocation="TiposBasicosAdaptacion.xsd" />
 
-   	<annotation>
-    	<documentation>
-        	Esquema para definir la adaptacion de los vehiculos
-      	</documentation>
-   	</annotation>
+	<annotation>
+		<documentation>
+			Esquema para definir la adaptacion de los vehiculos
+		</documentation>
+	</annotation>
 
-   	<!-- schema root element -->
-   	<element name="vehiculoSet" type="its:VehiculoTipoSet"/>
-   
-   	<complexType name="VehiculoTipoSet">
-    	<annotation>
-        	<documentation>
-				Tipo que va a contener la definicion de vehiculo.
-         	</documentation>
-      	</annotation>
-      	<sequence>
-         	<element name="datosVehiculo" type="its:DatosVehiculoTipo" minOccurs="0" maxOccurs="1000">
-           		<annotation>
-               		<documentation>
-                  		Conjunto de datos para el tipo vehiculo
-               		</documentation>
-            	</annotation>
-         	</element>
-     	 </sequence>
-   	</complexType>
-   
-   	<complexType name="DatosVehiculoTipo">
-    	<annotation>
-         	<documentation>
-            	Conjunto de datos para el tipo vehiculo
-         	</documentation>
-      	</annotation>
-      	<sequence>
-        	<element name="marcaVehiculo" type="its:NombreMarcaModelo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                  		Marca del vehiculo
-               		</documentation>
-            	</annotation>
-         	</element>
-			<element name="modeloVehiculo" type="its:NombreMarcaModelo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                    	Modelo del vehiculo
-                   	</documentation>
-                </annotation>
-            </element>
-            <element name="caracteristicasVehiculo" type="its:CaracteristicasVehiculo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                    	Caracteristicas del vehiculo. Velocidad máxima, consumo, dimensiones.
-                   	</documentation>
-                </annotation>
-            </element>
-    	</sequence>
-    </complexType>
-            
-	<complexType name="CaracteristicasVehiculo">    
+	<!-- schema root element -->
+	<element name="vehiculoSet" type="its:VehiculoTipoSet" />
+
+	<complexType name="VehiculoTipoSet">
 		<annotation>
-         	<documentation>
-            	Caracteristicas del vehiculo.
-         	</documentation>
-      	</annotation>
-      	<sequence>		
-			<element name="velocidadMaxima" type="its:Velocidad" minOccurs="1" maxOccurs="1">
-           		<annotation>
-                	<documentation>
-                    	Velocidad maxima que puede alcanzar el vehiculo
-                  	</documentation>
-                </annotation>
-            </element>
-			<element name="longitud" type="its:Longitud" minOccurs="1" maxOccurs="1">
-            	<annotation>
-                	<documentation>
-                    	Longitud del vehiculo
-                  	</documentation>
-                </annotation>
-          	</element>
+			<documentation>
+				Tipo que va a contener la definicion de vehiculo.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="datosVehiculo" type="its:DatosVehiculoTipo"
+				minOccurs="0" maxOccurs="1000">
+				<annotation>
+					<documentation>
+						Conjunto de datos para el tipo vehiculo
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="DatosVehiculoTipo">
+		<annotation>
+			<documentation>
+				Conjunto de datos para el tipo vehiculo
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="marcaVehiculo" type="its:NombreMarcaModelo"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Marca del vehiculo
+					</documentation>
+				</annotation>
+			</element>
+			<element name="modeloVehiculo" type="its:NombreMarcaModelo"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Modelo del vehiculo
+					</documentation>
+				</annotation>
+			</element>
+			<element name="caracteristicasVehiculo"
+				type="its:CaracteristicasVehiculo" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Caracteristicas del vehiculo. Velocidad máxima, consumo, dimensiones.
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="CaracteristicasVehiculo">
+		<annotation>
+			<documentation>
+				Caracteristicas del vehiculo.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="velocidadMaxima" type="its:Velocidad"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Velocidad maxima que puede alcanzar el vehiculo
+					</documentation>
+				</annotation>
+			</element>
+			<element name="longitud" type="its:Longitud" minOccurs="1"
+				maxOccurs="1">
+				<annotation>
+					<documentation>
+						Longitud del vehiculo
+					</documentation>
+				</annotation>
+			</element>
 			<element name="altura" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                    	Altura del vehiculo
-                    </documentation>
-               	</annotation>
-               	<simpleType>
-               		<restriction base="double">
-               			<minInclusive value="0.0"/>
-               			<maxInclusive value="20.0"/>
-               		</restriction>
-               	</simpleType>
-           	</element>
-			<element name="consumoUrbano" type="its:Consumo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-                	<documentation>
-                   		Consumo de combustible en entorno urbano
-                   	</documentation>
-             	</annotation>
-            </element>
-			<element name="consumoCarretera" type="its:Consumo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                    	Consumo de combustible en entorno no urbano
-                    </documentation>
-                </annotation>
-            </element>
-      	</sequence>
- 	</complexType>
+				<annotation>
+					<documentation>
+						Altura del vehiculo
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="double">
+						<minInclusive value="0.0" />
+						<maxInclusive value="20.0" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="consumoUrbano" type="its:Consumo"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Consumo de combustible en entorno urbano
+					</documentation>
+				</annotation>
+			</element>
+			<element name="consumoCarretera" type="its:Consumo"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Consumo de combustible en entorno no urbano
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
 
 </schema>

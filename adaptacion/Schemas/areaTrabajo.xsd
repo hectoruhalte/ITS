@@ -1,62 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-   Titulo	: AreaTrabajo.xsd
-   Fecha	: 24/12/2017
-   Autor	: Hector Uhalte Bilbao
--->
-<schema 
-	attributeFormDefault="unqualified"
-   	elementFormDefault="qualified"
-   	targetNamespace="IntelligentTransportSystem"
-   	version="1.0.0"
-   	xmlns="http://www.w3.org/2001/XMLSchema"
+<!-- Titulo : AreaTrabajo.xsd Fecha : 24/12/2017 Autor : Hector Uhalte Bilbao -->
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="IntelligentTransportSystem" version="1.0.0"
+	xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   	xmlns:its="IntelligentTransportSystem">
-   	
-   	<include schemaLocation="TiposBasicosAdaptacion.xsd"/>
-   	
-   	<annotation>
-      	<documentation>
-      		Esquema para definir el area de trabajo del sistema.
+	xmlns:its="IntelligentTransportSystem">
+
+	<include schemaLocation="TiposBasicosAdaptacion.xsd" />
+
+	<annotation>
+		<documentation>
+			Esquema para definir el area de trabajo del sistema.
 		</documentation>
-   	</annotation>
-   	
-   	<!-- schema root element -->
-   	<element name="areaTrabajoSet" type="its:areaTrabajoTipoSet"/>
- 
- 	<complexType name="areaTrabajoTipoSet">
-    	<annotation>
-        	<documentation>
-				Tipo que va a contener la definicion del area de trabajo.
-         	</documentation>
-      	</annotation>
-      	<sequence>
-        	<element name="puntoTangencia" type="its:PuntoTangenciaTipo" minOccurs="1" maxOccurs="1">
-            	<annotation>
-               		<documentation>
-                  		Punto de tangencia del plano de proyeccion de coordenadas.
-               		</documentation>
-            	</annotation>
-         	</element>
-         	<element name="radioTierra" type="integer" minOccurs="1" maxOccurs="1"/>
-         	<element name="areaTrabajo" type="its:AreaTrabajo" minOccurs="1" maxOccurs="1"/>
-     	 </sequence>
-   	</complexType>
-   	
-   	<complexType name="PuntoTangenciaTipo">
-      	<sequence>
-        	<element name="latitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1"/>
-         	<element name="longitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1"/>
-     	 </sequence>
-   	</complexType>
-   	
-   	<complexType name="AreaTrabajo">
-   		<sequence>
-         	<element name="minimaLatitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1"/>
-         	<element name="maximaLatitud" type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1"/>
-         	<element name="minimaLongitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1"/>
-         	<element name="maximaLongitud" type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1"/>
-   		</sequence>
-   	</complexType>
-   	
+	</annotation>
+
+	<!-- schema root element -->
+	<element name="areaTrabajoSet" type="its:areaTrabajoTipoSet" />
+
+	<complexType name="areaTrabajoTipoSet">
+		<annotation>
+			<documentation>
+				Tipo que va a contener la definicion del area de
+				trabajo.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="puntoTangencia" type="its:PuntoTangenciaTipo"
+				minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Punto de tangencia del plano de proyeccion de coordenadas.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="radioTierra" type="integer" minOccurs="1"
+				maxOccurs="1" />
+			<element name="areaTrabajo" type="its:AreaTrabajo"
+				minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="PuntoTangenciaTipo">
+		<sequence>
+			<element name="latitud" type="its:TipoCoordenadaLatitud"
+				minOccurs="1" maxOccurs="1" />
+			<element name="longitud" type="its:TipoCoordenadaLongitud"
+				minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="AreaTrabajo">
+		<sequence>
+			<element name="minimaLatitud"
+				type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1" />
+			<element name="maximaLatitud"
+				type="its:TipoCoordenadaLatitud" minOccurs="1" maxOccurs="1" />
+			<element name="minimaLongitud"
+				type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1" />
+			<element name="maximaLongitud"
+				type="its:TipoCoordenadaLongitud" minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
 </schema>
