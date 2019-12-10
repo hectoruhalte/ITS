@@ -4,6 +4,17 @@
 	xsi:schemaLocation="IntelligentTransportSystem Schemas/vehiculos.xsd">
 	<its:datosVehiculo>
 		<its:marcaVehiculo>CITROEN   </its:marcaVehiculo>
+		<its:modeloVehiculo>C3     </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>185</its:velocidadMaxima>
+			<its:longitud>3.996</its:longitud>
+			<its:altura>1.49</its:altura>
+			<its:consumoUrbano>4.4</its:consumoUrbano>
+			<its:consumoCarretera>3.2</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
+	</its:datosVehiculo>
+	<its:datosVehiculo>
+		<its:marcaVehiculo>CITROEN   </its:marcaVehiculo>
 		<its:modeloVehiculo>C4     </its:modeloVehiculo>
 		<its:caracteristicasVehiculo>
 			<its:velocidadMaxima>200</its:velocidadMaxima>
@@ -48,6 +59,17 @@
 	</its:datosVehiculo>
 	<its:datosVehiculo>
 		<its:marcaVehiculo>PEUGEOT   </its:marcaVehiculo>
+		<its:modeloVehiculo>208    </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>190</its:velocidadMaxima>
+			<its:longitud>3.962</its:longitud>
+			<its:altura>1.46</its:altura>
+			<its:consumoUrbano>8.1</its:consumoUrbano>
+			<its:consumoCarretera>4.5</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
+	</its:datosVehiculo>
+	<its:datosVehiculo>
+		<its:marcaVehiculo>PEUGEOT   </its:marcaVehiculo>
 		<its:modeloVehiculo>3008   </its:modeloVehiculo>
 		<its:caracteristicasVehiculo>
 			<its:velocidadMaxima>189</its:velocidadMaxima>
@@ -77,6 +99,17 @@
 			<its:altura>1.447</its:altura>
 			<its:consumoUrbano>6.7</its:consumoUrbano>
 			<its:consumoCarretera>4.6</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
+	</its:datosVehiculo>
+	<its:datosVehiculo>
+		<its:marcaVehiculo>SEAT      </its:marcaVehiculo>
+		<its:modeloVehiculo>ARONA  </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>205</its:velocidadMaxima>
+			<its:longitud>4.138</its:longitud>
+			<its:altura>1.552</its:altura>
+			<its:consumoUrbano>6.3</its:consumoUrbano>
+			<its:consumoCarretera>4.4</its:consumoCarretera>
 		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
