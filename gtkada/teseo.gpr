@@ -1,7 +1,10 @@
 with "gtkada";
+with "xmlada";
 
 project teseo is
 
 	for Main use ("teseo.adb");
+
+	for Source_Dirs use (".", "../estatico");
 
 end teseo;

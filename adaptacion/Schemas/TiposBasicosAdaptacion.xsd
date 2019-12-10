@@ -1,108 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-   Titulo	: TiposBasicosAdaptacion.xsd
-   Fecha	: 6/10/2017
-   Autor	: Hector Uhalte Bilbao
--->
-<schema
-	attributeFormDefault="unqualified"
-   	elementFormDefault="qualified"
-   	targetNamespace="IntelligentTransportSystem"
-   	version="1.0.0"
-   	xmlns="http://www.w3.org/2001/XMLSchema"
+<!-- Titulo : TiposBasicosAdaptacion.xsd Fecha : 6/10/2017 Autor : Hector 
+	Uhalte Bilbao -->
+<schema attributeFormDefault="unqualified"
+	elementFormDefault="qualified"
+	targetNamespace="IntelligentTransportSystem" version="1.0.0"
+	xmlns="http://www.w3.org/2001/XMLSchema"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   	xmlns:its="IntelligentTransportSystem">
+	xmlns:its="IntelligentTransportSystem">
 
 	<annotation>
-      	<documentation>
-      		Esquema para definir la adaptacion de tipos basicos, tales, como coordenadas, distancia, o velocidad
+		<documentation>
+			Esquema para definir la adaptacion de tipos basicos, tales, como
+			coordenadas, distancia, o velocidad
 		</documentation>
-   	</annotation>
-   
+	</annotation>
+
 	<simpleType name="TipoCoordenadaLatitud">
-      	<annotation>
-         	<documentation>
-            	Tipo para guardar coordenadas. Tanto X como Y. Dos posiciones (X, Y) generan una posicion
-         	</documentation>
+		<annotation>
+			<documentation>
+				Tipo para guardar coordenadas. Tanto X como Y. Dos posiciones (X, Y)
+				generan una posicion
+			</documentation>
 		</annotation>
-      		<restriction base="float">
-         		<minInclusive value="-90.0"/>
-         		<maxInclusive value="90.0"/>
-      		</restriction>
-   	</simpleType>
-   	
-   	<simpleType name="TipoCoordenadaLongitud">
-      	<annotation>
-         	<documentation>
-            	Tipo para guardar coordenadas. Tanto X como Y. Dos posiciones (X, Y) generan una posicion
-         	</documentation>
+		<restriction base="float">
+			<minInclusive value="-90.0" />
+			<maxInclusive value="90.0" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="TipoCoordenadaLongitud">
+		<annotation>
+			<documentation>
+				Tipo para guardar coordenadas. Tanto X como Y. Dos posiciones (X, Y)
+				generan una posicion
+			</documentation>
 		</annotation>
-      		<restriction base="float">
-         		<minInclusive value="-180.0"/>
-         		<maxInclusive value="180.0"/>
-      		</restriction>
-   	</simpleType>
+		<restriction base="float">
+			<minInclusive value="-180.0" />
+			<maxInclusive value="180.0" />
+		</restriction>
+	</simpleType>
 
 	<simpleType name="Velocidad">
 		<annotation>
-        	<documentation>
-            	Tipo para guardar velocidad en Km/h
-            </documentation>
-       	</annotation>
+			<documentation>
+				Tipo para guardar velocidad en Km/h
+			</documentation>
+		</annotation>
 		<restriction base="integer">
-        	<minInclusive value="0"/>
-            <maxInclusive value="500"/>
-        </restriction>
+			<minInclusive value="0" />
+			<maxInclusive value="500" />
+		</restriction>
 	</simpleType>
 
 	<simpleType name="Longitud">
-  		<annotation>
-       		<documentation>
-          		Tipo para guardar una longitud en m
-            </documentation>
-        </annotation>
-       	<restriction base="double">
-        	<minInclusive value="0.0"/>
-            <maxInclusive value="20.0"/>
-        </restriction>
+		<annotation>
+			<documentation>
+				Tipo para guardar una longitud en m
+			</documentation>
+		</annotation>
+		<restriction base="double">
+			<minInclusive value="0.0" />
+			<maxInclusive value="20.0" />
+		</restriction>
 	</simpleType>
 
 	<simpleType name="Consumo">
-    	<annotation>
-        	<documentation>
-            	Tipo para guardar el consumo del vehiculo en l/100 Km
-            </documentation>
+		<annotation>
+			<documentation>
+				Tipo para guardar el consumo del vehiculo en l/100 Km
+			</documentation>
 		</annotation>
-        	<restriction base="double">
-        		<minInclusive value="0.0"/>
-            	<maxInclusive value="100.0"/>
-            </restriction>
+		<restriction base="double">
+			<minInclusive value="0.0" />
+			<maxInclusive value="100.0" />
+		</restriction>
 	</simpleType>
 
 	<simpleType final="#all" name="NombreMarcaModelo">
-    	<annotation>
-        	<documentation>
-            	Tipo para contener el nombre y la marca de un vehiculo
-         	</documentation>
-      	</annotation>
-      	<restriction base="string">
-        	<minLength value="1"/>
-         	<maxLength value="16"/>
-        	<pattern value="[a-zA-Z0-9 ]*"/>
-      	</restriction>
-   	</simpleType>
-   	
-   	<simpleType final="#all" name="NombreTramo">
-    	<annotation>
-        	<documentation>
-            	Tipo para contener el nombre de un tramo
-         	</documentation>
-      	</annotation>
-      	<restriction base="string">
-        	<minLength value="1"/>
-         	<maxLength value="32"/>
-        	<pattern value="[a-zA-Z0-9 ]*"/>
-      	</restriction>
-   	</simpleType>
-   	
+		<annotation>
+			<documentation>
+				Tipo para contener el nombre y la marca de un vehiculo
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="1" />
+			<maxLength value="16" />
+			<pattern value="[a-zA-Z0-9 ]*" />
+		</restriction>
+	</simpleType>
+
+	<simpleType final="#all" name="NombreTramo">
+		<annotation>
+			<documentation>
+				Tipo para contener el nombre de un tramo
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<minLength value="1" />
+			<maxLength value="32" />
+			<pattern value="[a-zA-Z0-9 ]*" />
+		</restriction>
+	</simpleType>
+
 </schema>
