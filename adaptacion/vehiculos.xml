@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<its:vehiculoSet
-	xmlns:its="IntelligentTransportSystem"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="IntelligentTransportSystem Schemas/vehiculos.xsd">
-    <its:datosVehiculo>
-    	<its:marcaVehiculo>CITROEN</its:marcaVehiculo>
-        <its:modeloVehiculo>C4</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>200</its:velocidadMaxima>
-        	<its:longitud>4.329</its:longitud>
-        	<its:altura>1.49</its:altura>
-        	<its:consumoUrbano>5.93</its:consumoUrbano>
-        	<its:consumoCarretera>4.7</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+<its:vehiculoSet xmlns:its="IntelligentTransportSystem"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="IntelligentTransportSystem Schemas/vehiculos.xsd">
+	<its:datosVehiculo>
+		<its:marcaVehiculo>CITROEN   </its:marcaVehiculo>
+		<its:modeloVehiculo>C4     </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>200</its:velocidadMaxima>
+			<its:longitud>4.329</its:longitud>
+			<its:altura>1.49</its:altura>
+			<its:consumoUrbano>5.93</its:consumoUrbano>
+			<its:consumoCarretera>4.7</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-		<its:marcaVehiculo>DACIA</its:marcaVehiculo>
+		<its:marcaVehiculo>DACIA     </its:marcaVehiculo>
 		<its:modeloVehiculo>SANDERO</its:modeloVehiculo>
 		<its:caracteristicasVehiculo>
 			<its:velocidadMaxima>175</its:velocidadMaxima>
@@ -26,102 +25,102 @@
 		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>NISSAN</its:marcaVehiculo>
-        <its:modeloVehiculo>QASHQAI</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>200</its:velocidadMaxima>
-        	<its:longitud>4.394</its:longitud>
-        	<its:altura>1.59</its:altura>
-        	<its:consumoUrbano>5.5</its:consumoUrbano>
-        	<its:consumoCarretera>4.9</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>NISSAN    </its:marcaVehiculo>
+		<its:modeloVehiculo>QASHQAI</its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>200</its:velocidadMaxima>
+			<its:longitud>4.394</its:longitud>
+			<its:altura>1.59</its:altura>
+			<its:consumoUrbano>5.5</its:consumoUrbano>
+			<its:consumoCarretera>4.9</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>OPEL</its:marcaVehiculo>
-        <its:modeloVehiculo>CORSA</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>177</its:velocidadMaxima>
-        	<its:longitud>4.021</its:longitud>
-        	<its:altura>1.485</its:altura>
-        	<its:consumoUrbano>6.8</its:consumoUrbano>
-        	<its:consumoCarretera>4.3</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>OPEL      </its:marcaVehiculo>
+		<its:modeloVehiculo>CORSA  </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>177</its:velocidadMaxima>
+			<its:longitud>4.021</its:longitud>
+			<its:altura>1.485</its:altura>
+			<its:consumoUrbano>6.8</its:consumoUrbano>
+			<its:consumoCarretera>4.3</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>PEUGEOT</its:marcaVehiculo>
-        <its:modeloVehiculo>3008</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>189</its:velocidadMaxima>
-        	<its:longitud>4.447</its:longitud>
-        	<its:altura>1.623</its:altura>
-        	<its:consumoUrbano>6.0</its:consumoUrbano>
-        	<its:consumoCarretera>5.1</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>PEUGEOT   </its:marcaVehiculo>
+		<its:modeloVehiculo>3008   </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>189</its:velocidadMaxima>
+			<its:longitud>4.447</its:longitud>
+			<its:altura>1.623</its:altura>
+			<its:consumoUrbano>6.0</its:consumoUrbano>
+			<its:consumoCarretera>5.1</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>RENAULT</its:marcaVehiculo>
-        <its:modeloVehiculo>CLIO</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>167</its:velocidadMaxima>
-        	<its:longitud>4.062</its:longitud>
-        	<its:altura>1.448</its:altura>
-        	<its:consumoUrbano>7.2</its:consumoUrbano>
-        	<its:consumoCarretera>4.7</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>RENAULT   </its:marcaVehiculo>
+		<its:modeloVehiculo>CLIO   </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>167</its:velocidadMaxima>
+			<its:longitud>4.062</its:longitud>
+			<its:altura>1.448</its:altura>
+			<its:consumoUrbano>7.2</its:consumoUrbano>
+			<its:consumoCarretera>4.7</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>RENAULT</its:marcaVehiculo>
-        <its:modeloVehiculo>MEGANE</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>182</its:velocidadMaxima>
-        	<its:longitud>4.359</its:longitud>
-        	<its:altura>1.447</its:altura>
-        	<its:consumoUrbano>6.7</its:consumoUrbano>
-        	<its:consumoCarretera>4.6</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>RENAULT   </its:marcaVehiculo>
+		<its:modeloVehiculo>MEGANE </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>182</its:velocidadMaxima>
+			<its:longitud>4.359</its:longitud>
+			<its:altura>1.447</its:altura>
+			<its:consumoUrbano>6.7</its:consumoUrbano>
+			<its:consumoCarretera>4.6</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>SEAT</its:marcaVehiculo>
-        <its:modeloVehiculo>IBIZA</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>182</its:velocidadMaxima>
-        	<its:longitud>4.059</its:longitud>
-        	<its:altura>1.444</its:altura>
-        	<its:consumoUrbano>6.1</its:consumoUrbano>
-        	<its:consumoCarretera>4.7</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>SEAT      </its:marcaVehiculo>
+		<its:modeloVehiculo>IBIZA  </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>182</its:velocidadMaxima>
+			<its:longitud>4.059</its:longitud>
+			<its:altura>1.444</its:altura>
+			<its:consumoUrbano>6.1</its:consumoUrbano>
+			<its:consumoCarretera>4.7</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>SEAT</its:marcaVehiculo>
-        <its:modeloVehiculo>LEON</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>194</its:velocidadMaxima>
-        	<its:longitud>4.282</its:longitud>
-        	<its:altura>1.459</its:altura>
-        	<its:consumoUrbano>8.28</its:consumoUrbano>
-        	<its:consumoCarretera>6.1</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>SEAT      </its:marcaVehiculo>
+		<its:modeloVehiculo>LEON   </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>194</its:velocidadMaxima>
+			<its:longitud>4.282</its:longitud>
+			<its:altura>1.459</its:altura>
+			<its:consumoUrbano>8.28</its:consumoUrbano>
+			<its:consumoCarretera>6.1</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>VOLKSWAGEN</its:marcaVehiculo>
-        <its:modeloVehiculo>GOLF</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>220</its:velocidadMaxima>
-        	<its:longitud>4.65</its:longitud>
-        	<its:altura>1.65</its:altura>
-        	<its:consumoUrbano>6.5</its:consumoUrbano>
-        	<its:consumoCarretera>4.0</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>VOLKSWAGEN</its:marcaVehiculo>
+		<its:modeloVehiculo>GOLF   </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>220</its:velocidadMaxima>
+			<its:longitud>4.65</its:longitud>
+			<its:altura>1.65</its:altura>
+			<its:consumoUrbano>6.5</its:consumoUrbano>
+			<its:consumoCarretera>4.0</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
-    	<its:marcaVehiculo>VOLKSWAGEN</its:marcaVehiculo>
-        <its:modeloVehiculo>POLO</its:modeloVehiculo>
-        <its:caracteristicasVehiculo>
-       		<its:velocidadMaxima>187</its:velocidadMaxima>
-        	<its:longitud>4.053</its:longitud>
-        	<its:altura>1.461</its:altura>
-        	<its:consumoUrbano>6.2</its:consumoUrbano>
-        	<its:consumoCarretera>4.8</its:consumoCarretera>
-        </its:caracteristicasVehiculo>
+		<its:marcaVehiculo>VOLKSWAGEN</its:marcaVehiculo>
+		<its:modeloVehiculo>POLO   </its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>187</its:velocidadMaxima>
+			<its:longitud>4.053</its:longitud>
+			<its:altura>1.461</its:altura>
+			<its:consumoUrbano>6.2</its:consumoUrbano>
+			<its:consumoCarretera>4.8</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 </its:vehiculoSet>
