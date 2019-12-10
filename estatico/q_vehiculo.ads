@@ -62,7 +62,7 @@ package Q_VEHICULO is
 		-- ISO 3779
 		C_LONGITUD_NUMERO_BASTIDOR : constant Integer := 17;
 
-		-- Modelo maricula espanola "1234 ABC"
+		-- Modelo matricula espanola "1234 ABC"
 		C_LONGITUD_MATRICULA : constant Integer := 8;
 
 		C_LONGITUD_MAXIMA_NOMBRE_MARCA_MODELO : constant Integer := 16;
