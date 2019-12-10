@@ -32,7 +32,7 @@ package Q_LIBRERIA_MANEJO_EVENTOS is
 						       			             User_Type => T_REGISTRO_USUARIO);
 
 	package Q_MANEJADOR_EVENTO_BOTON_BORRAR_VEHICULOS is new Gtk.Handlers.User_Callback (Widget_Type => Gtk.Button.Gtk_Button_Record,
-											     User_Type => Gtk.Box.Gtk_Box);
+											     User_Type => T_REGISTRO_USUARIO);
 
 	procedure P_DESTRUIR_VENTANA_PRINCIPAL (V_BOTON : access Gtk.Button.Gtk_Button_Record'Class);
 
@@ -40,7 +40,7 @@ package Q_LIBRERIA_MANEJO_EVENTOS is
 				      V_DATOS_USUARIO : in T_REGISTRO_USUARIO);
 
 	procedure P_BORRAR_VEHICULOS (V_BOTON : access Gtk.Button.Gtk_Button_Record'Class;
-				      V_CAJA : in Gtk.Box.Gtk_Box);
+				      V_DATOS_USUARIO : in T_REGISTRO_USUARIO);
 
 end Q_LIBRERIA_MANEJO_EVENTOS;
 ------------------------------

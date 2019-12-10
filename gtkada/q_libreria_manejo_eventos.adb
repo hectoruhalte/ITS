@@ -385,20 +385,22 @@ package body Q_LIBRERIA_MANEJO_EVENTOS is
 
 	-------------------------------------------------------------
 	procedure P_BORRAR_VEHICULOS (V_BOTON : access Gtk.Button.Gtk_Button_Record'Class;
-				      V_CAJA : in Gtk.Box.Gtk_Box) is
+				      V_DATOS_USUARIO : in T_REGISTRO_USUARIO) is
 
 		-- Lista de hijos.
-		V_LISTA_HIJOS : Gtk.Widget.Widget_List.Glist := Gtk.Box.Get_Children (V_CAJA);
+		V_LISTA_HIJOS : Gtk.Widget.Widget_List.Glist := Gtk.Box.Get_Children (V_DATOS_USUARIO.R_CAJA);
 
 	begin
-		
+
 		-- Destruir los widget hijos de la Caja izquierda.
 		for I in 0 .. Integer(Gtk.Widget.Widget_List.Length (V_LISTA_HIJOS)) - 1 loop
 			
 			Gtk.Widget.Destroy (Gtk.Widget.Widget_List.Nth_Data (List => V_LISTA_HIJOS,
-									     N => Glib.Guint(I)));
+	 								     N => Glib.Guint(I)));
 
 		end loop;
+
+		Gtk.List_Store.Clear (V_DATOS_USUARIO.R_MODELO_DATOS);
 
 	end P_BORRAR_VEHICULOS;
 	-------------------------------------------------------------

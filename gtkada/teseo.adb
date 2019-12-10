@@ -392,7 +392,7 @@ begin
 				Q_LIBRERIA_MANEJO_EVENTOS.
 					Q_MANEJADOR_EVENTO_BOTON_BORRAR_VEHICULOS.To_Marshaller 
 						(Q_LIBRERIA_MANEJO_EVENTOS.P_BORRAR_VEHICULOS'Access),
-			 User_Data => V_CAJA_IZQUIERDA,
+			 User_Data => V_DATOS_USUARIO,
 			 After => False);
 
 	-- Refrescar el reloj cada segundo
