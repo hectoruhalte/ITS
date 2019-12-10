@@ -107,7 +107,7 @@ package body Q_ADAPTACION_TRAMO is
 			V_LISTA_DATOS := Dom.Core.Nodes.Child_Nodes (V_TRAMO);
 
 			for J in 0 .. Dom.Core.Nodes.Length(V_LISTA_DATOS) -1 loop
-			
+
 				V_DATO := Dom.Core.Nodes.Item (List => V_LISTA_DATOS,
                                                                Index => J);
 

@@ -292,5 +292,88 @@ package body Q_VEHICULO.Q_ACCIONES is
         end P_MOSTRAR_VEHICULO;
         ------------------------------------------------------------
 
+	--------------------------------------------------------------------------------------
+	-- Procedimiento para acelerar un vehiculo a partir de una velocidad inicial dada.
+	-- La varible V_T nos va a servir para calcular la distancia recorrida.
+	--------------------------------------------------------------------------------------
+	procedure P_ACELERAR_VEHICULO (V_VELOCIDAD_MAXIMA_TRAMO : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_VELOCIDAD_INICIAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_VELOCIDAD_FINAL : out Q_TIPOS_BASICOS.T_VELOCIDAD;
+				       V_T : out Integer) is
+
+	begin
+
+		-- Por el momento vamos a suponer una aceleracion lineal v(m/s) = 2.5 * t
+		-- De tal manera que una velocidad de 2.5 m/s => Hace un segundo que se empezo a acelerar.
+		-- O en Km/h un velocidad de 9 Km/h => Hace un segundo que se empezo a acelerar.
+		-- 1º- Obtener t
+		V_T := V_VELOCIDAD_INICIAL / 9;
+
+		V_VELOCIDAD_FINAL := (V_T + 1) * 9;
+
+		if V_VELOCIDAD_FINAL >= V_VELOCIDAD_MAXIMA_TRAMO then
+
+			V_VELOCIDAD_FINAL := V_VELOCIDAD_MAXIMA_TRAMO;
+		
+		end if;
+
+	end P_ACELERAR_VEHICULO;
+	--------------------------------------------------------------------------------------
+
+	------------------------------------------------------------------------------
+	function F_OBTENER_DISTANCIA_MOVER_VEHICULO (V_VELOCIDAD_INICIAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+					     	     V_VELOCIDAD_FINAL : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+					     	     V_VELOCIDAD_MAXIMA_TRAMO : in Q_TIPOS_BASICOS.T_VELOCIDAD;
+					     	     V_T : in Integer) return Float is
+
+		-- Distancia recorrida en metros en 1 s.
+		V_DISTANCIA_RECORRIDA : Float := 0.0;
+
+		-- Instante en que se alcanza la velocidad maxima de tramo.
+		V_T_ALCANCE_VELOCIDAD_MAXIMA : Float := 0.0;
+
+	begin
+
+		-- Si la velocidad inicial = velocidad final => No hay aceleracion. Velocidad constante.
+		if V_VELOCIDAD_INICIAL = V_VELOCIDAD_FINAL then
+
+			V_DISTANCIA_RECORRIDA := Float(V_VELOCIDAD_INICIAL) / 3.6;
+			Ada.Text_Io.Put_Line ("Distancia recorrida en el instante " &Integer'Image(V_T + 1) & " es " & 
+					      Float'Image(V_DISTANCIA_RECORRIDA));
+
+		elsif V_VELOCIDAD_INICIAL < V_VELOCIDAD_FINAL then
+
+			-- Hay aceleracion.
+			
+			if V_VELOCIDAD_FINAL < V_VELOCIDAD_MAXIMA_TRAMO then
+			
+				-- 1.º Aun no se ha alcanzado la velocidad maxima del tramo.
+				-- La distancia recorrida  en m teniendo en cuanta la funcion linea de la aceleracion v (km/h) = 9 * t
+				-- es la integral definida entre t1 y t2 = 5/4 * t^2
+				V_DISTANCIA_RECORRIDA := 1.25 * ((Float(V_T) + 1.0)**2 - Float(V_T)**2);
+				Ada.Text_Io.Put_Line ("Distancia recorrida en el instante " &Integer'Image(V_T + 1) & " es " & 
+						      Float'Image(V_DISTANCIA_RECORRIDA));
+
+			elsif V_VELOCIDAD_FINAL = V_VELOCIDAD_MAXIMA_TRAMO then
+
+				-- 2.º Se ha alcanzado la velocidad maxima del tramo durante este instante.
+				-- Hay que calcular en que instante t (real, float) se alcanza la velocidad maxima del tramo.
+				-- Se asume una funcion de v (km/h) = 9 * t
+				V_T_ALCANCE_VELOCIDAD_MAXIMA := Float(V_VELOCIDAD_MAXIMA_TRAMO) / 9.0;
+				V_DISTANCIA_RECORRIDA := 
+					1.25 * (V_T_ALCANCE_VELOCIDAD_MAXIMA**2 - Float(V_T)**2) + 
+				        Float(V_VELOCIDAD_MAXIMA_TRAMO) * (Float(V_T + 1) - V_T_ALCANCE_VELOCIDAD_MAXIMA) / 3.6;
+				Ada.Text_Io.Put_Line ("Distancia recorrida en el instante " &Integer'Image(V_T + 1) & " es " &
+                                                      Float'Image(V_DISTANCIA_RECORRIDA));
+
+			end if;
+
+		end if;
+
+		return V_DISTANCIA_RECORRIDA;
+
+	end F_OBTENER_DISTANCIA_MOVER_VEHICULO;
+	------------------------------------------------------------------------------
+
 end Q_VEHICULO.Q_ACCIONES;
 -------------------------------------------------------------------------------------------------------------------------------------------
