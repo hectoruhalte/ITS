@@ -9,7 +9,8 @@ GtkFrame {
 GtkBox#cajaIzquierda {
 	border-style: solid;
 	border-width: 1px;
-	border-color: #2ECCFA;
+	border-color: #2EA3FA;
+	padding:10px;
 }
 
 GtkBox#cajaDerecha {
@@ -19,9 +20,83 @@ GtkBox#cajaDerecha {
 GtkBox#cajaMapa {
         border-style: solid;
         border-width: 1px;
-        border-color: #2ECCFA;
+	border-color: #2EA3FA;
 }
 
-GtkBox#cajaLogo {
-        border-width: 0px;
+GtkBox#cajaBotonGenerarVehiculo {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #2EA3FA;
+}
+
+GtkBox#cajaBotonBorrarVehiculos {
+	border-style: solid;
+        border-width: 1px;
+        border-color: #2EA3FA;
+}
+
+GtkButton#botonVehiculo {
+	font-family: "Arial";
+	font-size: 10px;
+	color: #2EA3FA;
+	background: transparent;
+	border: solid;
+}
+
+GtkButton#botonBorrarVehiculos {
+        font-family: "Arial";
+        font-size: 10px;
+        color: #2EA3FA;
+        background: transparent;
+        border: solid;
+}
+
+GtkButton#botonLogo {
+	background: black;
+	border: none;
+}
+
+GtkLabel#labelReloj {
+	font-family: "Arial";
+	font-size: 24px;
+	color: #2EA3FA;
+	/*color: #FA9D2E;*/
+}
+
+GtkLabel#labelTituloVehiculos {
+	font-family: "Roboto";
+        font-size: 10px;
+	font-weight: bold;
+        color: #FA9D2E;
+	border-bottom-style: solid;
+        border-width: 1px;
+        border-color: #FA9D2E;
+}
+
+GtkLabel#labelTituloMatricula {
+        font-family: "Roboto";
+        font-size: 9px;
+        font-weight: bold;
+        color: #FA9D2E;
+}
+
+GtkLabel#labelTituloModelo {
+        font-family: "Roboto";
+        font-size: 9px;
+        font-weight: bold;
+        color: #FA9D2E;
+}
+
+GtkTreeView#matrizVehiculos {
+	font-family: "Arial";
+	font-size: 9px;
+	background: black;
+	color: #2EA3FA;
+}
+
+GtkBox#cajaTituloVehiculosSubrayado {
+        border-bottom-style: solid;
+        border-width: 1px;
+        border-color: #FA9D2E;
+
 }
