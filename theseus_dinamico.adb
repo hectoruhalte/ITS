@@ -27,6 +27,8 @@ with Ada.Calendar;
 -- 3º- Establecer el punto final del trayecto.
 --
 -- 4º- Calcular la ruta y en caso de que exista, mostrarla.
+--
+-- 5º- Realizar el trayecto, arrancar el vehiculo y hacer que discurra por la ruta hasta llegar el destino donde se detendra.
 
 with Q_PROGRESION;
 with Q_TRAYECTO.Q_ACCIONES;
