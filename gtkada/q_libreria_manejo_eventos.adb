@@ -386,6 +386,8 @@ package body Q_LIBRERIA_MANEJO_EVENTOS is
 	-------------------------------------------------------------
 	procedure P_BORRAR_VEHICULOS (V_BOTON : access Gtk.Button.Gtk_Button_Record'Class;
 				      V_DATOS_USUARIO : in T_REGISTRO_USUARIO) is
+				
+		pragma Unreferenced (V_BOTON);			
 
 		-- Lista de hijos.
 		V_LISTA_HIJOS : Gtk.Widget.Widget_List.Glist := Gtk.Box.Get_Children (V_DATOS_USUARIO.R_CAJA);
