@@ -21,7 +21,6 @@ with Gtk.Cell_Renderer_Text;
 with Gtk.Tree_View_Column;
 with Gtk.Tree_Model;
 with Q_VEHICULO.Q_ACCIONES;
-with Gtk.Container;
 
 package body Q_LIBRERIA_MANEJO_EVENTOS is
 
