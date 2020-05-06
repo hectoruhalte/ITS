@@ -155,20 +155,8 @@
 			</documentation>
 		</annotation>
 		<sequence>
-			<element name="tramo" minOccurs="1" maxOccurs="8">
-				<annotation>
-					<documentation>
-						Id del tramo al que esta conectado el tramo actual. Por definicion
-						cada tramo tendra como minimo 1 conexion y maximo 4.
-					</documentation>
-				</annotation>
-				<simpleType>
-					<restriction base="integer">
-						<minInclusive value="0" />
-						<maxInclusive value="1000000" />
-					</restriction>
-				</simpleType>
-			</element>
+			<element name="conexion" type="its:TipoConexion"
+				minOccurs="1" maxOccurs="16" />
 		</sequence>
 	</complexType>
 
@@ -220,5 +208,83 @@
 			</element>
 		</sequence>
 	</complexType>
-
+	
+	<complexType name="TipoConexion">
+		<annotation>
+			<documentation>
+				Tipo para almacenar los datos de una conexion entre tramos.
+				Compuesto por:
+								.- Id del tramo destino.
+								.- Carril actual.
+								.- Carril en el tramo destino.
+								.- Velocidad. Restricción de la velocidad en la conexion entre tramos.
+								.- En caso de que el tramo se conecte a/desde una glorieta se indicara si se trata de una
+								   entrada o una salida hacia/de la glorieta
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="tramoId" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Id del tramo destino de la conexion.
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="0" />
+						<maxInclusive value="1000000" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="carrilActual" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Numero del carril en el tramo origen en la conexion
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="1" />
+						<maxInclusive value="10" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="carrilSiguiente" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Numero del carril en el tramo destino en la conexion
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="1" />
+						<maxInclusive value="10" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="restriccionVelocidad" type="its:Velocidad" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Velocidad maxima a la que puede circular un vehiculo con seguridad entre el tramo origen y el
+						tramo destino a traves de la conexion
+					</documentation>
+				</annotation>
+			</element>
+			<element name="conexionGlorieta" type="its:tipoConexionGlorieta" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Numero de entrada o salida a una glorieta
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="tipoConexionGlorieta">
+		<choice>
+			<xs:element name="entrada"/>
+			<xs:element name="salida"/>
+		</choice>
+	</complexType>
+	
 </schema>
