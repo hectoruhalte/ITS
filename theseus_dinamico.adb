@@ -33,7 +33,7 @@ with Q_TRAYECTO.Q_ACCIONES;
 
 -- Parte Dinamica
 --
--- 5º- Una vez que existe la ruta, crear el trayecto.
+-- Una vez que existe la ruta, crear el trayecto.
 
 procedure theseus_dinamico is
 
@@ -70,8 +70,8 @@ begin
 
 	-- Obtener una posiciona aleatoria dentro del area de trabajo.
         V_POSICION_ALEATORIA := Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS;
-	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X => 433887,
-	--								V_Y => 4812015);
+	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X =>   433190,
+	--								V_Y =>   4812392);
 
 	-- Obtener el segmento mas cercano a esa posicion de salida dada.
         Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_ALEATORIA,
@@ -92,8 +92,8 @@ begin
 
 	-- Obtener una posiciona aleatoria dentro del area de trabajo.
       	V_POSICION_ALEATORIA := Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS;
-	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X => 432627,
-	--								V_Y => 4812069);
+	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X =>   434443,
+	--								V_Y =>   4812670);
 
 	-- Obtener el segmento mas cercano a esa posicion de destino dada.
         Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_ALEATORIA,
@@ -119,92 +119,98 @@ begin
 
 	Ada.Text_Io.Put_Line ("");
 
-	begin
+	if not Q_TIPOS_BASICOS."=" (V_POSICION_1 => V_POSICION_INICIAL,
+				    V_POSICION_2 => V_POSICION_DESTINO) then
 
-	-- Calculo de la ruta. Inicializar listas auxiliares.
-	V_COMIENZO := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
+		begin
 
-	Q_RUTA.Q_DIJKSTRA.P_OBTENER_RUTA (V_POSICION_ORIGEN => V_POSICION_INICIAL,
-					  V_POSICION_FINAL => V_POSICION_DESTINO,
-					  V_RUTA => V_RUTA,
-					  V_COSTE_TIEMPO => V_COSTE_TIEMPO,
-					  V_COSTE_DISTANCIA => V_COSTE_DISTANCIA);					
+		-- Calculo de la ruta. Inicializar listas auxiliares.
+		V_COMIENZO := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
 
-	V_FINAL := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
+		Q_RUTA.Q_DIJKSTRA.P_OBTENER_RUTA (V_POSICION_ORIGEN => V_POSICION_INICIAL,
+						  V_POSICION_FINAL => V_POSICION_DESTINO,
+						  V_RUTA => V_RUTA,
+						  V_COSTE_TIEMPO => V_COSTE_TIEMPO,
+						  V_COSTE_DISTANCIA => V_COSTE_DISTANCIA);					
 
-	Ada.Text_Io.Put_Line 
-		(Ada.Characters.Latin_1.HT & "Se ha tardado : " & Integer'Image(V_FINAL - V_COMIENZO) & " segundos en encontrar la ruta");
+		V_FINAL := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
 
-	Ada.Text_Io.Put_Line ("");
+		Ada.Text_Io.Put_Line 
+			(Ada.Characters.Latin_1.HT & "Se ha tardado : " & Integer'Image(V_FINAL - V_COMIENZO) & 
+			 " segundos en encontrar la ruta");
 
-	-- Visualizar la ruta:
-	Ada.Text_Io.Put_Line (" RUTA : ");
+		Ada.Text_Io.Put_Line ("");
 
-	Ada.Text_Io.Put_Line ("");
+		-- Visualizar la ruta:
+		Ada.Text_Io.Put_Line (" RUTA : ");
 
-	Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_CABECERA_TRAMO;
+		Ada.Text_Io.Put_Line ("");
 
-	for I in 1 .. Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) loop
+		Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_CABECERA_TRAMO;
 
-		Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_TRAMO 
-			(V_LISTA_TRAMOS => V_LISTA_TRAMOS,
-			 V_ID => Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
-												  V_LISTA => V_RUTA)));
-	end loop;
+		for I in 1 .. Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) loop
 
-	-- Visualizar coste de la ruta en tiempo y distancia.
+			Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_TRAMO 
+				(V_LISTA_TRAMOS => V_LISTA_TRAMOS,
+			 	 V_ID => Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+													  V_LISTA => V_RUTA)));
+		end loop;
 
-	Ada.Text_Io.Put_Line ("");
+		-- Visualizar coste de la ruta en tiempo y distancia.
 
-	Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "TIEMPO (s) : " & Integer'Image(V_COSTE_TIEMPO));
+		Ada.Text_Io.Put_Line ("");
 
-	Ada.Text_Io.Put_Line ("");
+		Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "TIEMPO (s) : " & Integer'Image(V_COSTE_TIEMPO));
 
-	Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "DISTANCIA RUTA (m) : " & Integer'Image(V_COSTE_DISTANCIA));
+		Ada.Text_Io.Put_Line ("");
 
-	Ada.Text_Io.Put_Line ("");
+		Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & "DISTANCIA RUTA (m) : " & Integer'Image(V_COSTE_DISTANCIA));
 
-	-- Crear el trayecto.
-	Q_TRAYECTO.P_CREAR_TRAYECTO (V_VEHICULO => V_VEHICULO,
-				     V_POSICION_ORIGEN => V_POSICION_INICIAL,
-				     V_POSICION_FINAL => V_POSICION_DESTINO,
-				     V_DURACION => V_COSTE_TIEMPO,
-				     V_DISTANCIA => V_COSTE_DISTANCIA,
-				     V_RUTA => V_RUTA,
-				     V_TRAYECTO => V_TRAYECTO);
+		Ada.Text_Io.Put_Line ("");
 
-	--Q_PROGRESION.P_VISUALIZAR_PROGRESION (Q_TRAYECTO.F_OBTENER_PROGRESION (V_TRAYECTO));
+		-- Crear el trayecto.
+		Q_TRAYECTO.P_CREAR_TRAYECTO (V_VEHICULO => V_VEHICULO,
+					     V_POSICION_ORIGEN => V_POSICION_INICIAL,
+					     V_POSICION_FINAL => V_POSICION_DESTINO,
+					     V_DURACION => V_COSTE_TIEMPO,
+				     	     V_DISTANCIA => V_COSTE_DISTANCIA,
+				     	     V_RUTA => V_RUTA,
+				     	     V_TRAYECTO => V_TRAYECTO);
 
-	Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_ESTATICA_TRAYECTO;
-	Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_ESTATICA_TRAYECTO (V_TRAYECTO);
-	Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
-	Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO);
+		--Q_PROGRESION.P_VISUALIZAR_PROGRESION (Q_TRAYECTO.F_OBTENER_PROGRESION (V_TRAYECTO));
 
-	-- Actualizar trayecto. => Mover vehiculo.
-	loop
-
-		Q_TRAYECTO.Q_ACCIONES.P_ACTUALIZAR_TRAYECTO (V_TRAYECTO);
-
+		Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_ESTATICA_TRAYECTO;
+		Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_ESTATICA_TRAYECTO (V_TRAYECTO);
 		Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
 		Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO);
 
-		exit when Q_TRAYECTO.F_ESTA_TRAYECTO_TERMINADO (V_TRAYECTO);
+		-- Actualizar trayecto. => Mover vehiculo.
+		loop
 
-		delay 1.0;
+			Q_TRAYECTO.Q_ACCIONES.P_ACTUALIZAR_TRAYECTO (V_TRAYECTO);
 
-	end loop;
+			Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
+			Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO);
 
-	Ada.Text_Io.Put_Line ("");
+			exit when Q_TRAYECTO.F_ESTA_TRAYECTO_TERMINADO (V_TRAYECTO);
 
-	exception
+			delay 1.0;
 
-		when Q_RUTA.X_RUTA_NO_ENCONTRADA =>
+		end loop;
 
-			Ada.Text_Io.Put_Line (" NO ES POSIBLE ENCONTRAR UNA RUTA");
+		Ada.Text_Io.Put_Line ("");
 
-			Ada.Text_Io.Put_Line ("");
+		exception
 
-	end;
+			when Q_RUTA.X_RUTA_NO_ENCONTRADA =>
+
+				Ada.Text_Io.Put_Line (" NO ES POSIBLE ENCONTRAR UNA RUTA");
+
+				Ada.Text_Io.Put_Line ("");
+
+		end;
+
+	end if;
 
 end theseus_dinamico;
 --------------------------------------------------------------------------------------------------------------------------------------------

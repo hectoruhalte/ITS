@@ -63,6 +63,8 @@ begin
 
 	-- Obtener una posiciona aleatoria dentro del area de trabajo.
         V_POSICION_ALEATORIA := Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS;
+	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X => 432967,
+        --                                                                V_Y => 4812282);
 
 	-- Obtener el segmento mas cercano a esa posicion de salida dada.
         Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_ALEATORIA,
@@ -83,6 +85,8 @@ begin
 
 	-- Obtener una posiciona aleatoria dentro del area de trabajo.
         V_POSICION_ALEATORIA := Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS;
+	--V_POSICION_ALEATORIA := Q_TIPOS_BASICOS.F_OBTENER_POSICION_UTM (V_X => 433121,
+        --                                                                V_Y => 4812357);
 
 	-- Obtener el segmento mas cercano a esa posicion de destino dada.
         Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_ALEATORIA,
