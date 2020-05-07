@@ -12,6 +12,8 @@ with Q_GENERICO_LISTA;
 with Q_SEGMENTO;
 with Q_TIPOS_BASICOS;
 with Ada.Characters.Latin_1;
+--
+with Q_CONEXION;
 
 -- Este paquete presenta el tipo T_TRAMO, donde se van a definir todos los atributos propios de los tramos de carretera.
 -- Va a servir para el simulador. No va a ver definiciones "raras". Los tramos de carretera se van a usar como hasta ahora.
@@ -25,26 +27,25 @@ package Q_TRAMO is
 							   "=" => Q_SEGMENTO."=",
 							   V_MAXIMO_NUMERO_ELEMENTOS => Q_SEGMENTO.F_OBTENER_NUMERO_MAXIMO_SEGMENTOS);
 
-	-- Funcion necesaria para instanciar el paquete Q_GENERICO_LISTA para crear listas de conexiones.
-        function F_IGUALDAD_CONEXIONES (V_INTEGER_1 : in Integer;
-                      			V_INTEGER_2 : in Integer) return Boolean;
-
 	-- Constante para definir el numero maximo de conexiones entre tramos.
         C_NUMERO_MAXIMO_CONEXIONES : constant Integer := 8;
 
-	package Q_LISTA_CONEXIONES is new Q_GENERICO_LISTA (T_ELEMENTO => Integer,
-							    "=" => F_IGUALDAD_CONEXIONES,
+	package Q_LISTA_CONEXIONES is new Q_GENERICO_LISTA (T_ELEMENTO => Q_CONEXION.T_CONEXION,
+							    "=" => Q_CONEXION."=",
 	 						    V_MAXIMO_NUMERO_ELEMENTOS => C_NUMERO_MAXIMO_CONEXIONES);
 
 	type T_ARRAY_SEGMENTOS is array (1 .. Q_SEGMENTO.F_OBTENER_NUMERO_MAXIMO_SEGMENTOS) of Q_SEGMENTO.T_SEGMENTO;
 
-	type T_ARRAY_CONEXIONES is array (1 .. C_NUMERO_MAXIMO_CONEXIONES) of Positive;
+	type T_ARRAY_CONEXIONES is array (1 .. C_NUMERO_MAXIMO_CONEXIONES) of Q_CONEXION.T_CONEXION;
 
 	type T_TRAMO is private;
 
 	-- Funcion necesaria para instanciar el paquete Q_GENERICO_LISTA para crear listas de tramos.
 	function "=" (V_TRAMO_1 : T_TRAMO;
 		      V_TRAMO_2 : T_TRAMO) return Boolean;
+
+	function F_COMPARAR_TRAMOS_ID (V_TRAMO_ID_1 : Natural;
+				       V_TRAMO_ID_2 : Natural) return Boolean;
 
 	function F_OBTENER_NUMERO_MAXIMO_TRAMOS return Integer;
 

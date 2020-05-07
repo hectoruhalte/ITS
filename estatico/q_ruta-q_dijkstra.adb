@@ -11,6 +11,8 @@
 with Q_TRAMO.Q_ACCIONES;
 with Q_SEGMENTO;
 with Q_ADAPTACION_TRAMO;
+--
+with Q_CONEXION;
 
 package body Q_RUTA.Q_DIJKSTRA is
 
@@ -179,6 +181,18 @@ package body Q_RUTA.Q_DIJKSTRA is
 		-- Variable pata guardar el valor del coste del tramo de conexion.
 		V_COSTE_TRAMO_CONEXION : Integer := 0;
 
+		--
+		-- Instancia al paquete generico para manejar la lista de tramos id de las conexiones de cada tramo.
+		package Q_LISTA_CONEXIONES_TRAMO_ID is new 
+			Q_GENERICO_LISTA (T_ELEMENTO => Natural,
+					  "=" => Q_TRAMO.F_COMPARAR_TRAMOS_ID,
+					  V_MAXIMO_NUMERO_ELEMENTOS => Q_TRAMO.C_NUMERO_MAXIMO_CONEXIONES);
+
+		V_LISTA_CONEXIONES_TRAMO_ID : Q_LISTA_CONEXIONES_TRAMO_ID.T_LISTA;
+
+		-- Variable para contener el tramo id de cada conexion.
+		V_CONEXION_TRAMO_ID : Natural := 0;
+
 	begin
 	
 		-- Cargar la lista de tramos adaptados.
@@ -286,12 +300,43 @@ package body Q_RUTA.Q_DIJKSTRA is
 								F_ENCONTRAR_ELEMENTO (V_ELEMENTO => V_TRAMO_VISITADO,
                                                 		              	      V_LISTA => V_LISTA_TRAMOS_ADAPTACION));
 
+					-- Aqui tengo la lista de registros (tramo id, carril actual, carril siguiente y restriccion de
+					-- velocidad). DE MOMENTO solo quiero considerar los tramos id.
+					-- Hay que sacar la lista de tramos id de esta lista de registros.
+
+					-- Inicializar lista de tramos id.
+					Q_LISTA_CONEXIONES_TRAMO_ID.P_INICIALIZAR_LISTA (V_LISTA_CONEXIONES_TRAMO_ID);
+
+					-- Añadir el id de cada tramo de la lista de conexiones a la lista de conexiones de tramo id.
+					for I in 1 .. Q_TRAMO.Q_LISTA_CONEXIONES.F_CUANTOS_ELEMENTOS (V_LISTA_CONEXIONES) loop
+
+						-- Para evitar introducir tramos id repetidos comprobar si el tramo id a introducir
+						-- esta en la lista de conexiones o no.
+						V_CONEXION_TRAMO_ID := 
+							Q_CONEXION.F_OBTENER_TRAMO_ID 
+								(Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO 
+									(V_POSICION => I,
+									 V_LISTA => V_LISTA_CONEXIONES));
+
+						if not Q_LISTA_CONEXIONES_TRAMO_ID.F_ESTA_ELEMENTO_EN_LISTA 
+							(V_ELEMENTO => V_CONEXION_TRAMO_ID,
+							 V_LISTA => V_LISTA_CONEXIONES_TRAMO_ID) then
+
+							Q_LISTA_CONEXIONES_TRAMO_ID.P_INSERTAR_ELEMENTO 
+								(V_ELEMENTO => V_CONEXION_TRAMO_ID,
+							 	 V_LISTA => V_LISTA_CONEXIONES_TRAMO_ID);
+				
+						end if;
+
+					end loop;
+
+					-- Aqui en la lista de conexiones tramo id ya tengo los ids de los tramos de la lista de conexiones.
 				
 				exception
 
 					when Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.X_ELEMENTO_NO_ENCONTRADO =>
 
-                                        	-- El tramo de conexion no esta adaptato. 
+                                        	-- El tramo de conexion no esta adaptado. 
                                                 -- Añadirlo a la lista de tramos a evitar.
                                                 Q_LISTA_TRAMOS_ID.P_INSERTAR_ELEMENTO (V_ELEMENTO => 
 											Q_TRAMO.F_OBTENER_ID (V_TRAMO_VISITADO),
@@ -299,24 +344,23 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 				end;
 
-				for I in 1 .. Q_TRAMO.Q_LISTA_CONEXIONES.F_CUANTOS_ELEMENTOS (V_LISTA_CONEXIONES) loop
+				for I in 1 .. Q_LISTA_CONEXIONES_TRAMO_ID.F_CUANTOS_ELEMENTOS (V_LISTA_CONEXIONES_TRAMO_ID) loop
 
 					-- Comprobar que el coste de la conexion I no este incluida en los tramos a evitar.
 					if not Q_LISTA_TRAMOS_ID.
 							F_ESTA_ELEMENTO_EN_LISTA 
-								(V_ELEMENTO => 
-									Q_TRAMO.Q_LISTA_CONEXIONES.
-										F_DEVOLVER_ELEMENTO (V_POSICION => I,
-												     V_LISTA => V_LISTA_CONEXIONES),
+								(V_ELEMENTO => Q_LISTA_CONEXIONES_TRAMO_ID.F_DEVOLVER_ELEMENTO 
+										(V_POSICION => I,
+										 V_LISTA => V_LISTA_CONEXIONES_TRAMO_ID),
 						 	 	 V_LISTA => V_TRAMOS_A_EVITAR) then
 
 						-- Calcular el coste de esas conexiones.
 						Q_TRAMO.P_INICIALIZAR_TRAMO (V_TRAMO_CONEXION);
 
 						Q_TRAMO.P_PONER_ID 
-							(V_ID => Q_TRAMO.Q_LISTA_CONEXIONES.
-								F_DEVOLVER_ELEMENTO (V_POSICION => I,
-										     V_LISTA => V_LISTA_CONEXIONES),
+							(V_ID => Q_LISTA_CONEXIONES_TRAMO_ID.F_DEVOLVER_ELEMENTO 
+									(V_POSICION => I,
+								         V_LISTA => V_LISTA_CONEXIONES_TRAMO_ID),
 						 	 V_TRAMO => V_TRAMO_CONEXION);
 
 						begin
@@ -535,6 +579,18 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 		V_ARRAY_SEGMENTOS : Q_TRAMO.T_ARRAY_SEGMENTOS;
 
+		--
+                -- Instancia al paquete generico para manejar la lista de tramos id de las conexiones de cada tramo.
+                package Q_LISTA_CONEXIONES_TRAMO_ID is new
+                        Q_GENERICO_LISTA (T_ELEMENTO => Natural,
+                                          "=" => Q_TRAMO.F_COMPARAR_TRAMOS_ID,
+                                          V_MAXIMO_NUMERO_ELEMENTOS => Q_TRAMO.C_NUMERO_MAXIMO_CONEXIONES);
+
+                V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID : Q_LISTA_CONEXIONES_TRAMO_ID.T_LISTA;
+
+		-- Variable para contener el tramo id de una conexion.
+		V_CONEXION_TRAMO_ID : Natural := 0;
+
 	begin
 
 		-- Obtener el segmento mas cercano a esa posicion de origen dada.
@@ -687,8 +743,40 @@ package body Q_RUTA.Q_DIJKSTRA is
 							-- Obtener las conexiones del tramo origen.
                                                 	V_LISTA_CONEXIONES_CIRCULAR := Q_TRAMO.F_OBTENER_LISTA_CONEXIONES (V_TRAMO_ORIGEN);
 
+							-- Aqui tengo la lista del registro de conexiones.
+							-- Tengo que obtener la lista de tramos id.
+
+							-- Inicializar lista de tramos id.
+							Q_LISTA_CONEXIONES_TRAMO_ID.P_INICIALIZAR_LISTA 
+								(V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID);
+
 							for I in 1 .. Q_TRAMO.Q_LISTA_CONEXIONES.F_CUANTOS_ELEMENTOS 
-									(V_LISTA_CONEXIONES_CIRCULAR) loop
+									(V_LISTA_CONEXIONES_CIRCULAR) 
+							loop
+
+								V_CONEXION_TRAMO_ID := 
+									Q_CONEXION.F_OBTENER_TRAMO_ID 
+										(Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO 
+											(V_POSICION => I,
+											 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR));
+
+								if not Q_LISTA_CONEXIONES_TRAMO_ID.F_ESTA_ELEMENTO_EN_LISTA 
+									(V_ELEMENTO => V_CONEXION_TRAMO_ID,
+									 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID) then
+
+									Q_LISTA_CONEXIONES_TRAMO_ID.P_INSERTAR_ELEMENTO 
+										(V_ELEMENTO => V_CONEXION_TRAMO_ID,
+									 	 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID);
+
+								end if;
+
+							end loop;
+
+							-- Aqui ya tengo la lista de tramos id de las conexiones para una ruta circular
+
+							for I in 1 .. Q_LISTA_CONEXIONES_TRAMO_ID.F_CUANTOS_ELEMENTOS 
+									(V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID) 
+							loop
 								
 								-- Inicializar tramo. Usando la variable V_TRAMO_ORIGEN_BIS no modificamos
 								-- el tramo origen real.
@@ -697,9 +785,10 @@ package body Q_RUTA.Q_DIJKSTRA is
 								begin
 
 								-- Poner como tramo origen el de la conexion I.
-                                                        	Q_TRAMO.P_PONER_ID (V_ID => Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO
+                                                        	Q_TRAMO.P_PONER_ID (V_ID => Q_LISTA_CONEXIONES_TRAMO_ID.F_DEVOLVER_ELEMENTO
                                                                                         	(V_POSICION => I,
-                                                                                         	 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR),
+                                                                                         	 V_LISTA => 
+												      V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID),
                                                                             	    V_TRAMO => V_TRAMO_ORIGEN_BIS);
 
 								-- Rellenar el tramo. Origen, final, altura, velocidad maxima, segmentos
@@ -779,18 +868,19 @@ package body Q_RUTA.Q_DIJKSTRA is
 
 								-- Establecer como tramo origen el de la conexion
                                                         	Q_LISTA_TRAMOS_ID.P_INSERTAR_ELEMENTO 
-									(V_ELEMENTO => Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO 
+									(V_ELEMENTO => Q_LISTA_CONEXIONES_TRAMO_ID.F_DEVOLVER_ELEMENTO 
 											(V_POSICION => I,
-                                                                                 	 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR),
+                                                                                 	 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID),
                                                                  	 V_LISTA => V_TRAMOS_A_VISITAR);
 
 								-- Insertar con coste 0 este tramo en la lista de costes
                                                         	Q_LISTA_COSTE_TRAMOS.P_INSERTAR_ELEMENTO
                                                                 	(V_ELEMENTO => 
-										(R_TRAMO_ID => 
-											Q_TRAMO.Q_LISTA_CONEXIONES.F_DEVOLVER_ELEMENTO
-                                                                                        	(V_POSICION => I,
-                                                                                                 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR),
+										(R_TRAMO_ID => Q_LISTA_CONEXIONES_TRAMO_ID.
+												F_DEVOLVER_ELEMENTO
+												    (V_POSICION => I,
+                                                                                                     V_LISTA => 
+												      V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID),
                                                                                	 R_COSTE_TRAMO => 0),
                                                                  	 V_LISTA => V_COSTE_TRAMOS);
 
@@ -799,15 +889,17 @@ package body Q_RUTA.Q_DIJKSTRA is
                                                                 	P_INSERTAR_ELEMENTO 
 										(V_ELEMENTO => 
 											(R_TRAMO_ANTERIOR_ID => 
-												Q_TRAMO.Q_LISTA_CONEXIONES.
+												Q_LISTA_CONEXIONES_TRAMO_ID.
 												F_DEVOLVER_ELEMENTO
                                                                                                 (V_POSICION => I,
-                                                                                                 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR),
+                                                                                                 V_LISTA => 
+												 V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID),
                                                                                          R_TRAMO_ID =>
-                                                                                        	Q_TRAMO.Q_LISTA_CONEXIONES.
+                                                                                        	Q_LISTA_CONEXIONES_TRAMO_ID.
 												F_DEVOLVER_ELEMENTO
                                                                                                 (V_POSICION => I,
-                                                                                                 V_LISTA => V_LISTA_CONEXIONES_CIRCULAR)),
+                                                                                                 V_LISTA => 
+												 V_LISTA_CONEXIONES_CIRCULAR_TRAMO_ID)),
                                                                                  V_LISTA => V_RELACION_TRAMOS);
 
 								begin

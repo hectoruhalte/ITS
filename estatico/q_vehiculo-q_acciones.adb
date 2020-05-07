@@ -270,11 +270,11 @@ package body Q_VEHICULO.Q_ACCIONES is
                 Q_ADAPTACION_VEHICULO.P_OBTENER_MARCA_MODELO_ALEATORIO (V_NOMBRE_MARCA => V_NOMBRE_MARCA,
                                                                         V_NOMBRE_MODELO => V_NOMBRE_MODELO);
 
-                Q_VEHICULO.Q_ACCIONES.P_CREAR_VEHICULO (V_NUMERO_BASTIDOR => F_GENERAR_NUMERO_BASTIDOR,
-                                                        V_MATRICULA => F_GENERAR_MATRICULA,
-                                                        V_NOMBRE_MARCA => V_NOMBRE_MARCA,
-                                                        V_NOMBRE_MODELO => V_NOMBRE_MODELO,
-                                                        V_VEHICULO => V_VEHICULO);
+                P_CREAR_VEHICULO (V_NUMERO_BASTIDOR => F_GENERAR_NUMERO_BASTIDOR,
+                                  V_MATRICULA => F_GENERAR_MATRICULA,
+                                  V_NOMBRE_MARCA => V_NOMBRE_MARCA,
+                                  V_NOMBRE_MODELO => V_NOMBRE_MODELO,
+                                  V_VEHICULO => V_VEHICULO);
 
         end P_GENERAR_VEHICULO;
         ------------------------------------------------------------------------

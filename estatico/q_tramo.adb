@@ -22,14 +22,14 @@ package body Q_TRAMO is
         -------------------------------------------------------
 
 	---------------------------------------------------------------------------
-	function F_IGUALDAD_CONEXIONES (V_INTEGER_1 : in Integer;
-		      			V_INTEGER_2 : in Integer) return Boolean is
+	function F_COMPARAR_TRAMOS_ID (V_TRAMO_ID_1 : in Natural;
+				       V_TRAMO_ID_2 : in Natural) return Boolean is
 
 	begin
 
-		return V_INTEGER_1 = V_INTEGER_2;
+		return V_TRAMO_ID_1 = V_TRAMO_ID_2;
 
-	end F_IGUALDAD_CONEXIONES;
+	end F_COMPARAR_TRAMOS_ID;
 	---------------------------------------------------------------------------
 
 	---------------------------------------------------------

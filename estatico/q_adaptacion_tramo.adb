@@ -18,12 +18,26 @@ with Ada.Sequential_Io;
 with Ada.Text_Io;
 with Ada.Characters.Latin_1;
 with Ada.Float_Text_Io;
+--
+with Q_CONEXION;
 
 package body Q_ADAPTACION_TRAMO is
 
 	C_FICHERO_XML : constant String := "/home/hector/eclipse-workspace/ITS/tramos.xml";
 
 	C_FICHERO_LOG_ADAPTACION : constant String := "/home/hector/ITS/log/log_adaptation_file";
+
+	---------------------------------------------------------------------------
+        function F_SON_CARRILES_IGUALES (V_CARRIL_1 : in Natural;
+                                         V_CARRIL_2 : in Natural) return Boolean is
+
+        begin
+
+                return V_CARRIL_1 = V_CARRIL_2;
+
+        end F_SON_CARRILES_IGUALES;
+        ----------------------------------------------------------------------------
+
 
 	--------------------------------
 	procedure P_CARGAR_ADAPTACION is
@@ -40,15 +54,16 @@ package body Q_ADAPTACION_TRAMO is
 
 		V_DOCUMENTO_XML : Dom.Core.Document;
 
-		V_LISTA_TRAMOS, V_LISTA_DATOS, V_LISTA_SEGMENTOS, V_LISTA_SEGMENTO_DATOS, V_LISTA_CONEXIONES : Dom.Core.Node_List;
+		V_LISTA_TRAMOS, V_LISTA_DATOS, V_LISTA_SEGMENTOS, V_LISTA_SEGMENTO_DATOS, V_LISTA_CONEXIONES, V_LISTA_CONEXION_DATOS : 
+			Dom.Core.Node_List;
 	
-		V_TRAMO, V_DATO, V_SEGMENTO, V_SEGMENTO_DATO, V_CONEXION : Dom.Core.Node;
+		V_TRAMO, V_DATO, V_SEGMENTO, V_SEGMENTO_DATO, V_CONEXION, V_CONEXION_DATO : Dom.Core.Node;
 
 		V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
 
 		V_SEGMENTO_ADAPTACION : T_SEGMENTO_ADAPTACION;
 
-		V_CONEXION_ADAPTACION : Integer;
+		V_CONEXION_ADAPTACION : T_CONEXION_ADAPTACION;
 
 		V_SEGMENTO_ADAPTACION_REGISTRO : T_SEGMENTO_ADAPTACION_REGISTRO;
 
@@ -279,6 +294,8 @@ package body Q_ADAPTACION_TRAMO is
 
 				if Dom.Core.Nodes.Node_Name(V_DATO) = "its:listaConexiones" then
 
+					-- CAMBIO EN EL TIPO CONEXIONES
+
 					V_LISTA_CONEXIONES := Dom.Core.Nodes.Child_Nodes (V_DATO);
 
                                         for K in 0 .. Dom.Core.Nodes.Length(V_LISTA_CONEXIONES) - 1 loop
@@ -286,13 +303,59 @@ package body Q_ADAPTACION_TRAMO is
                                         	V_CONEXION := Dom.Core.Nodes.Item (List => V_LISTA_CONEXIONES,
                                                                                    Index => K);
 
-                                               	if Dom.Core.Nodes.Node_Name(V_CONEXION) = "its:tramo" then
+                                               	if Dom.Core.Nodes.Node_Name(V_CONEXION) = "its:conexion" then
 
-                                                	V_CONEXION_ADAPTACION := 
-								Integer'Value
-									(Dom.Core.Nodes.Node_Value(Dom.Core.Nodes.First_Child(V_CONEXION)));
+							V_LISTA_CONEXION_DATOS := Dom.Core.Nodes.Child_Nodes (V_CONEXION);
 
-							-- Añadir conexion al array.
+							for L in 0 .. Dom.Core.Nodes.Length (V_LISTA_CONEXION_DATOS) - 1 loop
+
+								V_CONEXION_DATO := Dom.Core.Nodes.Item (List => V_LISTA_CONEXION_DATOS,
+													Index => L);
+
+								if Dom.Core.Nodes.Node_Name (V_CONEXION_DATO) = "its:tramoId" then
+
+									V_CONEXION_ADAPTACION.R_CONEXION_A_TRAMO := 
+										Natural'Value
+											(Dom.Core.Nodes.Node_Value
+												(Dom.Core.Nodes.First_Child 
+													(V_CONEXION_DATO)));
+
+								end if;
+
+								if Dom.Core.Nodes.Node_Name (V_CONEXION_DATO) = "its:carrilActual" then
+
+									V_CONEXION_ADAPTACION.R_CARRIL_ACTUAL :=
+										Natural'Value
+                                                                                        (Dom.Core.Nodes.Node_Value
+                                                                                                (Dom.Core.Nodes.First_Child 
+                                                                                                        (V_CONEXION_DATO)));
+
+								end if;
+
+								if Dom.Core.Nodes.Node_Name (V_CONEXION_DATO) = "its:carrilSiguiente" then
+
+									V_CONEXION_ADAPTACION.R_CARRIL_SIGUIENTE :=
+										Natural'Value
+                                                                                        (Dom.Core.Nodes.Node_Value
+                                                                                                (Dom.Core.Nodes.First_Child
+                                                                                                        (V_CONEXION_DATO)));
+
+								end if;
+
+								if Dom.Core.Nodes.Node_Name (V_CONEXION_DATO) = "its:restriccionVelocidad"
+								then
+
+									V_CONEXION_ADAPTACION.R_RESTRICCION_VELOCIDAD :=
+										Q_TIPOS_BASICOS.T_VELOCIDAD'Value
+											(Dom.Core.Nodes.Node_Value
+                                                                                                (Dom.Core.Nodes.First_Child
+                                                                                                        (V_CONEXION_DATO)));
+
+								end if;
+
+							end loop;
+
+							-- Añadir la conexion al array.
 							V_CONEXION_ADAPTACION_REGISTRO.R_NUMERO_CONEXIONES := 
 								V_CONEXION_ADAPTACION_REGISTRO.R_NUMERO_CONEXIONES + 1;
 
@@ -388,6 +451,13 @@ package body Q_ADAPTACION_TRAMO is
 		-- Variable para contar el numero de vehiculos que fisicamente caben en el tramo.
 		V_CAPACIDAD_VEHICULOS : Integer := 0;
 
+		--
+		V_CONEXION_ADAPTACION : T_CONEXION_ADAPTACION;
+
+		V_CONEXION : Q_CONEXION.T_CONEXION;
+
+		V_ARRAY_CONEXIONES : Q_TRAMO.T_ARRAY_CONEXIONES;
+
 	begin
 
 		Q_LISTA_TRAMOS.P_INICIALIZAR_LISTA (V_LISTA_TRAMOS);
@@ -443,6 +513,30 @@ package body Q_ADAPTACION_TRAMO is
 
 			end loop;
 
+			-- Obtener el array con las conexiones para el tramo.
+			for J in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+				Q_CONEXION.P_INICIALIZAR_CONEXION (V_CONEXION);
+
+				V_CONEXION_ADAPTACION := V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY (J);
+
+				Q_CONEXION.P_PONER_TRAMO_ID (V_TRAMO_ID => V_CONEXION_ADAPTACION.R_CONEXION_A_TRAMO,
+							     V_CONEXION => V_CONEXION);
+
+				Q_CONEXION.P_PONER_CARRIL_ACTUAL (V_CARRIL_ACTUAL => V_CONEXION_ADAPTACION.R_CARRIL_ACTUAL,
+								  V_CONEXION => V_CONEXION);
+
+				Q_CONEXION.P_PONER_CARRIL_SIGUIENTE (V_CARRIL_SIGUIENTE => V_CONEXION_ADAPTACION.R_CARRIL_SIGUIENTE,
+								     V_CONEXION => V_CONEXION);
+
+				Q_CONEXION.P_PONER_RESTRICCION_VELOCIDAD 
+					(V_RESTRICCION_VELOCIDAD => V_CONEXION_ADAPTACION.R_RESTRICCION_VELOCIDAD,
+					 V_CONEXION => V_CONEXION);
+
+				V_ARRAY_CONEXIONES (J) := V_CONEXION;
+
+			end loop;
+
 			-- Con la lista de segmentos ya creada, añadirla al tramo.
 			Q_TRAMO.P_PONER_LISTA_SEGMENTOS (V_NUMERO_SEGMENTOS => V_TRAMO_ADAPTACION.R_LISTA_SEGMENTOS.R_NUMERO_SEGMENTOS,
 							 V_ARRAY_SEGMENTOS => V_ARRAY_SEGMENTOS,
@@ -450,8 +544,7 @@ package body Q_ADAPTACION_TRAMO is
 
 			-- Añadir el array con las conexiones al tramo.
 			Q_TRAMO.P_PONER_LISTA_CONEXIONES (V_NUMERO_CONEXIONES => V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES,
-							  V_ARRAY_CONEXIONES => 
-						          	V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY,
+							  V_ARRAY_CONEXIONES => V_ARRAY_CONEXIONES,
 							  V_TRAMO => V_TRAMO);
 
 			-- Calcular la distncia del tramo. Numero de segmentos * 5 metros de media.
@@ -512,7 +605,7 @@ package body Q_ADAPTACION_TRAMO is
 
 		V_SEGMENTO_ADAPTACION : T_SEGMENTO_ADAPTACION;
 
-		V_CONEXION_ADAPTACION : Integer;
+		V_CONEXION_ADAPTACION : T_CONEXION_ADAPTACION;
 
 		V_TRAMO_COMIENZO, V_TRAMO_FINAL, V_SEGMENTO_POSICION : Q_TIPOS_BASICOS.T_POSICION_UTM;
 
@@ -609,12 +702,30 @@ package body Q_ADAPTACION_TRAMO is
 			-- Recorrer la lista de conexiones.
 
 			for J in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
-
-				Ada.Text_Io.Put (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & " Tramo Id => ");
-
+	
 				V_CONEXION_ADAPTACION := V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY (J);
 
-				Ada.Text_Io.Put_Line (Integer'Image(V_CONEXION_ADAPTACION));		
+				Ada.Text_Io.Put_Line (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & " Conexion => ");
+
+				Ada.Text_Io.Put (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & 
+							" Tramo Id              => ");
+
+				Ada.Text_Io.Put_Line (Natural'Image(V_CONEXION_ADAPTACION.R_CONEXION_A_TRAMO));
+
+				Ada.Text_Io.Put (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT &
+                                                        " Carril Actual         => ");
+
+				Ada.Text_Io.Put_Line (Natural'Image(V_CONEXION_ADAPTACION.R_CARRIL_ACTUAL));
+
+				Ada.Text_Io.Put (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT &
+                                                        " Carril Siguiente      => ");
+
+				Ada.Text_Io.Put_Line (Natural'Image(V_CONEXION_ADAPTACION.R_CARRIL_SIGUIENTE));
+
+				Ada.Text_Io.Put (Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT & Ada.Characters.Latin_1.HT &
+                                                        " Restriccion Velocidad => ");
+
+				Ada.Text_Io.Put_Line (Integer'Image(V_CONEXION_ADAPTACION.R_RESTRICCION_VELOCIDAD));		
 
 			end loop;
 				
@@ -624,6 +735,325 @@ package body Q_ADAPTACION_TRAMO is
 
 	end P_VISUALIZAR;
 	-------------------------
+
+	-----------------------------------------------------------------------------------------------------------------------
+	function F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS (V_TRAMO_ID_1 : in Natural;
+							       V_TRAMO_ID_2 : in Natural;
+							       V_CARRIL_ACTUAL : in Natural;
+							       V_CARRIL_SIGUIENTE : in Natural) return Q_TIPOS_BASICOS.T_VELOCIDAD is
+
+		package Q_TRAMO_IO is new Ada.Sequential_IO(T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+		V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+	begin
+
+		Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+		for I in 1 .. V_TRAMO_ID_1 loop
+
+			Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+		end loop;
+
+		Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+		-- Ya tenemos el tramo origen.
+		-- Recorrer las conexiones para obtener la restriccion entre los tramos dados.
+		for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+			if V_TRAMO_ID_2 = V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO and
+			   V_CARRIL_ACTUAL = V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL and
+			   V_CARRIL_SIGUIENTE = V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE
+			then
+
+				return V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_RESTRICCION_VELOCIDAD;
+
+			end if;
+
+		end loop;
+
+		-- Elevar excepcion.
+		raise X_TRAMO_DESTINO_NO_ENCONTRADO;
+
+	end F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS;
+	-----------------------------------------------------------------------------------------------------------------------
+
+	--------------------------------------------------------------------------------------------------------------
+	procedure P_OBTENER_CARRILES_ENTRE_TRAMOS (V_TRAMO_ID_1 : in Natural;
+						   V_TRAMO_ID_2 : in Natural;
+						   V_LISTA_CARRILES_TRAMO_ACTUAL : out Q_LISTA_CARRILES.T_LISTA;
+						   V_LISTA_CARRILES_TRAMO_SIGUIENTE : out Q_LISTA_CARRILES.T_LISTA) is
+
+		package Q_TRAMO_IO is new Ada.Sequential_IO (T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+                V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+		V_CARRIL_AUX, V_CARRIL_SIGUIENTE_AUX : Natural := 0;
+
+	begin
+
+		Q_LISTA_CARRILES.P_INICIALIZAR_LISTA (V_LISTA_CARRILES_TRAMO_ACTUAL);
+
+		Q_LISTA_CARRILES.P_INICIALIZAR_LISTA (V_LISTA_CARRILES_TRAMO_SIGUIENTE);
+
+		Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+		for I in 1 .. V_TRAMO_ID_1 loop
+
+                        Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+                end loop;
+
+		Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+		-- Recorrer las conexiones del tramo de adaptacion, buscando aquellas con tramo destino = V_TRAMO_ID_2
+		for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+			if V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO = V_TRAMO_ID_2 then
+
+				V_CARRIL_AUX := V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL;
+
+				V_CARRIL_SIGUIENTE_AUX := 
+					V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE;
+				
+				-- Ya tenemos un carril del tramo actual. Comprobar que ese carril no esta ya en la lista.
+				if not Q_LISTA_CARRILES.F_ESTA_ELEMENTO_EN_LISTA (V_ELEMENTO => V_CARRIL_AUX,
+										  V_LISTA => V_LISTA_CARRILES_TRAMO_ACTUAL) then 
+		
+					Q_LISTA_CARRILES.P_INSERTAR_ELEMENTO (V_ELEMENTO => V_CARRIL_AUX,
+					 	 			      V_LISTA => V_LISTA_CARRILES_TRAMO_ACTUAL);
+
+				end if;
+
+				-- Ya tenemos un carril del siguiente tramo. Comprobar que ese carril no estar ya en la lista.
+				if not Q_LISTA_CARRILES.F_ESTA_ELEMENTO_EN_LISTA (V_ELEMENTO => V_CARRIL_SIGUIENTE_AUX,
+										  V_LISTA => V_LISTA_CARRILES_TRAMO_SIGUIENTE) then
+
+					Q_LISTA_CARRILES.P_INSERTAR_ELEMENTO (V_ELEMENTO => V_CARRIL_SIGUIENTE_AUX,
+									      V_LISTA => V_LISTA_CARRILES_TRAMO_SIGUIENTE);
+
+				end if;
+
+			end if;
+
+		end loop;
+
+	end P_OBTENER_CARRILES_ENTRE_TRAMOS;
+	--------------------------------------------------------------------------------------------------------------
+
+	--------------------------------------------------------------------------------------
+	function F_OBTENER_CARRIL_CONEXION (V_TRAMO_ORIGEN_ID : in Natural;
+					    V_TRAMO_DESTINO_ID : in Natural;
+					    V_CARRIL_SIGUIENTE : in Natural) return Natural is
+
+		package Q_TRAMO_IO is new Ada.Sequential_IO (T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+                V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+	begin
+
+		Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+                for I in 1 .. V_TRAMO_ORIGEN_ID loop
+
+                        Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+                end loop;
+
+                Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+		for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+			-- Buscar en el array de conexiones la conexion entre tramo origen y destino que tenga como carril siguiente el
+			-- dado a la funcion.
+			if V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO = V_TRAMO_DESTINO_ID 
+			and V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE = V_CARRIL_SIGUIENTE 
+			then
+
+				return V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL;
+
+			end if;
+
+		end loop;
+
+		raise X_CONEXION_NO_ENCONTRADA;
+
+	end F_OBTENER_CARRIL_CONEXION;
+	--------------------------------------------------------------------------------------
+
+	---------------------------------------------------------------------------------------
+        function F_OBTENER_SIGUIENTE_CARRIL (V_TRAMO_ORIGEN_ID : in Natural;
+                                             V_TRAMO_SIGUIENTE_ID : in Natural;
+                                             V_CARRIL_ANTERIOR : in Natural) return Natural is
+
+                package Q_TRAMO_IO is new Ada.Sequential_IO (T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+                V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+        begin
+
+                Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+                for I in 1 .. V_TRAMO_ORIGEN_ID loop
+
+                        Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+                end loop;
+
+                Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+                for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+                        -- Buscar en el array de conexiones la conexion entre tramo origen y destino que tenga como carril siguiente el
+                        -- dado a la funcion.
+                        if V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO = V_TRAMO_SIGUIENTE_ID
+                        and V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL = V_CARRIL_ANTERIOR
+                        then
+
+                                return V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE;
+
+			end if;
+
+                end loop;
+
+                raise X_CONEXION_NO_ENCONTRADA;
+
+        end F_OBTENER_SIGUIENTE_CARRIL;
+        ---------------------------------------------------------------------------------------
+
+	----------------------------------------------------------------------------------------------------------
+	function F_OBTENER_SIGUIENTE_CARRIL_ALTERNATIVO (V_TRAMO_ORIGEN_ID : in Natural;
+							 V_TRAMO_SIGUIENTE_ID : in Natural;
+							 V_CARRIL_ACTUAL : in Natural;
+							 V_CARRIL_SIGUIENTE_OPTIMO : in Natural) return Natural is
+
+		package Q_TRAMO_IO is new Ada.Sequential_IO (T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+                V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+		V_DISTANCIA, V_DISTANCIA_MINIMA : Natural := 1000;
+
+		V_CARRIL_CONEXION_ALTERNATIVO : Natural := 1;
+
+	begin
+
+		Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+                for I in 1 .. V_TRAMO_ORIGEN_ID loop
+
+                        Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+                end loop;
+
+                Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+		for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+			if V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO = V_TRAMO_SIGUIENTE_ID
+			and V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL = V_CARRIL_ACTUAL then
+
+				-- Tenemos una conexion candidata.
+				V_DISTANCIA := 
+					abs 
+					(V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE - 
+					 V_CARRIL_SIGUIENTE_OPTIMO);
+
+				if V_DISTANCIA < V_DISTANCIA_MINIMA then
+
+					V_DISTANCIA_MINIMA := V_DISTANCIA;
+					
+					V_CARRIL_CONEXION_ALTERNATIVO := 
+						V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE;
+
+				end if;
+
+				-- Por definicion la distancia minima sera 1. Y ademas salvo algún caso no contemplado la solucion sera 
+				-- unica.
+				exit when V_DISTANCIA_MINIMA = 1;
+
+			end if;
+
+		end loop;
+
+		return V_CARRIL_CONEXION_ALTERNATIVO;
+
+	end F_OBTENER_SIGUIENTE_CARRIL_ALTERNATIVO;
+	----------------------------------------------------------------------------------------------------------
+
+	------------------------------------------------------------------------------
+	function F_EXISTE_CONEXION (V_TRAMO_ORIGEN_ID : in Natural;
+				    V_TRAMO_SIGUIENTE_ID : in Natural;
+				    V_CARRIL_ORIGEN : in Natural;
+				    V_CARRIL_SIGUIENTE : in Natural) return Boolean is
+
+		package Q_TRAMO_IO is new Ada.Sequential_IO (T_TRAMO_ADAPTACION);
+
+                V_FICHERO_TRAMO : Q_TRAMO_IO.File_Type;
+
+                V_TRAMO_ADAPTACION : T_TRAMO_ADAPTACION;
+
+		V_EXISTE_CONEXION : Boolean := False;
+
+	begin
+
+		Q_TRAMO_IO.Open (File => V_FICHERO_TRAMO,
+                                 Mode => Q_TRAMO_IO.In_File,
+                                 Name => "/home/hector/ITS/adaptacion/tramos.bin");
+
+                for I in 1 .. V_TRAMO_ORIGEN_ID loop
+
+                        Q_TRAMO_IO.Read (File => V_FICHERO_TRAMO,
+                                         Item => V_TRAMO_ADAPTACION);
+
+                end loop;
+
+                Q_TRAMO_IO.Close (V_FICHERO_TRAMO);
+
+                for I in 1 .. V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_NUMERO_CONEXIONES loop
+
+			if V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CONEXION_A_TRAMO = V_TRAMO_SIGUIENTE_ID
+			and V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_ACTUAL = V_CARRIL_ORIGEN 
+			and V_TRAMO_ADAPTACION.R_LISTA_CONEXIONES.R_CONEXIONES_ADAPTACION_ARRAY(I).R_CARRIL_SIGUIENTE = V_CARRIL_SIGUIENTE
+			then
+
+				V_EXISTE_CONEXION := True;
+
+				exit;
+
+			end if;
+
+		end loop;
+
+		return V_EXISTE_CONEXION;
+
+	end F_EXISTE_CONEXION;
+	------------------------------------------------------------------------------
 
 end Q_ADAPTACION_TRAMO;
 -------------------------------------------------------------------------------------------------------------------------------------------
