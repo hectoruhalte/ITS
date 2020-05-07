@@ -10,12 +10,15 @@
 
 with Ada.Text_Io;
 with Ada.Characters.Latin_1;
+--
+with Ada.Sequential_Io;
+with Q_ADAPTACION_TRAMO;
 
 package body Q_PROGRESION is
 
-	--------------------------------------------------------------------------------
-	function "=" (V_ELEMENTO_PROGRESION_1 : T_ELEMENTO_PROGRESION;
-		      V_ELEMENTO_PROGRESION_2 : T_ELEMENTO_PROGRESION) return Boolean is
+	-----------------------------------------------------------------------------------
+	function "=" (V_ELEMENTO_PROGRESION_1 : in T_ELEMENTO_PROGRESION;
+		      V_ELEMENTO_PROGRESION_2 : in T_ELEMENTO_PROGRESION) return Boolean is
 
 	begin
 
@@ -62,10 +65,20 @@ package body Q_PROGRESION is
 
 		V_RESTRICCION : Q_RESTRICCION.T_RESTRICCION;
 
+		--
+		V_PROGRESION_CARRILES_OPTIMO : T_PROGRESION_CARRILES_OPTIMO;
+
+		V_TRAMO_SIGUIENTE_ID : Natural := 0;
+
 	begin
 
-		-- Inicializar progresion.
+		-- Inicializar progresion de tramo y de carriles.
 		P_INICIALIZAR_LISTA (V_PROGRESION);
+
+		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+		P_GENERAR_PROGRESION_CARRILES_OPTIMO (V_RUTA => V_RUTA,
+					      	      V_PROGRESION_CARRILES_OPTIMO => V_PROGRESION_CARRILES_OPTIMO);
 
 		Q_SEGMENTO.P_PONER_POSICION (V_POSICION => V_POSICION_INICIAL,
 					     V_SEGMENTO => V_SEGMENTO_INICIAL);
@@ -81,6 +94,7 @@ package body Q_PROGRESION is
 		V_POSICION_SEGMENTO := 
 			Q_TRAMO.Q_LISTA_SEGMENTOS.F_POSICION_ELEMENTO (V_ELEMENTO => V_SEGMENTO_INICIAL,
 								       V_LISTA => Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS (V_TRAMO_ACTUAL));
+
 
 		if Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) = 1 then
 
@@ -232,15 +246,81 @@ package body Q_PROGRESION is
 							-- tramo actual.
 							V_ELEMENTO_PROGRESION.R_POSICION := Q_TRAMO.F_OBTENER_FINAL (V_TRAMO_ACTUAL);
 
+							--
+							V_TRAMO_SIGUIENTE_ID := 
+								Q_TRAMO.F_OBTENER_ID 
+									(Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
+										(V_POSICION => V_POSICION_TRAMO_ACTUAL + 1,
+										 V_LISTA => V_RUTA));
+
 							-- La velocidad maxima sera la del siguiente tramo.
+							-- Obtener la restriccion de velocidad de la adaptacion.
+							begin
+				
 							Q_RESTRICCION.P_PONER_RESTRICCION 
 								(V_VELOCIDAD => 
-									Q_TRAMO.F_OBTENER_VELOCIDAD_MAXIMA 
-										(Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
-											(V_POSICION => V_POSICION_TRAMO_ACTUAL + 1,
-											 V_LISTA => V_RUTA)),
+									Q_ADAPTACION_TRAMO.F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS 
+										(V_TRAMO_ID_1 => Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+										 V_TRAMO_ID_2 => V_TRAMO_SIGUIENTE_ID,
+										 V_CARRIL_ACTUAL => 
+											F_OBTENER_CARRIL_OPTIMO 
+												(V_TRAMO_ID => 
+													Q_TRAMO.F_OBTENER_ID 
+														(V_TRAMO_ACTUAL),
+												 V_PROGRESION_CARRILES_OPTIMO => 
+													V_PROGRESION_CARRILES_OPTIMO),
+										 V_CARRIL_SIGUIENTE =>
+											F_OBTENER_CARRIL_OPTIMO
+												(V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+												 V_PROGRESION_CARRILES_OPTIMO =>
+													V_PROGRESION_CARRILES_OPTIMO)),
 								 V_SENAL => Q_RESTRICCION.E_NULA,
 								 V_RESTRICCION => V_RESTRICCION);
+
+							exception
+
+							-- Que pasa si hay un cambio de carril en el tramo siguiente y por lo tanto no 
+							-- existe la conexion buscada entre tramos a traves de los carriles optimos.
+							-- Habrá que buscar la conexion entre el tramo actual y el siguiente.
+
+								when Q_ADAPTACION_TRAMO.X_TRAMO_DESTINO_NO_ENCONTRADO =>
+
+								-- No se ha podido encontrar una conexion al carril siguiente optimo
+								-- Habra que buscar un carril siguiente alternativo.
+								Q_RESTRICCION.P_PONER_RESTRICCION 
+									(V_VELOCIDAD => 
+										Q_ADAPTACION_TRAMO.
+										F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS
+										(V_TRAMO_ID_1 => Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+										 V_TRAMO_ID_2 => V_TRAMO_SIGUIENTE_ID,
+										 V_CARRIL_ACTUAL => 
+											F_OBTENER_CARRIL_OPTIMO 
+												(V_TRAMO_ID => 
+													Q_TRAMO.F_OBTENER_ID 
+														(V_TRAMO_ACTUAL),
+												 V_PROGRESION_CARRILES_OPTIMO =>
+													V_PROGRESION_CARRILES_OPTIMO),
+										 V_CARRIL_SIGUIENTE => 
+											Q_ADAPTACION_TRAMO.
+											F_OBTENER_SIGUIENTE_CARRIL_ALTERNATIVO
+											(V_TRAMO_ORIGEN_ID => 
+												Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+											 V_TRAMO_SIGUIENTE_ID => V_TRAMO_SIGUIENTE_ID,
+											 V_CARRIL_ACTUAL => 
+												F_OBTENER_CARRIL_OPTIMO 
+											       (V_TRAMO_ID => 
+													Q_TRAMO.F_OBTENER_ID 
+														(V_TRAMO_ACTUAL),
+												V_PROGRESION_CARRILES_OPTIMO =>
+													V_PROGRESION_CARRILES_OPTIMO),
+											 V_CARRIL_SIGUIENTE_OPTIMO =>
+												F_OBTENER_CARRIL_OPTIMO
+                                                                                                (V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+                                                                                                 V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO))),
+									 V_SENAL => Q_RESTRICCION.E_NULA,
+                                                                 	 V_RESTRICCION => V_RESTRICCION);														
+							end;
 
 							V_ELEMENTO_PROGRESION.R_RESTRICCION := V_RESTRICCION;
 			
@@ -295,18 +375,84 @@ package body Q_PROGRESION is
 							-- Anadir la conexion que al ser recorrido crecientemente tiene que ser el origen 
 							-- del tramo actual.
 							V_ELEMENTO_PROGRESION.R_ID_TRAMO_ACTUAL := Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL);						
-
 							V_ELEMENTO_PROGRESION.R_POSICION := Q_TRAMO.F_OBTENER_ORIGEN (V_TRAMO_ACTUAL);
 
+							--
+                                                        V_TRAMO_SIGUIENTE_ID := 
+								Q_TRAMO.F_OBTENER_ID 
+									(Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
+										(V_POSICION => V_POSICION_TRAMO_ACTUAL + 1,
+                                                                                 V_LISTA => V_RUTA));
+
                                                         -- La velocidad maxima sera la del siguiente tramo.
-                                                        Q_RESTRICCION.P_PONER_RESTRICCION
+							begin
+
+							Q_RESTRICCION.P_PONER_RESTRICCION
                                                                 (V_VELOCIDAD =>
-                                                                        Q_TRAMO.F_OBTENER_VELOCIDAD_MAXIMA
-                                                                                (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO
-                                                                                        (V_POSICION => V_POSICION_TRAMO_ACTUAL + 1,
-                                                                                         V_LISTA => V_RUTA)),
+                                                                        Q_ADAPTACION_TRAMO.F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS
+                                                                                (V_TRAMO_ID_1 => Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+                                                                                 V_TRAMO_ID_2 => V_TRAMO_SIGUIENTE_ID,
+										 V_CARRIL_ACTUAL => 
+											F_OBTENER_CARRIL_OPTIMO
+                                                                                                (V_TRAMO_ID =>
+                                                                                                        Q_TRAMO.F_OBTENER_ID
+                                                                                                                (V_TRAMO_ACTUAL),
+                                                                                                 V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO),
+                                                                                 V_CARRIL_SIGUIENTE =>
+                                                                                        F_OBTENER_CARRIL_OPTIMO
+                                                                                                (V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+                                                                                                 V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO)),
                                                                  V_SENAL => Q_RESTRICCION.E_NULA,
                                                                  V_RESTRICCION => V_RESTRICCION);
+
+							exception
+
+							-- Que pasa si hay un cambio de carril en el tramo siguiente y por lo tanto no 
+                                                        -- existe la conexion buscada entre tramos a traves de los carriles optimos.
+                                                        -- Habrá que buscar la conexion entre el tramo actual y el siguiente.
+
+								when Q_ADAPTACION_TRAMO.X_TRAMO_DESTINO_NO_ENCONTRADO =>
+
+								-- No se ha podido encontrar una conexion al carril siguiente optimo
+                                                                -- Habra que buscar un carril siguiente alternativo.
+
+								Q_RESTRICCION.P_PONER_RESTRICCION
+                                                                        (V_VELOCIDAD =>
+                                                                                Q_ADAPTACION_TRAMO.
+                                                                                F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS
+                                                                                (V_TRAMO_ID_1 => Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+                                                                                 V_TRAMO_ID_2 => V_TRAMO_SIGUIENTE_ID,
+                                                                                 V_CARRIL_ACTUAL =>
+                                                                                        F_OBTENER_CARRIL_OPTIMO
+                                                                                                (V_TRAMO_ID =>
+                                                                                                        Q_TRAMO.F_OBTENER_ID
+                                                                                                                (V_TRAMO_ACTUAL),
+                                                                                                 V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO),
+                                                                                 V_CARRIL_SIGUIENTE =>
+                                                                                        Q_ADAPTACION_TRAMO.
+                                                                                        F_OBTENER_SIGUIENTE_CARRIL_ALTERNATIVO
+                                                                                        (V_TRAMO_ORIGEN_ID =>
+                                                                                                Q_TRAMO.F_OBTENER_ID (V_TRAMO_ACTUAL),
+                                                                                         V_TRAMO_SIGUIENTE_ID => V_TRAMO_SIGUIENTE_ID,
+                                                                                         V_CARRIL_ACTUAL =>
+                                                                                                F_OBTENER_CARRIL_OPTIMO
+                                                                                               (V_TRAMO_ID =>
+                                                                                                        Q_TRAMO.F_OBTENER_ID
+                                                                                                                (V_TRAMO_ACTUAL),
+                                                                                                V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO),
+                                                                                         V_CARRIL_SIGUIENTE_OPTIMO =>
+                                                                                                F_OBTENER_CARRIL_OPTIMO
+                                                                                                (V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+                                                                                                 V_PROGRESION_CARRILES_OPTIMO =>
+                                                                                                        V_PROGRESION_CARRILES_OPTIMO))),
+                                                                         V_SENAL => Q_RESTRICCION.E_NULA,
+                                                                         V_RESTRICCION => V_RESTRICCION);
+
+							end;
 
                                                         V_ELEMENTO_PROGRESION.R_RESTRICCION := V_RESTRICCION;
 
@@ -777,6 +923,195 @@ package body Q_PROGRESION is
 	
 	end F_CUANTOS_ELEMENTOS_PROGRESION;
 	------------------------------------------------------------------------------------------
+
+	----------------------------------------------------------------------------------------------
+	function F_SON_ELEMENTOS_PROGRESION_CARRILES_IGUALES 
+		(V_ELEMENTO_PROGRESION_CARRIL_1 : in T_ELEMENTO_PROGRESION_CARRILES;
+		 V_ELEMENTO_PROGRESION_CARRIL_2 : in T_ELEMENTO_PROGRESION_CARRILES) return Boolean is
+
+	begin
+
+		return V_ELEMENTO_PROGRESION_CARRIL_1.R_ID_TRAMO_ACTUAL = V_ELEMENTO_PROGRESION_CARRIL_2.R_ID_TRAMO_ACTUAL;
+
+	end F_SON_ELEMENTOS_PROGRESION_CARRILES_IGUALES;
+	------------------------------------------------
+	
+	----------------------------------------------------------------------------------------------
+	procedure P_GENERAR_PROGRESION_CARRILES (V_RUTA : in Q_RUTA.T_RUTA;
+						 V_PROGRESION_CARRILES : out T_PROGRESION_CARRILES) is
+
+		V_LISTA_CARRILES_TRAMO_ACTUAL, V_LISTA_CARRILES_TRAMO_SIGUIENTE : Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.T_LISTA;
+
+	begin
+
+		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES);
+
+		Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.P_INICIALIZAR_LISTA (V_LISTA_CARRILES_TRAMO_ACTUAL);
+
+		Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.P_INICIALIZAR_LISTA (V_LISTA_CARRILES_TRAMO_SIGUIENTE);
+
+		for I in 1 .. Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) -1 loop
+
+			-- Obtener los carriles que conectan al siguiente tramo
+			Q_ADAPTACION_TRAMO.P_OBTENER_CARRILES_ENTRE_TRAMOS 
+				(V_TRAMO_ID_1 => Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+														  V_LISTA => V_RUTA)),
+				 V_TRAMO_ID_2 => Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I + 1,
+														  V_LISTA => V_RUTA)),
+				 V_LISTA_CARRILES_TRAMO_ACTUAL => V_LISTA_CARRILES_TRAMO_ACTUAL,
+				 V_LISTA_CARRILES_TRAMO_SIGUIENTE => V_LISTA_CARRILES_TRAMO_SIGUIENTE);
+
+		end loop;
+
+	end P_GENERAR_PROGRESION_CARRILES;
+	----------------------------------------------------------------------------------------------
+
+	--------------------------------------------------------------------------------------------------------------
+        function F_SON_ELEMENTOS_PROGRESION_CARRILES_OPTIMO_IGUALES
+                (V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_1 : in T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+                 V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_2 : in T_ELEMENTO_PROGRESION_CARRILES_OPTIMO) return Boolean is
+
+        begin
+
+                return V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_1.R_ID_TRAMO_ACTUAL = 
+		       V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_2.R_ID_TRAMO_ACTUAL;
+
+        end F_SON_ELEMENTOS_PROGRESION_CARRILES_OPTIMO_IGUALES;
+        -------------------------------------------------------
+
+	-------------------------------------------------------------------------------------------------------------------
+	procedure P_GENERAR_PROGRESION_CARRILES_OPTIMO (V_RUTA : in Q_RUTA.T_RUTA;
+							V_PROGRESION_CARRILES_OPTIMO : out T_PROGRESION_CARRILES_OPTIMO) is
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+
+		V_TRAMO_ORIGEN_ID, V_TRAMO_DESTINO_ID : Natural := 0;
+
+		-- Lista de carriles entre el tramo origen y destino en caso de que haya un cambio de carril.
+		V_LISTA_CARRILES_ORIGEN, V_LISTA_CARRILES_DESTINO : Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.T_LISTA;
+
+		V_CARRIL_AUX, V_CARRIL_MAS_CERCANO : Natural := 0;
+
+		V_DISTANCIA_ENTRE_CARRILES  : Natural := 1000;
+		
+		V_DISTANCIA_AUX : Natural := 0;
+
+	begin
+
+		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+		-- Recorremos la ruta de atras hacia adelante. El primer elemento será el id del tramo destino y el carril 1.
+		-- El trayecto siempre acabará en el carril 1.
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_ID_TRAMO_ACTUAL := 
+			Q_TRAMO.F_OBTENER_ID 
+				(Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO 
+					(V_POSICION => Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA),
+				 	 V_LISTA => V_RUTA));
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := 1;
+
+		-- Insertar elemento en la lista.
+		P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO,
+				     V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
+
+		-- Recorrer la ruta de manera inversa desde el penultimo tramo hasta el primero.
+		for I in reverse 1 .. Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) -1 loop
+
+			V_TRAMO_ORIGEN_ID := Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+											                      V_LISTA => V_RUTA));
+
+			V_TRAMO_DESTINO_ID := Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I + 1,
+                                                                                                               V_LISTA => V_RUTA));
+
+			-- Hay que buscar que carril del tramo I se conecta con el carril optimo del tramo I + 1.
+			V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_ID_TRAMO_ACTUAL := V_TRAMO_ORIGEN_ID;
+
+			loop
+			
+				begin
+
+				V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := 
+					Q_ADAPTACION_TRAMO.F_OBTENER_CARRIL_CONEXION 
+						(V_TRAMO_ORIGEN_ID => V_TRAMO_ORIGEN_ID,
+					 	 V_TRAMO_DESTINO_ID => V_TRAMO_DESTINO_ID,
+					 	 V_CARRIL_SIGUIENTE => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL);
+	
+				exit;
+
+				exception
+				
+					-- Esta excepcion salta cuando hay un cambio de carril en el tramo "siguiente". 
+					when Q_ADAPTACION_TRAMO.X_CONEXION_NO_ENCONTRADA =>
+
+						-- Buscar los carriles que conecten el tramo origen con el tramo destino
+						Q_ADAPTACION_TRAMO.P_OBTENER_CARRILES_ENTRE_TRAMOS 
+							(V_TRAMO_ID_1 => V_TRAMO_ORIGEN_ID,
+							 V_TRAMO_ID_2 => V_TRAMO_DESTINO_ID,
+							 V_LISTA_CARRILES_TRAMO_ACTUAL => V_LISTA_CARRILES_ORIGEN,
+							 V_LISTA_CARRILES_TRAMO_SIGUIENTE => V_LISTA_CARRILES_DESTINO);
+
+						-- El cambio es en el tramo destino.
+						-- Hay que recorrer la lista de carriles destino y buscar aquel que este mas cerca del 
+						-- "carril siguiente". Si se encuentra un carril a una "distancia" 1 ese es el adecuado.
+						for J in 1 .. Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.F_CUANTOS_ELEMENTOS 
+								(V_LISTA_CARRILES_DESTINO) loop
+
+							V_CARRIL_AUX := 
+								Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.F_DEVOLVER_ELEMENTO 
+									(V_POSICION => J,
+									 V_LISTA => V_LISTA_CARRILES_DESTINO);
+
+							V_DISTANCIA_AUX := 
+								abs(V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL - V_CARRIL_AUX);
+
+							if V_DISTANCIA_AUX = 1 then
+
+								V_CARRIL_MAS_CERCANO := V_CARRIL_AUX;
+
+								exit;
+
+							elsif V_DISTANCIA_AUX < V_DISTANCIA_ENTRE_CARRILES then
+
+								V_DISTANCIA_ENTRE_CARRILES := V_DISTANCIA_AUX;
+
+								V_CARRIL_MAS_CERCANO := V_CARRIL_AUX;
+						
+							end if;
+	
+						end loop;
+
+						V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := V_CARRIL_MAS_CERCANO;
+
+				end;
+
+			end loop;
+
+			P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO,
+					     V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
+
+		end loop;
+
+	end P_GENERAR_PROGRESION_CARRILES_OPTIMO;
+	-------------------------------------------------------------------------------------------------------------------
+
+	-------------------------------------------------------------------------------------------------------------------
+	function F_OBTENER_CARRIL_OPTIMO (V_TRAMO_ID : in Natural;
+					  V_PROGRESION_CARRILES_OPTIMO : in T_PROGRESION_CARRILES_OPTIMO) return Natural is
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+
+	begin
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL := V_TRAMO_ID;
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX := 
+			F_ENCONTRAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+					      V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
+
+		return V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL;
+
+	end F_OBTENER_CARRIL_OPTIMO;
+	-------------------------------------------------------------------------------------------------------------------
 
 end Q_PROGRESION;
 --------------------------------------------------------------------------------------------------------------------------------------------

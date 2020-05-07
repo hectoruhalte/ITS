@@ -89,7 +89,10 @@ package body Q_TRAYECTO.Q_ACCIONES is
                 Ada.Text_Io.Put_Line ("           |");
 
 		Ada.Text_Io.Put_Line (" +--------+---------------------------------+---------------------------------+-------------+" &
-                                      "--------------+---------------+");			
+                                      "--------------+---------------+");
+
+		Ada.Text_Io.Put_Line ("          +---------------------------------+---------+---------------------------------+" &
+                                      "-------------+--------------+---------------+");			
 
 	end P_VISUALIZAR_PARTE_ESTATICA_TRAYECTO;
 	-------------------------------------------------------------------------------
@@ -99,10 +102,10 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 	begin
 
-		Ada.Text_Io.Put_Line ("          |          TRAMO ACTUAL           |          POSICION ACTUAL        |  VELOCIDAD  |" &
-				      "  TIEMPO (s)  | DISTANCIA (m) |");
-		Ada.Text_Io.Put_Line ("          +---------------------------------+---------------------------------+-------------+" &
-                                      "--------------+---------------+");
+		Ada.Text_Io.Put_Line ("          |          TRAMO ACTUAL           | CARRIL  |          POSICION ACTUAL        |" &
+				      "  VELOCIDAD  |  TIEMPO (s)  | DISTANCIA (m) |");
+		Ada.Text_Io.Put_Line ("          +---------------------------------+---------+---------------------------------+" &
+				      "-------------+--------------+---------------+");
 
 	end P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
 	----------------------------------------------------
@@ -114,6 +117,11 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 		V_TRAMO_AUX : Q_TRAMO.T_TRAMO;
 
+		-- Segmento auxiliar para obtener el numero de carriles
+		V_SEGMENTO_AUX : Q_SEGMENTO.T_SEGMENTO;
+
+		V_NUMERO_CARRILES : Natural range 1 .. 3 := 1;
+
 	begin
 
 		-- Cargar la lista de tramos adaptados.
@@ -121,6 +129,8 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 		-- Obtener nombre tramo origen.
                 Q_TRAMO.P_INICIALIZAR_TRAMO (V_TRAMO_AUX);
+
+		Q_SEGMENTO.P_INICIALIZAR_SEGMENTO (V_SEGMENTO_AUX);
 
 		-- En progresiones muy cortas nos podemos quedar sin progresion para visualizar "la llegada". Posicion final y velocidad a 0
 		if not Q_PROGRESION.F_ESTA_PROGRESION_ACABADA (V_TRAYECTO.R_PROGRESION) then
@@ -145,6 +155,93 @@ package body Q_TRAYECTO.Q_ACCIONES is
 					(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.F_ENCONTRAR_ELEMENTO 
 						(V_ELEMENTO => V_TRAMO_AUX,
                                         	 V_LISTA => V_LISTA_TRAMOS_ADAPTACION)) & "| ");
+
+		Q_SEGMENTO.P_PONER_POSICION (V_POSICION => V_TRAYECTO.R_POSICION_ACTUAL,
+					     V_SEGMENTO => V_SEGMENTO_AUX);
+
+		begin
+
+		V_NUMERO_CARRILES := 
+			Q_SEGMENTO.Q_LISTA_CARRILES.F_CUANTOS_ELEMENTOS 
+				(Q_SEGMENTO.F_OBTENER_LISTA_CARRILES 
+					(Q_TRAMO.Q_LISTA_SEGMENTOS.F_ENCONTRAR_ELEMENTO 
+						(V_ELEMENTO => V_SEGMENTO_AUX,
+						 V_LISTA => 
+							Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
+								(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.F_ENCONTRAR_ELEMENTO 
+									(V_ELEMENTO => V_TRAMO_AUX,
+									 V_LISTA => V_LISTA_TRAMOS_ADAPTACION)))));
+
+		exception
+
+			-- Se ha intentado calcular el numero de carriles usando una conexion.
+			-- Calcular el numero de carriles usando el siguiente elemento de la progresion
+			when Q_TRAMO.Q_LISTA_SEGMENTOS.X_ELEMENTO_NO_ENCONTRADO =>
+
+			Q_SEGMENTO.P_PONER_POSICION 
+				(V_POSICION => 
+					Q_SEGMENTO.F_OBTENER_POSICION 
+						(Q_TRAMO.Q_LISTA_SEGMENTOS.F_DEVOLVER_ELEMENTO 
+							(V_POSICION => 1,
+							 V_LISTA => 
+								Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
+									(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.F_ENCONTRAR_ELEMENTO 
+										(V_ELEMENTO => V_TRAMO_AUX,
+										 V_LISTA => V_LISTA_TRAMOS_ADAPTACION)))),
+				 V_SEGMENTO => V_SEGMENTO_AUX);
+
+			V_NUMERO_CARRILES :=
+                        	Q_SEGMENTO.Q_LISTA_CARRILES.F_CUANTOS_ELEMENTOS 
+                                	(Q_SEGMENTO.F_OBTENER_LISTA_CARRILES 
+                                        	(Q_TRAMO.Q_LISTA_SEGMENTOS.F_ENCONTRAR_ELEMENTO 
+                                                	(V_ELEMENTO => V_SEGMENTO_AUX,
+                                                 	 V_LISTA => 
+                                                        	Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS 
+                                                                	(Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.F_ENCONTRAR_ELEMENTO
+                                                                        	(V_ELEMENTO => V_TRAMO_AUX,
+                                                                         	 V_LISTA => V_LISTA_TRAMOS_ADAPTACION)))));
+
+		end;
+
+		case V_NUMERO_CARRILES is
+
+			when 1 => 
+
+				Ada.Text_Io.Put ("  |·|  ");
+
+			when 2 =>
+
+				if V_TRAYECTO.R_CARRIL_ACTUAL = 1 then
+
+                                	Ada.Text_Io.Put (" | :·| ");    
+
+                        	else
+
+                                	Ada.Text_Io.Put (" |·: | ");    
+
+                        	end if;
+
+			when 3 => 
+
+				case V_TRAYECTO.R_CARRIL_ACTUAL is
+
+					when 1 => 
+
+						Ada.Text_Io.Put ("| : :·|");
+
+					when 2 =>
+
+						Ada.Text_Io.Put ("| :·: |");
+
+					when 3 =>
+
+						Ada.Text_Io.Put ("|·: : |");
+
+				end case;
+
+		end case;       
+
+		Ada.Text_Io.Put (" |");
 		
 		Ada.Text_Io.Put ("    X : ");
                 Ada.Integer_Text_Io.Put (Item => Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_X (V_TRAYECTO.R_POSICION_ACTUAL),
@@ -152,7 +249,7 @@ package body Q_TRAYECTO.Q_ACCIONES is
                 Ada.Text_Io.Put ("  Y : ");
                 Ada.Integer_Text_Io.Put (Item => Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_Y (V_TRAYECTO.R_POSICION_ACTUAL),
                                          Width => 7);
-		Ada.Text_Io.Put ("    |");
+		Ada.Text_Io.Put ("     |");
 		Ada.Integer_Text_Io.Put (Item => V_TRAYECTO.R_VELOCIDAD_ACTUAL,
 				 	 Width => 3);
 		Ada.Text_Io.Put ("          |");
@@ -163,9 +260,8 @@ package body Q_TRAYECTO.Q_ACCIONES is
 				 Width => 4);
 		Ada.Text_Io.Put_Line ("           |");
 		
-
-		Ada.Text_Io.Put_Line ("          +---------------------------------+---------------------------------+-------------+" &
-                                      "--------------+---------------+");
+		Ada.Text_Io.Put_Line ("          +---------------------------------+---------+---------------------------------+" &
+                                      "-------------+--------------+---------------+");
 
 	end P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO;
 	---------------------------------------------------------------
@@ -220,6 +316,15 @@ package body Q_TRAYECTO.Q_ACCIONES is
 		V_T_VELOCIDAD_OBJETIVO : Float := 0.0;
 
 		V_NUMERO_SEGMENTOS_A_AVANZAR : Natural := 0;
+
+		--
+		-- Las variable tramo anterior y tramo siguiente id's se van a utilizar para obtener el carril del tramo siguiente cuando 
+		-- haya un cambio de tramo en el trayecto.
+		V_CARRIL_OPTIMO, V_TRAMO_ID_ANTERIOR, V_TRAMO_SIGUIENTE_ID : Natural := 0;
+
+		-- Variable para indicar si hay que corregir el tramo o no, al finalizar la actualizacion del trayecto justo al cambiar de
+		-- tramo.
+		V_CORREGIR_CARRIL : Boolean := False;
 
         begin
 
@@ -331,6 +436,11 @@ package body Q_TRAYECTO.Q_ACCIONES is
 		-- la del siguiente segmento.
 		for I in 1 .. V_NUMERO_SEGMENTOS_A_AVANZAR loop
 
+			-- Obtener el tramo id antes de avanzar por si hay cambio de tramo.
+			V_TRAMO_ID_ANTERIOR := 
+				Q_PROGRESION.F_OBTENER_ID_TRAMO_ACTUAL 
+					(Q_PROGRESION.F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION));
+
 			-- Ya hemos avanzado al segmento siguiente. Eliminar dicho segmento de la progresion.
                         Q_PROGRESION.P_ELIMINAR_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION);
 
@@ -349,7 +459,97 @@ package body Q_TRAYECTO.Q_ACCIONES is
 				Q_PROGRESION.F_OBTENER_POSICION 
 					(Q_PROGRESION.F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION));
 
+			-- Comprobar si el el tramo de la nueva posicion es igual o no al tramo "anterior".
+			-- Si no lo es:
+			--	.- Obtener el carril del tramo al que hemos pasado.
+			--	.- Actualizar la variable tramo anterior.
+			--	.- No corregimos carril en este momento porque nos encontramos en el primer segmento del nuevo tramo
+			--		y se asume que no se puede cambiar de carril en el primer segmento por definición.
+			-- Si lo es:
+			--	.- Al seguir en el mismo tramo.
+			--	.- Comprobar el carril actual contra el optimo.
+			--	.- Si no es igual, corregir
+			
+			V_TRAMO_SIGUIENTE_ID := 
+				Q_PROGRESION.F_OBTENER_ID_TRAMO_ACTUAL 
+					(Q_PROGRESION.F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION));
+			
+			if V_TRAMO_ID_ANTERIOR /= V_TRAMO_SIGUIENTE_ID then 
+
+				-- Obtener el carril nuevo.
+				-- Comprobar si existe la conexion entre el carril actual y el carril optimo siguiente.
+				if Q_ADAPTACION_TRAMO.F_EXISTE_CONEXION 
+					(V_TRAMO_ORIGEN_ID => V_TRAMO_ID_ANTERIOR,
+					 V_TRAMO_SIGUIENTE_ID => V_TRAMO_SIGUIENTE_ID,
+					 V_CARRIL_ORIGEN => V_TRAYECTO.R_CARRIL_ACTUAL,
+					 V_CARRIL_SIGUIENTE => 
+						Q_PROGRESION.F_OBTENER_CARRIL_OPTIMO 
+							(V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+							 V_PROGRESION_CARRILES_OPTIMO => V_TRAYECTO.R_PROGRESION_CARRILES_OPTIMO)) then
+
+					-- Existe conexion desde el carril actual al carril optimo del siguiente tramo.
+					V_TRAYECTO.R_CARRIL_ACTUAL := 
+						Q_PROGRESION.F_OBTENER_CARRIL_OPTIMO 
+							(V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+							 V_PROGRESION_CARRILES_OPTIMO => V_TRAYECTO.R_PROGRESION_CARRILES_OPTIMO);
+
+				else
+
+					-- No existe conexion desde el carril actual al carril optimo del siguiente tramo.
+					-- Habra que buscar una conexion alternativa.
+					V_TRAYECTO.R_CARRIL_ACTUAL := 
+						Q_ADAPTACION_TRAMO.F_OBTENER_SIGUIENTE_CARRIL_ALTERNATIVO 
+							(V_TRAMO_ORIGEN_ID => V_TRAMO_ID_ANTERIOR,
+							 V_TRAMO_SIGUIENTE_ID => V_TRAMO_SIGUIENTE_ID,
+							 V_CARRIL_ACTUAL => V_TRAYECTO.R_CARRIL_ACTUAL,
+							 V_CARRIL_SIGUIENTE_OPTIMO => 
+								Q_PROGRESION.F_OBTENER_CARRIL_OPTIMO 
+									(V_TRAMO_ID => V_TRAMO_SIGUIENTE_ID,
+									 V_PROGRESION_CARRILES_OPTIMO => 
+										V_TRAYECTO.R_PROGRESION_CARRILES_OPTIMO));
+
+				end if;
+
+				V_TRAMO_ID_ANTERIOR := V_TRAMO_SIGUIENTE_ID;
+
+				-- Estamos justo al comienzo del nuevo tramo. No corregir carril en cualquier caso
+				V_CORREGIR_CARRIL := False;
+
+			else
+
+				-- No estamos justo al comienzo del nuevo tramo. Corregir carril.
+				V_CORREGIR_CARRIL := True;
+
+			end if;
+			
 		end loop;
+
+		V_CARRIL_OPTIMO := 
+			Q_PROGRESION.F_OBTENER_CARRIL_OPTIMO 
+				(V_TRAMO_ID => 
+					Q_PROGRESION.F_OBTENER_ID_TRAMO_ACTUAL 
+						(Q_PROGRESION.F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION)),
+                                 V_PROGRESION_CARRILES_OPTIMO => V_TRAYECTO.R_PROGRESION_CARRILES_OPTIMO);
+
+		-- Comprobar carril. Si el carril actual es distino del optimo, habra que "intentar" cambiar de carril.
+                if V_TRAYECTO.R_CARRIL_ACTUAL /= V_CARRIL_OPTIMO and V_CORREGIR_CARRIL then
+
+               		-- Cambiar de carril. El cambio no puede ser instantaneo. Por ejemplo, no se puede pasar del carril "5" al carril 1
+			--  de manera "instantanea".
+                        -- Vamos a cambiar de carril una vez por segundo. Un carril en cada actualizacion.
+                        if V_TRAYECTO.R_CARRIL_ACTUAL - V_CARRIL_OPTIMO < 0 then
+
+                        	-- Hay que incorporarse al carril izquierdo => Sumar una unidad al carril actual.
+                                V_TRAYECTO.R_CARRIL_ACTUAL := V_TRAYECTO.R_CARRIL_ACTUAL + 1;
+                                
+			else
+
+                        	-- Hay que incorporase al carril derecho => Restar una unidad al carril actual.
+                                V_TRAYECTO.R_CARRIL_ACTUAL := V_TRAYECTO.R_CARRIL_ACTUAL - 1;
+
+                      	end if;
+
+             	end if;
 
 		-- Actualizar tiempo transcurrido
 		V_TRAYECTO.R_TIEMPO_TRANSCURRIDO := V_TRAYECTO.R_TIEMPO_TRANSCURRIDO + 1;
