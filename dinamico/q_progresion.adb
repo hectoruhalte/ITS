@@ -41,15 +41,17 @@ package body Q_PROGRESION is
         end P_PONER_ELEMENTO_PROGRESION;
         --------------------------------
 
-	----------------------------------------------------------------------------------------
-	-- Funcion para obtener una progresion inicial.
+	--------------------------------------------------------------------------------------
+	-- Procedimiento para obtener una progresion inicial y una progresion optima de 
+	-- carriles.
 	-- Recorrer la ruta y por cada segmento y conexion, incluir un punto en la progresion.
-	----------------------------------------------------------------------------------------
-	function F_GENERAR_ENVELOPE_ESTATICO (V_POSICION_INICIAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
-					      V_POSICION_FINAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
-					      V_RUTA : in Q_RUTA.T_RUTA) return T_PROGRESION is
-
-		V_PROGRESION : T_PROGRESION;
+	--------------------------------------------------------------------------------------
+	procedure P_GENERAR_ENVELOPE_ESTATICO (V_POSICION_INICIAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
+					       V_POSICION_FINAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
+					       V_RUTA : in Q_RUTA.T_RUTA;
+					       V_PROGRESION : out T_PROGRESION;
+					       V_PROGRESION_CARRILES_OPTIMO : out T_PROGRESION_CARRILES_OPTIMO;
+					       V_LISTA_TRAMOS_GLORIETA : out T_LISTA_TRAMOS_GLORIETA) is
 
 		V_POSICION_AUX : Q_TIPOS_BASICOS.T_POSICION_UTM := V_POSICION_INICIAL;
 
@@ -66,8 +68,6 @@ package body Q_PROGRESION is
 		V_RESTRICCION : Q_RESTRICCION.T_RESTRICCION;
 
 		--
-		V_PROGRESION_CARRILES_OPTIMO : T_PROGRESION_CARRILES_OPTIMO;
-
 		V_TRAMO_SIGUIENTE_ID : Natural := 0;
 
 	begin
@@ -78,7 +78,8 @@ package body Q_PROGRESION is
 		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
 
 		P_GENERAR_PROGRESION_CARRILES_OPTIMO (V_RUTA => V_RUTA,
-					      	      V_PROGRESION_CARRILES_OPTIMO => V_PROGRESION_CARRILES_OPTIMO);
+					      	      V_PROGRESION_CARRILES_OPTIMO => V_PROGRESION_CARRILES_OPTIMO,
+						      V_LISTA_TRAMOS_GLORIETA => V_LISTA_TRAMOS_GLORIETA);
 
 		Q_SEGMENTO.P_PONER_POSICION (V_POSICION => V_POSICION_INICIAL,
 					     V_SEGMENTO => V_SEGMENTO_INICIAL);
@@ -94,7 +95,6 @@ package body Q_PROGRESION is
 		V_POSICION_SEGMENTO := 
 			Q_TRAMO.Q_LISTA_SEGMENTOS.F_POSICION_ELEMENTO (V_ELEMENTO => V_SEGMENTO_INICIAL,
 								       V_LISTA => Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS (V_TRAMO_ACTUAL));
-
 
 		if Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) = 1 then
 
@@ -256,7 +256,7 @@ package body Q_PROGRESION is
 							-- La velocidad maxima sera la del siguiente tramo.
 							-- Obtener la restriccion de velocidad de la adaptacion.
 							begin
-				
+
 							Q_RESTRICCION.P_PONER_RESTRICCION 
 								(V_VELOCIDAD => 
 									Q_ADAPTACION_TRAMO.F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS 
@@ -500,17 +500,15 @@ package body Q_PROGRESION is
 
 		end if;
 
-		return V_PROGRESION;
-
-	end F_GENERAR_ENVELOPE_ESTATICO;
+	end P_GENERAR_ENVELOPE_ESTATICO;
 	--------------------------------
 
-	------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------
 	-- Se calcula la velocidad de frenada en funcion de la posicion: v = (I-1)*9
-	-- Cuando esta velocidad de frenada sea menor, entonces se usara esa velocidad en
-	-- el elemento de la progresion, si es mayor, se usara el elemento tal cual venga
-	-- en la progresion estatica.
-	------------------------------------------------------------------------------------
+	-- Cuando esta velocidad de frenada sea menor, entonces se usara esa velocidad
+	-- en el elemento de la progresion, si es mayor, se usara el elemento tal cual 
+	-- venga en la progresion estatica.
+	-------------------------------------------------------------------------------
 	procedure P_GENERAR_PROGRESION_FRENADA (V_PROGRESION_ESTATICA : in T_PROGRESION;
 						V_PROGRESION_DINAMICA : out T_PROGRESION;
 						V_PUNTO_FRENADA_FINAL : out Natural) is
@@ -600,11 +598,13 @@ package body Q_PROGRESION is
 	end P_GENERAR_PROGRESION_FRENADA;
 	---------------------------------
 
-	-------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------
 	procedure P_GENERAR_PROGRESION (V_POSICION_INICIAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
 					V_POSICION_FINAL : in Q_TIPOS_BASICOS.T_POSICION_UTM;
 					V_RUTA : in Q_RUTA.T_RUTA;
-					V_PROGRESION : out T_PROGRESION) is	
+					V_PROGRESION : out T_PROGRESION;
+					V_PROGRESION_CARRILES_OPTIMO : out T_PROGRESION_CARRILES_OPTIMO;
+					V_LISTA_TRAMOS_GLORIETA : out T_LISTA_TRAMOS_GLORIETA) is	
 
 		V_PROGRESION_ESTATICA, V_PROGRESION_DINAMICA : T_PROGRESION;
 
@@ -625,9 +625,12 @@ package body Q_PROGRESION is
 
 		P_INICIALIZAR_LISTA (V_PROGRESION_ESTATICA);
 
-		V_PROGRESION_ESTATICA := F_GENERAR_ENVELOPE_ESTATICO (V_POSICION_INICIAL => V_POSICION_INICIAL,
-								      V_POSICION_FINAL => V_POSICION_FINAL,
-								      V_RUTA => V_RUTA);
+		P_GENERAR_ENVELOPE_ESTATICO (V_POSICION_INICIAL => V_POSICION_INICIAL,
+					     V_POSICION_FINAL => V_POSICION_FINAL,
+					     V_RUTA => V_RUTA,
+					     V_PROGRESION  => V_PROGRESION_ESTATICA,
+					     V_PROGRESION_CARRILES_OPTIMO => V_PROGRESION_CARRILES_OPTIMO,
+					     V_LISTA_TRAMOS_GLORIETA => V_LISTA_TRAMOS_GLORIETA);		
 
 		P_INICIALIZAR_LISTA (V_PROGRESION_DINAMICA);
 		
@@ -805,7 +808,7 @@ package body Q_PROGRESION is
 		end loop;
 
 	end P_GENERAR_PROGRESION;
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------------------------------------
 
 	---------------------------------------------------------------------
 	procedure P_VISUALIZAR_PROGRESION (V_PROGRESION : in T_PROGRESION) is
@@ -979,9 +982,155 @@ package body Q_PROGRESION is
         end F_SON_ELEMENTOS_PROGRESION_CARRILES_OPTIMO_IGUALES;
         -------------------------------------------------------
 
-	-------------------------------------------------------------------------------------------------------------------
+	----------------------------------------------------------------------------------------------------------------------------
+        procedure P_CORREGIR_PROGRESION_CARRIL_OPTIMO (V_INDICE_TRAMO_A_CORREGIR : in Natural;
+						       V_INDICE_TRAMO_LIMITE_CORRECCION : in Natural;
+                                                       V_CARRIL_A_USAR : in Natural;
+                                                       V_PROGRESION_CARRILES_OPTIMO_ACTUAL : in T_PROGRESION_CARRILES_OPTIMO;
+						       V_PROGRESION_CARRILES_OPTIMO_CORREGIDA : out T_PROGRESION_CARRILES_OPTIMO) is
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+
+		V_TRAMO_ORIGEN_ID, V_TRAMO_DESTINO_ID, V_CARRIL_SIGUIENTE : Natural;
+
+		-- Lista de carriles entre el tramo origen y destino en caso de que haya un cambio de carril.
+                V_LISTA_CARRILES_ORIGEN, V_LISTA_CARRILES_DESTINO : Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.T_LISTA;
+
+		V_CARRIL_AUX, V_DISTANCIA_AUX, V_CARRIL_MAS_CERCANO : Natural := 0;
+
+		V_DISTANCIA_ENTRE_CARRILES : Natural := 1000;
+
+		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+
+	begin
+
+		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+
+		-- Hay que recorrer la lista actual de carril optimo y copiarla y pasarla a la corregida.
+		-- Una vez que se alcance el tramo a corregir, se pasa a calcular los nuevos carriles hasta el tramo limite a corregir.
+		for I in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO_ACTUAL) loop
+
+			if I > V_INDICE_TRAMO_A_CORREGIR then
+
+				-- Simplemente añadir el elemento de la progresion actual a la corregida.
+				P_INSERTAR_ELEMENTO (V_ELEMENTO => F_DEVOLVER_ELEMENTO (V_POSICION => I,
+											V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL),
+						     V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+
+			elsif I = V_INDICE_TRAMO_A_CORREGIR then
+
+				-- Se ha llegado al tramo a corregir. Establecer el carril y el tramo.
+				V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL := 
+					F_DEVOLVER_ELEMENTO (V_POSICION => I,
+							     V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
+				V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := V_CARRIL_A_USAR;
+
+				P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+						     V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+
+				-- Ahora hay que seguir corrigiendo los tramos anteriores a este hasta el limite. Suponiendo que no sea
+				-- el ultimo tramo => I = 1
+				-- Se trata de, a partir del tramo actual, el carril optimo actual y el carril anterior, obtener el carril
+				-- optimo del tramo anterior.
+				if I > 1 then
+
+					-- Corregir la progresion desde el tramo I-1 (el I acaba de ser corregido) hasta el limite de 
+					-- correccion.
+					for J in reverse V_INDICE_TRAMO_LIMITE_CORRECCION .. I-1 loop
+
+						V_TRAMO_ORIGEN_ID := 
+							F_DEVOLVER_ELEMENTO 
+								(V_POSICION => J,
+								 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
+
+						V_TRAMO_DESTINO_ID :=
+							F_DEVOLVER_ELEMENTO
+                                                                (V_POSICION => J+1,
+                                                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
+
+						V_CARRIL_SIGUIENTE := 
+							F_DEVOLVER_ELEMENTO (V_POSICION => J+1,
+									     V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_CARRIL;
+
+						begin
+	
+							V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_ID_TRAMO_ACTUAL := V_TRAMO_ORIGEN_ID;
+
+							-- Hay que buscar que carril del tramo I-1 que se conecta con el carril optimo del 
+							-- tramo I.
+							V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := 
+								Q_ADAPTACION_TRAMO.F_OBTENER_CARRIL_CONEXION 
+									(V_TRAMO_ORIGEN_ID => V_TRAMO_ORIGEN_ID, 
+								 	 V_TRAMO_DESTINO_ID => V_TRAMO_DESTINO_ID,
+								 	 V_CARRIL_SIGUIENTE => V_CARRIL_SIGUIENTE);
+
+						exception
+
+							-- Esta excepcion salta cuando hay un cambio de carril en el tramo "origen". 
+                                        		when Q_ADAPTACION_TRAMO.X_CONEXION_NO_ENCONTRADA =>
+
+								-- Buscar los carriles que conecten el tramo destino con el tramo origen
+                                                		Q_ADAPTACION_TRAMO.P_OBTENER_CARRILES_ENTRE_TRAMOS
+                                                        		(V_TRAMO_ID_1 => V_TRAMO_ORIGEN_ID,
+                                                         		 V_TRAMO_ID_2 => V_TRAMO_DESTINO_ID,
+                                                         		 V_LISTA_CARRILES_TRAMO_ACTUAL => V_LISTA_CARRILES_ORIGEN,
+                                                         		 V_LISTA_CARRILES_TRAMO_SIGUIENTE => V_LISTA_CARRILES_DESTINO);
+
+								-- El cambio es en el tramo origen.
+                                                		-- Hay que recorrer la lista de carriles origen y buscar aquel que este 
+								-- mas cerca del "carril siguiente". Si se encuentra un carril a una 
+								-- "distancia" 1 ese es el adecuado.
+								for K in 1 .. Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.F_CUANTOS_ELEMENTOS
+                                                                		(V_LISTA_CARRILES_ORIGEN) loop
+
+                                                        		V_CARRIL_AUX :=
+                                                                		Q_ADAPTACION_TRAMO.Q_LISTA_CARRILES.F_DEVOLVER_ELEMENTO
+                                                                        		(V_POSICION => K,
+                                                                         		 V_LISTA => V_LISTA_CARRILES_ORIGEN);
+
+                                                        		V_DISTANCIA_AUX := abs(V_CARRIL_SIGUIENTE - V_CARRIL_AUX);
+
+                                                        		if V_DISTANCIA_AUX = 1 then
+
+                                                                		V_CARRIL_MAS_CERCANO := V_CARRIL_AUX;
+
+                                                                		exit;
+
+                                                        		elsif V_DISTANCIA_AUX < V_DISTANCIA_ENTRE_CARRILES then
+
+                                                                		V_DISTANCIA_ENTRE_CARRILES := V_DISTANCIA_AUX;
+
+                                                                		V_CARRIL_MAS_CERCANO := V_CARRIL_AUX;
+
+                                                        		end if;
+
+                                                		end loop;
+
+                                                		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := V_CARRIL_MAS_CERCANO;
+
+						end;
+
+						P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO,
+								     V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+
+					end loop;
+
+					-- Aqui ya se tiene toda la progresion de carril optimo corregida.
+					exit;
+				
+				end if;
+
+			end if;
+
+		end loop;
+
+	end P_CORREGIR_PROGRESION_CARRIL_OPTIMO;
+	----------------------------------------
+
+	---------------------------------------------------------------------------------------------------------
 	procedure P_GENERAR_PROGRESION_CARRILES_OPTIMO (V_RUTA : in Q_RUTA.T_RUTA;
-							V_PROGRESION_CARRILES_OPTIMO : out T_PROGRESION_CARRILES_OPTIMO) is
+							V_PROGRESION_CARRILES_OPTIMO : out T_PROGRESION_CARRILES_OPTIMO;
+							V_LISTA_TRAMOS_GLORIETA : out T_LISTA_TRAMOS_GLORIETA) is
 
 		V_ELEMENTO_PROGRESION_CARRILES_OPTIMO : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
 
@@ -996,9 +1145,32 @@ package body Q_PROGRESION is
 		
 		V_DISTANCIA_AUX : Natural := 0;
 
+		--
+		V_TRAMO_GLORIETA_ID, V_POSICION_TRAMO_ENTRADA_A_GLORIETA, V_POSICION_TRAMO_SALIDA_DE_GLORIETA : Natural := 0;
+
+		-- Variable para contar la salida a tomar al entrar en una rotonda
+                V_SALIDAS_NO_TOMADAS : Natural := 0;
+
+		-- Variables auxiliares para guardar la lista de progresion de carriles optima al pasar por una glorieta.
+                V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX : T_ELEMENTO_PROGRESION_CARRILES_OPTIMO;
+
+                V_PROGRESION_CARRILES_OPTIMO_AUX : T_PROGRESION_CARRILES_OPTIMO;
+
+		-- Variable booleana para saber si hay que rectificar carriles al circular por el interior de una rotonda.
+		V_CORRECCION_POR_GLORIETA : Boolean := False;
+
+		-- Variable para guardar el indice del tramo dentro de la progresion de carril optimo que ya no hcae falta corregir.
+		-- Inicializado a 1. 
+		V_INDICE_TRAMO_LIMITE_CORRECCION : Natural := 1;
+
+		-- Variable para saber si se ha llamado al procedimiento de correccion de la progresion de carril optimo o no.
+		V_PROGRESION_CORREGIDA : Boolean := False;
+
 	begin
 
 		P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+		P_INICIALIZAR_LISTA (V_LISTA_TRAMOS_GLORIETA);
 
 		-- Recorremos la ruta de atras hacia adelante. El primer elemento será el id del tramo destino y el carril 1.
 		-- El trayecto siempre acabará en el carril 1.
@@ -1026,6 +1198,7 @@ package body Q_PROGRESION is
 			-- Hay que buscar que carril del tramo I se conecta con el carril optimo del tramo I + 1.
 			V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_ID_TRAMO_ACTUAL := V_TRAMO_ORIGEN_ID;
 
+			-- Loop necesario para cambiar de carril si fuera necesario
 			loop
 			
 				begin
@@ -1091,6 +1264,426 @@ package body Q_PROGRESION is
 
 		end loop;
 
+		--
+		-- Comprobar las entradas a las rotondas.
+                -- Comprobar las conexiones dadas entre tramos por la progresion de carriles optimo y ver si alguna conexion es la entrada
+                -- a una glorieta.
+                for I in 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) - 1 loop
+
+			if Q_ADAPTACION_TRAMO.F_ES_ENTRADA_A_GLORIETA 
+				(V_TRAMO_ORIGEN_ID => F_DEVOLVER_ELEMENTO (V_POSICION => I,
+                                                                           V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
+                                 V_TRAMO_SIGUIENTE_ID => F_DEVOLVER_ELEMENTO (V_POSICION => I + 1,
+                                                                              V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
+                                 V_CARRIL_ORIGEN => F_DEVOLVER_ELEMENTO (V_POSICION => I,
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_CARRIL,
+                                 V_CARRIL_SIGUIENTE => F_DEVOLVER_ELEMENTO (V_POSICION => I + 1,
+                                                                            V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_CARRIL) then
+
+				V_TRAMO_GLORIETA_ID := F_DEVOLVER_ELEMENTO (V_POSICION => I + 1,
+                                                                     	    V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL;
+
+				V_POSICION_TRAMO_ENTRADA_A_GLORIETA := I + 1;
+
+				-- Comprobar después de la entrada de la glorieta cual es la salida
+                                for J in I+1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) - 1 loop
+
+                                	if Q_ADAPTACION_TRAMO.F_ES_SALIDA_DE_GLORIETA 
+						(V_TRAMO_ORIGEN_ID => 
+							F_DEVOLVER_ELEMENTO (V_POSICION => J,
+                                                                             V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
+                                                 V_TRAMO_SIGUIENTE_ID => 
+							F_DEVOLVER_ELEMENTO (V_POSICION => J + 1,
+                                                                             V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
+                                                 V_CARRIL_ORIGEN => F_DEVOLVER_ELEMENTO (V_POSICION => J,
+                                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_CARRIL,
+                                                 V_CARRIL_SIGUIENTE => 
+							F_DEVOLVER_ELEMENTO (V_POSICION => J + 1,
+                                                                             V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_CARRIL) then
+
+                           			V_POSICION_TRAMO_SALIDA_DE_GLORIETA := J;
+
+                                                -- Una vez encontrada una salida dejamos de buscar, para dar paso a buscar la siguiente
+                                                -- glorieta.
+                                                exit;
+
+                                        end if;
+
+                                        -- Salidas de la glorieta que no tomamos.
+                                        if Q_ADAPTACION_TRAMO.F_ES_TRAMO_SALIDA_DE_GLORIETA 
+						(F_DEVOLVER_ELEMENTO (V_POSICION => J,
+                                                                      V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL) then
+
+                                        	V_SALIDAS_NO_TOMADAS := V_SALIDAS_NO_TOMADAS + 1;
+
+                                        end if;
+
+					P_INSERTAR_ELEMENTO 
+						(V_ELEMENTO => 
+							F_DEVOLVER_ELEMENTO (V_POSICION => J+1,
+								  	     V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
+						 V_LISTA => V_LISTA_TRAMOS_GLORIETA);
+
+                                end loop;
+
+				-- Ya estamos fuera de la glorieta.
+                                -- Si la salida (= salidas_no_tomadas) es 0 o 1 => No hay que cambiar el carril optimo
+                                -- Si la salida es la 2 o 3 => Habra que entrar por el carril 2, y en cuanto se pase la ultima salida que no
+                                -- sea la nuestra pasar al carril derecho.
+                                if V_SALIDAS_NO_TOMADAS >= 2 and V_SALIDAS_NO_TOMADAS < 4 then
+
+					-- Entre el tramo siguiente al de entrada a la rotonda y el anterior al de salida circular por el 
+                                        -- carril 2 si existe. Si no existe no hacer nada.
+                                        if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_GLORIETA_ID) >= 2 then
+
+						-- Circular por el carril 2 de la glorieta.
+                                                P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) loop
+
+							-- Que hacemos con el tramo de entrada a la rotonda?
+							-- Esta en la posicion V_POSICION_TRAMO_ENTRADA_A_GLORIETA - 1.
+							-- Si tiene mas de un carril deberiamos entrar a la rotonda por carril 2.
+							-- Si el tramo se ensancha se pone el carril ideal para ese tramo al 2 y punto.
+							-- Si el tramo no se ensancha y tiene mas de un carril habra que establecer el 
+							-- 	carril ideal a 2 para el tramo de entrada y corregir desde ahi hacia atras.
+                                                        if K <= V_POSICION_TRAMO_SALIDA_DE_GLORIETA -1 and
+                                                           K >= V_POSICION_TRAMO_ENTRADA_A_GLORIETA then
+
+                                                                V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL :=
+                                                                        F_DEVOLVER_ELEMENTO
+                                                                                (V_POSICION => K,
+                                                                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL;
+
+                                                                V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 2;
+
+                                                                P_INSERTAR_ELEMENTO
+                                                                        (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+								V_CORRECCION_POR_GLORIETA := True;
+
+							-- Cambiar carril del tramo de entrada a la glorieta si es posible.
+							elsif K = V_POSICION_TRAMO_ENTRADA_A_GLORIETA -	1 and
+							      Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_ULTIMO_SEGMENTO
+                                                 		(F_DEVOLVER_ELEMENTO
+                                                              		(V_POSICION => K,
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL) > 1 
+							then
+
+								if Q_ADAPTACION_TRAMO.F_SE_ENSANCHA_TRAMO 
+									(F_DEVOLVER_ELEMENTO 
+										(V_POSICION => K,
+										 V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL)
+								then
+
+									V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL :=
+                                                                        	F_DEVOLVER_ELEMENTO
+                                                                                	(V_POSICION => K,
+                                                                                 	 V_LISTA => 
+												V_PROGRESION_CARRILES_OPTIMO).
+													R_ID_TRAMO_ACTUAL;
+
+                                                                	V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 2;
+
+                                                                	P_INSERTAR_ELEMENTO
+                                                                        	(V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                         	 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                                	V_CORRECCION_POR_GLORIETA := False;
+
+								else
+
+									-- Si entramos aqui es para corregir la progresion de carriles 
+									-- optimo.
+									-- La entrada a esta rotonda (tramo K) 
+									-- habra que hacerla por el carril 2.
+									-- Hay que corregir la progresion del carril optimo del tramo K al 1
+									-- Y dejando claro que si hubiera una rotonda más adelante habría
+									-- que corregir hasta el tramo salida de esta rotonda, lo anterior
+									-- ya sería optimo.
+ 
+									-- Copiar desde K-1 hasta 1 la progresion optima en progresion 
+									-- optima aux. Asi ya tendriamos toda la progresion optima.
+
+									for L in reverse 1 .. K loop
+
+										P_INSERTAR_ELEMENTO
+                                                                			(V_ELEMENTO =>
+                                                                        			F_DEVOLVER_ELEMENTO 
+													(V_POSICION => L,
+                                                                                         	         V_LISTA => 
+													 V_PROGRESION_CARRILES_OPTIMO),
+                                                                 			 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+									end loop;
+
+									-- Inicializar la progresion de carril optimo.
+									P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+									P_CORREGIR_PROGRESION_CARRIL_OPTIMO 
+										(V_INDICE_TRAMO_A_CORREGIR => K,
+										 V_INDICE_TRAMO_LIMITE_CORRECCION => 
+											V_INDICE_TRAMO_LIMITE_CORRECCION,
+										 V_CARRIL_A_USAR => 2,
+										 V_PROGRESION_CARRILES_OPTIMO_ACTUAL =>
+											V_PROGRESION_CARRILES_OPTIMO_AUX,
+										 V_PROGRESION_CARRILES_OPTIMO_CORREGIDA => 
+											V_PROGRESION_CARRILES_OPTIMO);
+
+									V_INDICE_TRAMO_LIMITE_CORRECCION := 
+										V_POSICION_TRAMO_SALIDA_DE_GLORIETA;
+
+									V_PROGRESION_CORREGIDA := True;
+
+									-- Ya tenemos la progresion optima corregida por esta rotonda 
+									-- (dentro y antes de entrar, hasta el principio de la progresion).
+									-- Por decirlo asi, esta rotonda esta terminada.
+									exit;
+														
+								end if;
+
+                                                        else
+
+                                                                P_INSERTAR_ELEMENTO
+                                                                        (V_ELEMENTO =>
+                                                                                F_DEVOLVER_ELEMENTO
+                                                                                        (V_POSICION => K,
+                                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO),
+                                                                 	 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                        end if;
+
+                                                end loop;
+
+						if not V_PROGRESION_CORREGIDA then
+
+							P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+                                                	for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO_AUX) loop
+
+                                                        	P_INSERTAR_ELEMENTO
+                                                                	(V_ELEMENTO =>
+                                                                        	F_DEVOLVER_ELEMENTO 
+											(V_POSICION => K,
+                                                                                	 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX),
+                                                                 	 V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
+
+                                                	end loop;
+	
+						end if;
+
+                                        end if;
+
+				elsif V_SALIDAS_NO_TOMADAS >= 4 then
+
+					-- Entre el tramo siguiente al de entrada a la rotonda y el anterior al de salida circular por el 
+                                        -- carril 3 si existe. Si no existe, mirar si tiene al menos 2 carriles 
+                                        if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_GLORIETA_ID) >= 3 then
+
+						-- Circular por el carril 3 de la glorieta.
+                                                P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+						for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) loop
+
+							if K <= V_POSICION_TRAMO_SALIDA_DE_GLORIETA -1 and
+                                                           K >= V_POSICION_TRAMO_ENTRADA_A_GLORIETA then
+
+								V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL :=
+                                                                        F_DEVOLVER_ELEMENTO
+                                                                                (V_POSICION => K,
+                                                                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL;
+
+								-- Hay que abandonar el carril 3 poco a poco => habra tramos dentro de la
+								-- rotonda por los que habra que circular por el carril 2. Se puede asumir
+								-- que por cada 2 tramos habra una salida. La salida anterior a la nuestra
+								-- el vehiculo deberia circular por el carril 2 y no por el 3.
+								-- Recordar que la posicion de salida de glorieta es la ultima dentro de la
+								-- rotonda.
+								if K = V_POSICION_TRAMO_SALIDA_DE_GLORIETA - 1 or 
+								   K = V_POSICION_TRAMO_SALIDA_DE_GLORIETA - 2 then
+
+									V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 2;
+
+								else
+
+                                                                	V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 3;
+
+								end if;
+
+                                                                P_INSERTAR_ELEMENTO
+                                                                        (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                                V_CORRECCION_POR_GLORIETA := True;
+
+							elsif K = V_POSICION_TRAMO_ENTRADA_A_GLORIETA - 1 and
+                                                              Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_ULTIMO_SEGMENTO
+                                                                (F_DEVOLVER_ELEMENTO
+                                                                        (V_POSICION => K,
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL) > 1 
+							then
+
+								if Q_ADAPTACION_TRAMO.F_SE_ENSANCHA_TRAMO
+                                                                        (F_DEVOLVER_ELEMENTO
+                                                                                (V_POSICION => K,
+                                                                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL)
+								then
+
+									V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL := 
+                               							F_DEVOLVER_ELEMENTO 
+											(V_POSICION => K,
+                                                                                         V_LISTA => 
+												V_PROGRESION_CARRILES_OPTIMO).
+													R_ID_TRAMO_ACTUAL;
+			
+									-- Si hay al menos 3 carriles tomar el carril 3, si no el 2.
+									if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_ULTIMO_SEGMENTO
+                                                                		(F_DEVOLVER_ELEMENTO
+                                                                        		(V_POSICION => K,
+                                                                         		 V_LISTA => 
+												V_PROGRESION_CARRILES_OPTIMO).
+													R_ID_TRAMO_ACTUAL) > 2 then
+
+                                                                        	V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 3;
+
+									else
+
+										V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := 2;
+	
+									end if;
+
+                                                                        P_INSERTAR_ELEMENTO
+                                                                                (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                                        V_CORRECCION_POR_GLORIETA := False;
+
+								else
+
+									-- El tramo no se ensancha. Hay que corregir el tramo de entrada.
+
+									for L in reverse 1 .. K loop
+
+                                                                                P_INSERTAR_ELEMENTO
+                                                                                        (V_ELEMENTO =>
+                                                                                                F_DEVOLVER_ELEMENTO
+                                                                                                        (V_POSICION => L,
+                                                                                                         V_LISTA =>
+                                                                                                         V_PROGRESION_CARRILES_OPTIMO),
+                                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                                        end loop;
+
+									-- Inicializar la progresion de carril optimo.
+                                                                        P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+									-- Comprobar si el tramo de entrada a la rotonda tiene 3 carriles
+									if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_ULTIMO_SEGMENTO
+                                                                                (F_DEVOLVER_ELEMENTO
+                                                                                        (V_POSICION => K,
+                                                                                         V_LISTA =>
+                                                                                                V_PROGRESION_CARRILES_OPTIMO).
+                                                                                                        R_ID_TRAMO_ACTUAL) = 2 then
+
+										-- El ultimo segmento del tramo que se conecta con la 
+										-- rotonda tiene 2 carriles
+										P_CORREGIR_PROGRESION_CARRIL_OPTIMO
+                                                                                (V_INDICE_TRAMO_A_CORREGIR => K,
+                                                                                 V_INDICE_TRAMO_LIMITE_CORRECCION =>
+                                                                                        V_INDICE_TRAMO_LIMITE_CORRECCION,
+                                                                                 V_CARRIL_A_USAR => 2,
+                                                                                 V_PROGRESION_CARRILES_OPTIMO_ACTUAL =>
+                                                                                        V_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                                 V_PROGRESION_CARRILES_OPTIMO_CORREGIDA =>
+                                                                                        V_PROGRESION_CARRILES_OPTIMO);
+
+									else
+
+										-- El tramo se conecta a la rotonda con 3 carriles
+										P_CORREGIR_PROGRESION_CARRIL_OPTIMO
+                                                                                (V_INDICE_TRAMO_A_CORREGIR => K,
+                                                                                 V_INDICE_TRAMO_LIMITE_CORRECCION =>
+                                                                                        V_INDICE_TRAMO_LIMITE_CORRECCION,
+                                                                                 V_CARRIL_A_USAR => 3,
+                                                                                 V_PROGRESION_CARRILES_OPTIMO_ACTUAL =>
+                                                                                        V_PROGRESION_CARRILES_OPTIMO_AUX,
+                                                                                 V_PROGRESION_CARRILES_OPTIMO_CORREGIDA =>
+                                                                                        V_PROGRESION_CARRILES_OPTIMO);
+
+									end if;
+
+									V_INDICE_TRAMO_LIMITE_CORRECCION := 
+										V_POSICION_TRAMO_SALIDA_DE_GLORIETA;
+
+                                                                        V_PROGRESION_CORREGIDA := True;
+
+                                                                        -- Ya tenemos la progresion optima corregida por esta rotonda 
+                                                                        -- (dentro y antes de entrar, hasta el principio de la progresion).
+                                                                        -- Por decirlo asi, esta rotonda esta terminada.
+                                                                        exit;
+
+								end if;
+
+							else
+
+                                                                P_INSERTAR_ELEMENTO
+                                                                        (V_ELEMENTO =>
+                                                                                F_DEVOLVER_ELEMENTO
+                                                                                        (V_POSICION => K,
+                                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO),
+                                                                 	 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX);
+
+                                                        end if;
+
+						end loop;
+
+						if not V_PROGRESION_CORREGIDA then
+
+                                                        P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
+
+                                                        for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO_AUX) loop
+
+                                                                P_INSERTAR_ELEMENTO
+                                                                        (V_ELEMENTO =>
+                                                                                F_DEVOLVER_ELEMENTO
+                                                                                        (V_POSICION => K,
+                                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX),
+                                                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
+
+                                                        end loop;
+
+                                                end if;
+
+					-- Si no tiene tres carriles quiza tenga 2. Entonces circular por el carril 2. Si solo tiene un 
+					-- carril no hacer nada.
+					elsif Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_GLORIETA_ID) = 2 then
+
+						Ada.Text_Io.Put_Line 
+							("No hay 3 carriles, pero hay 2, repetir codigo para circular por carril 2");
+
+					end if;
+
+					V_CORRECCION_POR_GLORIETA := True;
+
+				end if;
+
+			end if;
+
+			-- Reiniciar el contador de salidas por si el en la progresion hubiera otra glorieta mas adelante.
+			-- Poner la progresion corregida a false por si hiciera falta otra correccion mas adelante por otra rotonda.
+                        V_SALIDAS_NO_TOMADAS := 0;
+			V_PROGRESION_CORREGIDA := False;
+
+		end loop;
+
+		-- Aqui ya tengo: Los carriles optimos para cada tramo y los carriles optimos de las glorietas si las hubiera.
+		if V_CORRECCION_POR_GLORIETA then
+		
+			null;
+
+		end if;
+
 	end P_GENERAR_PROGRESION_CARRILES_OPTIMO;
 	-------------------------------------------------------------------------------------------------------------------
 
@@ -1112,6 +1705,18 @@ package body Q_PROGRESION is
 
 	end F_OBTENER_CARRIL_OPTIMO;
 	-------------------------------------------------------------------------------------------------------------------
+
+	--------------------------------------------------------------------------------------------------------
+	function F_ES_TRAMO_DE_GLORIETA (V_TRAMO_ID : in Natural;
+					 V_LISTA_TRAMOS_GLORIETA : in T_LISTA_TRAMOS_GLORIETA) return Boolean is
+
+	begin
+
+		return F_ESTA_ELEMENTO_EN_LISTA (V_ELEMENTO => V_TRAMO_ID,
+						 V_LISTA => V_LISTA_TRAMOS_GLORIETA);
+
+	end F_ES_TRAMO_DE_GLORIETA;
+	--------------------------------------------------------------------------------------------------------
 
 end Q_PROGRESION;
 --------------------------------------------------------------------------------------------------------------------------------------------

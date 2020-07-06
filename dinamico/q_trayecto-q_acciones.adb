@@ -465,6 +465,13 @@ package body Q_TRAYECTO.Q_ACCIONES is
 			--	.- Actualizar la variable tramo anterior.
 			--	.- No corregimos carril en este momento porque nos encontramos en el primer segmento del nuevo tramo
 			--		y se asume que no se puede cambiar de carril en el primer segmento por definición.
+			--		PERO: Dado que los tramos de las rotondas son muy cortos (incluso de un solo segmento), se puede
+			--		      dar el caso de que no se puedan hacer los cambios de carril que se necesiten dentro de la
+			--		      rotonda => 
+			--			Solucion: Establecer una excepcion para la regla del tramo nuevo (regla pensada
+			--		      	para tramos "rectos"). Se crea una lista con los tramos de la ruta que pertenezcan a las
+			--			rotondas en las que se pueda cambiar de carril. Si el tramo actual es uno de los de esta
+			--			lista no se aplica la regla del tramo nuevo.
 			-- Si lo es:
 			--	.- Al seguir en el mismo tramo.
 			--	.- Comprobar el carril actual contra el optimo.
@@ -512,8 +519,17 @@ package body Q_TRAYECTO.Q_ACCIONES is
 
 				V_TRAMO_ID_ANTERIOR := V_TRAMO_SIGUIENTE_ID;
 
-				-- Estamos justo al comienzo del nuevo tramo. No corregir carril en cualquier caso
-				V_CORREGIR_CARRIL := False;
+				-- Estamos justo al comienzo del nuevo tramo. Corregir el carril solo si estamos dentro de una rotonda.
+				if Q_PROGRESION.F_ES_TRAMO_DE_GLORIETA (V_TRAMO_ID => V_TRAMO_ID_ANTERIOR,
+									V_LISTA_TRAMOS_GLORIETA => V_TRAYECTO.R_TRAMOS_EN_GLORIETA) then
+
+					V_CORREGIR_CARRIL := True;
+
+				else
+				
+					V_CORREGIR_CARRIL := False;
+
+				end if;
 
 			else
 

@@ -103,11 +103,14 @@ package Q_TRAYECTO is
 			-- Progresion que queda por recorrer.
                         R_PROGRESION : Q_PROGRESION.T_PROGRESION;
 
-			--Progresion de carriles (a traves de que carriles se conectan los tramos de la ruta)
+			-- Progresion de carriles (a traves de que carriles se conectan los tramos de la ruta)
 			R_PROGRESION_CARRILES : Q_PROGRESION.T_PROGRESION_CARRILES;
 
 			-- Progresion de carriles optimo.
 			R_PROGRESION_CARRILES_OPTIMO : Q_PROGRESION.T_PROGRESION_CARRILES_OPTIMO;
+
+			-- Lista de tramos que pertenecen a una rotonda en la que se pueda cambiar de carril.
+			R_TRAMOS_EN_GLORIETA : Q_PROGRESION.T_LISTA_TRAMOS_GLORIETA;
 
 			-- Numero que identifica el carril dentro del tramo en el que se encuentra el vehiculo.
 			-- Siendo 1 el carril de la derecha.
