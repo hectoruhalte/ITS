@@ -94,6 +94,33 @@ package Q_ADAPTACION_TRAMO is
 				    V_CARRIL_ORIGEN : in Natural;
 				    V_CARRIL_SIGUIENTE : in Natural) return Boolean;
 
+	--
+	-- Funcion para saber si una conexion entre dos tramos a traves de dos carriles es la entrada a una glorieta.
+	function F_ES_ENTRADA_A_GLORIETA (V_TRAMO_ORIGEN_ID : in Natural;
+					  V_TRAMO_SIGUIENTE_ID : in Natural;
+					  V_CARRIL_ORIGEN : in Natural;
+					  V_CARRIL_SIGUIENTE : in Natural) return Boolean;
+
+	function F_ES_SALIDA_DE_GLORIETA (V_TRAMO_ORIGEN_ID : in Natural;
+					  V_TRAMO_SIGUIENTE_ID : in Natural;
+					  V_CARRIL_ORIGEN : in Natural;
+					  V_CARRIL_SIGUIENTE : in Natural) return Boolean;
+	
+	-- Funcion para saber si un tramo tiene una salida de glorieta o no.
+	function F_ES_TRAMO_SALIDA_DE_GLORIETA (V_TRAMO_ID : in Natural) return Boolean;
+
+	-- Funcion para obtener el numero de carriles en un tramo de glorieta.
+	function F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_ID : in Natural) return Natural;
+
+	-- Funcion para saber si un carril se ensancha o no.
+	function F_SE_ENSANCHA_TRAMO (V_TRAMO_ID : in Natural) return Boolean;
+
+	-- Funcion para saber el numero de carriles del ultimo segmento de un tramo (usado para la entrada a rotondas).
+	function F_NUMERO_CARRILES_ULTIMO_SEGMENTO (V_TRAMO_ID : in Natural) return Natural; 
+
+	-- Funcion para obtener un tramo dado un id. (Se tenia que haber hecho esta funcion al principio)
+	function F_OBTENER_TRAMO (V_TRAMO_ID : in Natural) return Q_TRAMO.T_TRAMO;
+
 	private
 
 		type T_SEGMENTO_ADAPTACION is record
@@ -104,7 +131,7 @@ package Q_ADAPTACION_TRAMO is
 
 			R_NUMERO_CARRILES : Integer range 1 .. Q_CARRIL.F_OBTENER_NUMERO_MAXIMO_CARRILES := 1;
 
-	end record;
+		end record;
 
 		type T_SEGMENTOS_ADAPTACION_ARRAY is array (1 .. Q_SEGMENTO.F_OBTENER_NUMERO_MAXIMO_SEGMENTOS)  of T_SEGMENTO_ADAPTACION;
 
@@ -116,6 +143,8 @@ package Q_ADAPTACION_TRAMO is
 
 		end record;
 
+		type T_CONEXION_GLORIETA is (E_NULO, E_ENTRADA, E_SALIDA);
+
 		type T_CONEXION_ADAPTACION is record
 
 			R_CONEXION_A_TRAMO : Natural range 1 .. Q_TRAMO.F_OBTENER_NUMERO_MAXIMO_TRAMOS;
@@ -125,6 +154,8 @@ package Q_ADAPTACION_TRAMO is
 			R_CARRIL_SIGUIENTE : Natural range 1 .. Q_CARRIL.F_OBTENER_NUMERO_MAXIMO_CARRILES;
 
 			R_RESTRICCION_VELOCIDAD : Q_TIPOS_BASICOS.T_VELOCIDAD;
+
+			R_CONEXION_GLORIETA : T_CONEXION_GLORIETA := E_NULO;
 
 		end record;
 
