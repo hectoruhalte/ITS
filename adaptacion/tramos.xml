@@ -6894,8 +6894,8 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>82</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
-				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:carrilActual>2</its:carrilActual>
+				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
@@ -8613,6 +8613,12 @@
 			<its:conexion>
 				<its:tramoId>114</its:tramoId>
 				<its:carrilActual>1</its:carrilActual>
+				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
+			</its:conexion>
+			<its:conexion>
+				<its:tramoId>114</its:tramoId>
+				<its:carrilActual>1</its:carrilActual>
 				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
@@ -8662,8 +8668,8 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>115</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
-				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:carrilActual>2</its:carrilActual>
+				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
@@ -9107,6 +9113,12 @@
 				<its:tramoId>32</its:tramoId>
 				<its:carrilActual>1</its:carrilActual>
 				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
+			</its:conexion>
+			<its:conexion>
+				<its:tramoId>32</its:tramoId>
+				<its:carrilActual>1</its:carrilActual>
+				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
@@ -15053,8 +15065,8 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>175</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
-				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:carrilActual>3</its:carrilActual>
+				<its:carrilSiguiente>3</its:carrilSiguiente>
 				<its:restriccionVelocidad>35</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
@@ -15181,8 +15193,8 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>177</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
-				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:carrilActual>2</its:carrilActual>
+				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
@@ -16870,6 +16882,12 @@
 				<its:tramoId>104</its:tramoId>
 				<its:carrilActual>1</its:carrilActual>
 				<its:carrilSiguiente>2</its:carrilSiguiente>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
+			</its:conexion>
+			<its:conexion>
+				<its:tramoId>104</its:tramoId>
+				<its:carrilActual>1</its:carrilActual>
+				<its:carrilSiguiente>3</its:carrilSiguiente>
 				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
@@ -19446,7 +19464,7 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>216</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
+				<its:carrilActual>2</its:carrilActual>
 				<its:carrilSiguiente>1</its:carrilSiguiente>
 				<its:restriccionVelocidad>15</its:restriccionVelocidad>
 			</its:conexion>
@@ -29567,7 +29585,16 @@
 				<its:tramoId>82</its:tramoId>
 				<its:carrilActual>1</its:carrilActual>
 				<its:carrilSiguiente>1</its:carrilSiguiente>
-				<its:restriccionVelocidad>50</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
+				<its:conexionGlorieta>
+					<its:entrada/>
+				</its:conexionGlorieta>
+			</its:conexion>
+			<its:conexion>
+				<its:tramoId>82</its:tramoId>
+				<its:carrilActual>2</its:carrilActual>
+				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 				<its:conexionGlorieta>
 					<its:entrada/>
 				</its:conexionGlorieta>
@@ -30693,8 +30720,8 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>324</its:tramoId>
-				<its:carrilActual>1</its:carrilActual>
-				<its:carrilSiguiente>1</its:carrilSiguiente>
+				<its:carrilActual>2</its:carrilActual>
+				<its:carrilSiguiente>2</its:carrilSiguiente>
 				<its:restriccionVelocidad>20</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
