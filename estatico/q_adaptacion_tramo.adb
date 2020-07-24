@@ -836,11 +836,12 @@ package body Q_ADAPTACION_TRAMO is
 		end loop;
 
 		-- Elevar excepcion.
-		Ada.Text_Io.Put_Line ("---------");
-		Ada.Text_Io.Put_Line ("Tramo 1 : " & Integer'Image(V_TRAMO_ID_1));
-		Ada.Text_Io.Put_Line ("Tramo 2 : " & Integer'Image(V_TRAMO_ID_2));
-		Ada.Text_Io.Put_Line ("Carril actual : " & Integer'Image(V_CARRIL_ACTUAL));
-		Ada.Text_Io.Put_Line ("Carril siguiente : " & Integer'Image(V_CARRIL_SIGUIENTE));
+		-- Andamiaje comentado
+		--Ada.Text_Io.Put_Line ("---------");
+		--Ada.Text_Io.Put_Line ("Tramo 1 : " & Integer'Image(V_TRAMO_ID_1));
+		--Ada.Text_Io.Put_Line ("Tramo 2 : " & Integer'Image(V_TRAMO_ID_2));
+		--Ada.Text_Io.Put_Line ("Carril actual : " & Integer'Image(V_CARRIL_ACTUAL));
+		--Ada.Text_Io.Put_Line ("Carril siguiente : " & Integer'Image(V_CARRIL_SIGUIENTE));
 		raise X_TRAMO_DESTINO_NO_ENCONTRADO;
 
 	end F_OBTENER_RESTRICCION_VELOCIDAD_ENTRE_TRAMOS;
