@@ -1,0 +1,24 @@
+Instrucciones para compilar y ejecutar la aplicacion distribuida:
+
+1.- Compilar con po_gnatdist (Se asume que esta instalado)
+
+    /distribuido/src/po_gnatdist simulador.cfg -I../../genericos -I../../estatico -I../../dinamico
+    
+2.- En el directorio src se crearan los ejecutables de las tres particiones definidas en el fichero de configuracion simulador.cfg.
+
+    /distribuido/src/ariadna
+    /distribuido/src/monitor_tabla_trayectos
+    /distribuido/Src/vehiculo
+    
+3.- Para ejecutar la aplicacion
+
+    3.1.- Ejecutar desde el directorio /distribuido/src/name_server/ la herramienta po_cos_naming. En mi caso directamente desde el directorio Polyorb.
+    
+          /distribuido/src/name_server> $PATH/git/PolyORB/tools/po_cos_naming/po_cos_naming
+          
+    3.2.- Ejecutar en un terminal: 
+            /distribuido/src>./ariadna
+          Ejecutar en otro terminal: 
+            /distribuido/src>./monitor_tabla_trayectos
+          Ejecutar en otros terminales tantos clientes como se requieran:
+            /distribuido/src>./vehiculo
