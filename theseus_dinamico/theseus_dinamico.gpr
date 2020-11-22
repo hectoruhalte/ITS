@@ -1,7 +1,7 @@
 with "xmlada";
 
 project Theseus_Dinamico is
-   for Source_Dirs use ("src","../estatico","../dinamico");
+   for Source_Dirs use ("src","../genericos", "../estatico","../dinamico");
    for Object_Dir use "obj";
    for Main use ("theseus_dinamico.adb");
    for Exec_Dir use "bin";
