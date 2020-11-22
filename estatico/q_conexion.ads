@@ -13,6 +13,8 @@ with Q_TIPOS_BASICOS;
 -- Paquete para presentar el tipo T_CONEXION entre tramos.
 
 package Q_CONEXION is
+   
+   pragma Pure;
 
 	type T_CONEXION is private;
 

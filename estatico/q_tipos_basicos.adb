@@ -8,9 +8,7 @@
 --      
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-with ADA.TEXT_IO;
 with ADA.NUMERICS.GENERIC_ELEMENTARY_FUNCTIONS;
-with Q_LOG;
 
 package body Q_TIPOS_BASICOS is
 

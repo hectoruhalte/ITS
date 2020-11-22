@@ -195,7 +195,17 @@ package body Q_VEHICULO is
 		return C_MODELO_VACIO;
 
 	end F_OBTENER_MODELO_VACIO;
-	------------------------------------------------
+   ------------------------------------------------
+   
+   -------------------------------------------------------
+   function F_OBTENER_LONGITUD_MATRICULA return Natural is
+      
+   begin
+      
+      return C_LONGITUD_MATRICULA;
+      
+   end F_OBTENER_LONGITUD_MATRICULA;
+   -------------------------------------------------------
 
 end Q_VEHICULO;
 --------------------------------------------------------------------------------------------------------------------------------------------
