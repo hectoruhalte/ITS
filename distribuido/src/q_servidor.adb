@@ -16,6 +16,7 @@ with Q_RUTA.Q_DIJKSTRA;
 with Q_ADAPTACION_TRAMO;
 with Q_TRAMO.Q_ACCIONES;
 with Q_TABLA_TRAYECTOS;
+with GNAT.OS_Lib;
 
 package body Q_SERVIDOR is
    
@@ -25,14 +26,19 @@ package body Q_SERVIDOR is
    -------------------------------------
    protected type T_CONEXION_VEHICULO is
       
-      procedure P_REGISTRAR (V_TERMINAL : T_TERMINAL_ACCESS;
+      procedure P_REGISTRAR (V_ID_PROCESO : in Integer;
+                             V_TERMINAL : T_TERMINAL_ACCESS;
                              V_MATRICULA : in String);
+      
+      function F_OBTENER_ID_PROCESO return Integer;
       
       function F_OBTENER_TERMINAL return T_TERMINAL_ACCESS;
       
       function F_OBTENER_MATRICULA return String;
       
    private
+      
+      R_ID_PROCESO : Integer := -1;
       
       R_TERMINAL : T_TERMINAL_ACCESS;
       
@@ -42,16 +48,30 @@ package body Q_SERVIDOR is
    
    protected body T_CONEXION_VEHICULO is
       
-      procedure P_REGISTRAR (V_TERMINAL : T_TERMINAL_ACCESS;
+      
+      procedure P_REGISTRAR (V_ID_PROCESO : in Integer;
+                             V_TERMINAL : T_TERMINAL_ACCESS;
                              V_MATRICULA : in String) is
          
       begin
+         
+         R_ID_PROCESO := V_ID_PROCESO;
          
          R_TERMINAL := V_TERMINAL;
          
          R_MATRICULA := V_MATRICULA;
          
       end P_REGISTRAR;
+      
+      
+      function F_OBTENER_ID_PROCESO return Integer is
+         
+      begin
+         
+         return R_ID_PROCESO;
+         
+      end F_OBTENER_ID_PROCESO;
+      
       
       function F_OBTENER_TERMINAL return T_TERMINAL_ACCESS is
          
@@ -61,6 +81,7 @@ package body Q_SERVIDOR is
          
       end F_OBTENER_TERMINAL;
       
+      
       function F_OBTENER_MATRICULA return String is
          
       begin
@@ -68,6 +89,7 @@ package body Q_SERVIDOR is
          return R_MATRICULA;
          
       end F_OBTENER_MATRICULA;
+      
       
    end T_CONEXION_VEHICULO;
    -------------------------------------
@@ -111,7 +133,8 @@ package body Q_SERVIDOR is
    V_NUMERO_VEHICULOS_EN_SERVIDOR : T_NUMERO_VEHICULOS_EN_SERVIDOR;
    
    --------------------------------------------------
-   procedure P_REGISTRAR (V_TERMINAL : in T_TERMINAL_ACCESS;
+   procedure P_REGISTRAR (V_ID_PROCESO : in Integer;
+                          V_TERMINAL : in T_TERMINAL_ACCESS;
                           V_MATRICULA : in String;
                           V_REGISTRADO : out Boolean) is
       
@@ -120,7 +143,8 @@ package body Q_SERVIDOR is
    begin
       
       V_ARRAY_CONEXIONES_VEHICULO (V_NUMERO_VEHICULOS_EN_SERVIDOR.F_OBTENER_NUMERO_VEHICULOS_EN_SERVIDOR + 1).
-        P_REGISTRAR (V_TERMINAL  => V_TERMINAL,
+        P_REGISTRAR (V_ID_PROCESO => V_ID_PROCESO,
+                     V_TERMINAL  => V_TERMINAL,
                      V_MATRICULA => V_MATRICULA(V_MATRICULA'First..V_MATRICULA'First+7));
       
       -- Si no salta la excepcion, el registro ha tenido exito.
@@ -160,12 +184,7 @@ package body Q_SERVIDOR is
    
    task body T_TK_PROCESAR_SOLICITUD_RUTA is
       
-      V_LISTA_TRAMOS_ADAPTACION : Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.T_LISTA;
-      
    begin
-         
-      -- Obtener el registro de tramos (numero de tramos + array de tramos) de la adaptacion.
-      Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS_ADAPTACION);
       
       accept EN_OBTENER_RUTA (V_SOLICITUD_RUTA : in Q_SOLICITUD_RUTA.T_SOLICITUD_RUTA;
                               V_RUTA : out Q_RUTA.T_RUTA;
@@ -176,35 +195,16 @@ package body Q_SERVIDOR is
          V_COSTE_TIEMPO := 0;
          V_COSTE_DISTANCIA := 0;
          
-         Ada.Text_IO.Put_Line (" Calculando la ruta para : " & Q_SOLICITUD_RUTA.F_OBTENER_MATRICULA (V_SOLICITUD_RUTA)(1..8));
-         Ada.Text_IO.Put_Line("");
-         
          Q_RUTA.Q_DIJKSTRA.P_OBTENER_RUTA (V_POSICION_ORIGEN => Q_SOLICITUD_RUTA.F_OBTENER_ORIGEN (V_SOLICITUD_RUTA),
                                            V_POSICION_FINAL  => Q_SOLICITUD_RUTA.F_OBTENER_DESTINO (V_SOLICITUD_RUTA),
                                            V_RUTA            => V_RUTA,
                                            V_COSTE_TIEMPO    => V_COSTE_TIEMPO,
                                            V_COSTE_DISTANCIA => V_COSTE_DISTANCIA);
          
-         Ada.Text_Io.Put_Line (" Ruta calculada");
-         Ada.Text_Io.Put_Line ("");
-         
-         Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_CABECERA_TRAMO;
-
-         for I in 1 .. Q_RUTA.Q_LISTA_TRAMOS.F_CUANTOS_ELEMENTOS (V_RUTA) loop
-
-            Q_TRAMO.Q_ACCIONES.P_VISUALIZAR_TRAMO
-              (V_LISTA_TRAMOS => V_LISTA_TRAMOS_ADAPTACION,
-               V_ID => Q_TRAMO.F_OBTENER_ID (Q_RUTA.Q_LISTA_TRAMOS.F_DEVOLVER_ELEMENTO (V_POSICION => I,
-                                                                                        V_LISTA => V_RUTA)));
-         end loop;
-         Ada.Text_IO.Put_Line ("");
-         
       exception
             
          when Q_RUTA.X_RUTA_NO_ENCONTRADA => 
-            
-            Ada.Text_Io.Put_Line (" NO ES POSIBLE ENCONTRAR UNA RUTA");
-            Ada.Text_Io.Put_Line ("");
+
             Q_RUTA.Q_LISTA_TRAMOS.P_INICIALIZAR_LISTA (V_RUTA);
          
       end EN_OBTENER_RUTA;
@@ -225,30 +225,6 @@ package body Q_SERVIDOR is
       V_RUTA : Q_RUTA.T_RUTA;
       
    begin
-      
-      -- Indicar que se ha recibido la solicitud en el servidor.
-      Ada.Text_IO.Put_Line (" Recibida la siguiente solicitud de ruta => ");
-      Ada.Text_IO.Put_Line ("");
-      Ada.Text_IO.Put_Line (Ada.Characters.Latin_1.HT & " Matricula : " & Q_SOLICITUD_RUTA.F_OBTENER_MATRICULA (V_SOLICITUD_RUTA));
-      Ada.Text_IO.Put_Line (Ada.Characters.Latin_1.HT & " Origen     => ");
-      Ada.Text_IO.Put_Line 
-        (Ada.Characters.Latin_1.HT & 
-           Ada.Characters.Latin_1.HT & 
-           " X : " & Integer'Image(Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_X (Q_SOLICITUD_RUTA.F_OBTENER_ORIGEN (V_SOLICITUD_RUTA))));
-      Ada.Text_IO.Put_Line 
-        (Ada.Characters.Latin_1.HT & 
-           Ada.Characters.Latin_1.HT & 
-           " Y : " & Integer'Image(Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_Y (Q_SOLICITUD_RUTA.F_OBTENER_ORIGEN (V_SOLICITUD_RUTA))));
-      Ada.Text_IO.Put_Line (Ada.Characters.Latin_1.HT & " Destino    => ");
-      Ada.Text_IO.Put_Line 
-        (Ada.Characters.Latin_1.HT & 
-           Ada.Characters.Latin_1.HT & 
-           " X : " & Integer'Image(Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_X (Q_SOLICITUD_RUTA.F_OBTENER_DESTINO (V_SOLICITUD_RUTA))));
-      Ada.Text_IO.Put_Line 
-        (Ada.Characters.Latin_1.HT & 
-           Ada.Characters.Latin_1.HT & 
-           " Y : " & Integer'Image(Q_TIPOS_BASICOS.F_OBTENER_COORDENADA_Y (Q_SOLICITUD_RUTA.F_OBTENER_DESTINO (V_SOLICITUD_RUTA))));
-      Ada.Text_IO.Put_Line ("");
       
       -- Inicializar ruta.
       Q_RUTA.Q_LISTA_TRAMOS.P_INICIALIZAR_LISTA (V_RUTA);
@@ -291,18 +267,37 @@ package body Q_SERVIDOR is
    procedure P_CREAR_TRAYECTO_TABLA_TRAYECTOS (V_DATOS_TRAYECTO_STREAM : in Q_DATOS_TRAYECTO_STREAM.T_DATOS_TRAYECTO_STREAM;
                                                V_TRAYECTO : out Q_TABLA_TRAYECTOS.T_ELEMENTO_TABLA_DATOS_TRAYECTOS) is
       
+      V_ARRAY_CRUCES : Q_TABLA_TRAYECTOS.T_ARRAY_CRUCES;
+      
    begin
+      
+      Q_TABLA_TRAYECTOS.P_INICIALIZAR_ARRAY_CRUCES (V_ARRAY_CRUCES);
+      
+      for I in 1 .. Q_DATOS_TRAYECTO_STREAM.F_OBTENER_NUMERO_CRUCES (V_DATOS_TRAYECTO_STREAM) loop
+         
+         Q_TABLA_TRAYECTOS.P_INSERTAR_CRUCE 
+           (V_POSICION     => I,
+            V_CRUCE        => 
+              Q_DATOS_TRAYECTO_STREAM.F_OBTENER_CRUCE 
+                (V_POSICION     => I,
+                 V_ARRAY_CRUCES => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_ARRAY_CRUCES (V_DATOS_TRAYECTO_STREAM)),
+            V_ARRAY_CRUCES => V_ARRAY_CRUCES);
+         
+      end loop;
       
       Q_TABLA_TRAYECTOS.P_CREAR_ELEMENTO_TABLA_DATOS_TRAYECTOS 
         (V_MATRICULA                      => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_MATRICULA (V_DATOS_TRAYECTO_STREAM) (1..8),
          V_TRAMO_ID                       => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_TRAMO_ID (V_DATOS_TRAYECTO_STREAM),
          V_CARRIL                         => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_CARRIL (V_DATOS_TRAYECTO_STREAM),
+         V_SENTIDO_CIRCULACION            => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_SENTIDO_CIRCULACION (V_DATOS_TRAYECTO_STREAM),
          V_POSICION                       => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_POSICION (V_DATOS_TRAYECTO_STREAM),
+         V_NUMERO_CRUCES                  => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_NUMERO_CRUCES (V_DATOS_TRAYECTO_STREAM),
+         V_ARRAY_CRUCES                   => V_ARRAY_CRUCES,
          V_VELOCIDAD                      => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_VELOCIDAD (V_DATOS_TRAYECTO_STREAM),
          V_ELEMENTO_TABLA_DATOS_TRAYECTOS => V_TRAYECTO);
       
    end P_CREAR_TRAYECTO_TABLA_TRAYECTOS;
-   -------------------------------------------------------------------------------------------------------------------
+   -------------------------------------
    
    ----------------------------------------------------------------------------------------------------------------------------------
    procedure P_INSERTAR_TRAYECTO_EN_TABLA_TRAYECTOS (V_DATOS_TRAYECTO_STREAM : in Q_DATOS_TRAYECTO_STREAM.T_DATOS_TRAYECTO_STREAM) is
@@ -316,9 +311,6 @@ package body Q_SERVIDOR is
       
       Q_TABLA_TRAYECTOS.P_INSERTAR_TRAYECTO (V_TRAYECTO_ID => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_TRAYECTO_ID (V_DATOS_TRAYECTO_STREAM),
                                              V_TRAYECTO    => V_TRAYECTO);
-      
-      Ada.Text_Io.Put_Line (" Numero de trayectos en la tabla : " & Natural'Image(Q_TABLA_TRAYECTOS.F_OBTENER_NUMERO_TRAYECTOS));
-      Ada.Text_Io.Put_Line ("");
       
    end P_INSERTAR_TRAYECTO_EN_TABLA_TRAYECTOS;
    ----------------------------------------------------------------------------------------------------------------------------------
@@ -335,7 +327,7 @@ package body Q_SERVIDOR is
       
       Q_TABLA_TRAYECTOS.P_ACTUALIZAR_TRAYECTO (V_TRAYECTO_ID => Q_DATOS_TRAYECTO_STREAM.F_OBTENER_TRAYECTO_ID (V_DATOS_TRAYECTO_STREAM),
                                                V_TRAYECTO    => V_TRAYECTO);
-      
+         
    end P_ACTUALIZAR_TRAYECTO;
    -----------------------------------------------------------------------------------------------------------------
    
@@ -345,11 +337,42 @@ package body Q_SERVIDOR is
    begin
       
       Q_TABLA_TRAYECTOS.P_ELIMINAR_TRAYECTO (V_TRAYECTO_ID);
-      Ada.Text_Io.Put_Line (" Numero de trayectos en la tabla : " & Natural'Image(Q_TABLA_TRAYECTOS.F_OBTENER_NUMERO_TRAYECTOS));
-      Ada.Text_Io.Put_Line ("");
       
    end P_ELIMINAR_TRAYECTO;
-  -------------------------------------------------------------
+   -------------------------------------------------------------
+   
+   -----------------------------------------------------------
+   procedure P_NOTIFICAR_COLISION (V_MATRICULA : in String) is
+      
+      C_ARGUMENTO_1 : constant String (1..3) := "-15";
+      
+      V_RESULTADO : Boolean := False;
+      
+   begin
+      
+      -- Obtener el terminal del vehiculo para la matricula dada
+      for I in 1 .. V_ARRAY_CONEXIONES_VEHICULO'Length loop
+      
+         if V_ARRAY_CONEXIONES_VEHICULO(I).F_OBTENER_MATRICULA(V_MATRICULA'First..V_MATRICULA'First+7) = 
+            V_MATRICULA(V_MATRICULA'First..V_MATRICULA'First+7)
+         then
+
+            Q_TERMINAL.P_NOTIFICAR_COLISION (V_TERMINAL_VEHICULO => V_ARRAY_CONEXIONES_VEHICULO(I).F_OBTENER_TERMINAL,
+                                             V_ID_PROCESO        => V_ARRAY_CONEXIONES_VEHICULO(I).F_OBTENER_ID_PROCESO);
+            
+            -- Terminar el proceso del vehiculo
+            GNAT.OS_Lib.Spawn (Program_Name => "/bin/kill",
+                               Args         => (1 => new String'(C_ARGUMENTO_1),
+                                                2 => new String'(Integer'Image(V_ARRAY_CONEXIONES_VEHICULO(I).F_OBTENER_ID_PROCESO))),
+                               Success      => V_RESULTADO);           
+            exit;
+            
+         end if;
+         
+      end loop;
+      
+   end P_NOTIFICAR_COLISION;
+   -----------------------------------------------------------
 
 end Q_SERVIDOR;
 --------------------------------------------------------------------------------------------------------------------------------------------

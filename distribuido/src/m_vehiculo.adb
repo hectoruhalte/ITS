@@ -31,11 +31,16 @@ with Q_RUTA_STREAM;
 with Q_RUTA;
 with Q_TRAYECTO.Q_ACCIONES;
 with Q_DATOS_TRAYECTO_STREAM;
+with GNAT.OS_Lib;
+--
+with Q_CONEXION;
 
 procedure m_vehiculo is
 
    C_LONGITUD_MAXIMA_NOMBRE_MARCA : Natural := 10;
    C_LONGITUD_MAXIMA_NOMBRE_MODELO : Natural := 7;
+
+   V_ID_PROCESO : Integer;
 
    V_VEHICULO : Q_VEHICULO.T_VEHICULO;
    V_MATRICULA : String (1..Q_VEHICULO.F_OBTENER_LONGITUD_MATRICULA);
@@ -71,6 +76,10 @@ procedure m_vehiculo is
 
    V_DATOS_TRAYECTO_STREAM : Q_DATOS_TRAYECTO_STREAM.T_DATOS_TRAYECTO_STREAM;
 
+   V_NUMERO_CRUCES : Natural := 0;
+
+   V_ARRAY_CRUCES_STREAM : Q_DATOS_TRAYECTO_STREAM.T_ARRAY_CRUCES_STREAM;
+
    --Variable para controlar el numero de intentos de calcular una ruta desde un punto de partida dado.
    V_NUMERO_INTENTOS_RUTA : Natural := 0;
 
@@ -81,6 +90,9 @@ begin
 
    -- Obtener el registro de tramos (numero de tramos + array de tramos) de la adaptacion.
    Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS_ADAPTACION);
+
+   -- Obtener el PID de este cliente.
+   V_ID_PROCESO := GNAT.OS_Lib.Pid_To_Integer(GNAT.OS_Lib.Current_Process_Id);
 
    -- Generar vehiculo.
    Q_VEHICULO.Q_ACCIONES.P_GENERAR_VEHICULO (V_VEHICULO);
@@ -99,7 +111,8 @@ begin
    -- Registrar el vehiculo en el centro de control.
    while not V_ESTA_VEHICULO_REGISTRADO loop
 
-      Q_SERVIDOR.P_REGISTRAR (V_TERMINAL   => Q_TERMINAL_VEHICULO.V_TERMINAL_VEHICULO'Access,
+      Q_SERVIDOR.P_REGISTRAR (V_ID_PROCESO => V_ID_PROCESO,
+                              V_TERMINAL   => Q_TERMINAL_VEHICULO.V_TERMINAL_VEHICULO'Access,
                               V_MATRICULA  => Q_VEHICULO.F_OBTENER_MATRICULA(V_VEHICULO),
                               V_REGISTRADO => V_ESTA_VEHICULO_REGISTRADO);
 
@@ -135,7 +148,8 @@ begin
 
          -- Obtener el segmento mas cercano a una posicion de salida dada.
          Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION
-           (V_POSICION             => Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS,
+           (V_LISTA_TRAMOS         => V_LISTA_TRAMOS_ADAPTACION,
+            V_POSICION             => Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS,
             V_POSICION_SEGMENTO    => V_POSICION_INICIAL,
             V_DISTANCIA_A_SEGMENTO => V_DISTANCIA_MINIMA,
             V_TRAMO                => V_TRAMO_ORIGEN);
@@ -154,7 +168,8 @@ begin
       Ada.Text_Io.Put_Line ("");
 
       -- Obtener el segmento mas cercano a esa posicion de destino dada.
-      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION             => Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS,
+      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_LISTA_TRAMOS   => V_LISTA_TRAMOS_ADAPTACION,
+                                                                 V_POSICION             => Q_AREA_TRABAJO.F_OBTENER_COORDENADAS_ALEATORIAS,
                                                                  V_POSICION_SEGMENTO    => V_POSICION_DESTINO,
                                                                  V_DISTANCIA_A_SEGMENTO => V_DISTANCIA_MINIMA,
                                                                  V_TRAMO                => V_TRAMO_DESTINO);
@@ -236,11 +251,31 @@ begin
                                          V_TRAYECTO        => V_TRAYECTO);
 
             -- Generar los datos del trayecto para enviarlos al servidor.
+
+            -- Inicializar array de cruces stream.
+            V_NUMERO_CRUCES := 0;
+            Q_DATOS_TRAYECTO_STREAM.P_INICIALIZAR_ARRAY_CRUCES (V_ARRAY_CRUCES_STREAM);
+
+            -- Obtener los cruces del elemento actual de la progresion.
+            for I in 1 .. Q_CONEXION.Q_LISTA_CRUCES.F_CUANTOS_ELEMENTOS (Q_TRAYECTO.F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO)) loop
+
+               Q_DATOS_TRAYECTO_STREAM.P_INSERTAR_CRUCE
+                 (V_CRUCE               =>
+                    Q_CONEXION.Q_LISTA_CRUCES.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+                                                                   V_LISTA    => Q_TRAYECTO.F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO)),
+                  V_NUMERO_CRUCES       => V_NUMERO_CRUCES,
+                  V_ARRAY_CRUCES_STREAM => V_ARRAY_CRUCES_STREAM);
+
+            end loop;
+
             Q_DATOS_TRAYECTO_STREAM.P_GENERAR_DATOS_TRAYECTO_STREAM
               (V_TRAYECTO_ID           => V_TRAYECTO_ID,
                V_MATRICULA             => Q_VEHICULO.F_OBTENER_MATRICULA (V_VEHICULO) (1..8),
                V_TRAMO_ID              => Q_TRAYECTO.F_OBTENER_TRAMO_ACTUAL_ID (V_TRAYECTO),
                V_CARRIL                => Q_TRAYECTO.F_OBTENER_CARRIL_ACTUAL (V_TRAYECTO),
+               V_SENTIDO               => Q_TRAYECTO.F_OBTENER_SENTIDO_CIRCULACION (V_TRAYECTO),
+               V_NUMERO_CRUCES         => V_NUMERO_CRUCES,
+               V_ARRAY_CRUCES          => V_ARRAY_CRUCES_STREAM,
                V_POSICION              => Q_TRAYECTO.F_OBTENER_POSICION_ACTUAL (V_TRAYECTO),
                V_VELOCIDAD             => Q_TRAYECTO.F_OBTENER_VELOCIDAD_ACTUAL (V_TRAYECTO),
                V_DATOS_TRAYECTO_STREAM => V_DATOS_TRAYECTO_STREAM);
@@ -249,9 +284,11 @@ begin
             Q_SERVIDOR.P_INSERTAR_TRAYECTO_EN_TABLA_TRAYECTOS (V_DATOS_TRAYECTO_STREAM);
 
             Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_ESTATICA_TRAYECTO;
-            Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_ESTATICA_TRAYECTO (V_TRAYECTO);
+            Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_ESTATICA_TRAYECTO (V_TRAYECTO                => V_TRAYECTO,
+                                                                        V_LISTA_TRAMOS_ADAPTACION => V_LISTA_TRAMOS_ADAPTACION);
             Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
-            Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO);
+            Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO                => V_TRAYECTO,
+                                                                        V_LISTA_TRAMOS_ADAPTACION => V_LISTA_TRAMOS_ADAPTACION);
 
             -- Delay para que en la tabla de trayectos del servidor aparezca el vehiculo detenido al comenzar el trayecto.
             delay 1.0;
@@ -263,12 +300,32 @@ begin
 
                Q_TRAYECTO.Q_ACCIONES.P_ACTUALIZAR_TRAYECTO (V_TRAYECTO);
 
+               -- Inicializar array de cruces stream.
+               V_NUMERO_CRUCES := 0;
+               Q_DATOS_TRAYECTO_STREAM.P_INICIALIZAR_ARRAY_CRUCES (V_ARRAY_CRUCES_STREAM);
+
+               -- Obtener los cruces del elemento actual de la progresion.
+               for I in 1 .. Q_CONEXION.Q_LISTA_CRUCES.F_CUANTOS_ELEMENTOS (Q_TRAYECTO.F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO)) loop
+
+                  Q_DATOS_TRAYECTO_STREAM.P_INSERTAR_CRUCE
+                    (V_CRUCE               =>
+                       Q_CONEXION.Q_LISTA_CRUCES.F_DEVOLVER_ELEMENTO (V_POSICION => I,
+                                                                      V_LISTA    => Q_TRAYECTO.F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO)),
+                     V_NUMERO_CRUCES       => V_NUMERO_CRUCES,
+                     V_ARRAY_CRUCES_STREAM => V_ARRAY_CRUCES_STREAM);
+
+            end loop;
+
+
                -- Enviar la actualizacion al servidor.
                Q_DATOS_TRAYECTO_STREAM.P_GENERAR_DATOS_TRAYECTO_STREAM
                  (V_TRAYECTO_ID           => V_TRAYECTO_ID,
                   V_MATRICULA             => Q_VEHICULO.F_OBTENER_MATRICULA (V_VEHICULO) (1..8),
                   V_TRAMO_ID              => Q_TRAYECTO.F_OBTENER_TRAMO_ACTUAL_ID (V_TRAYECTO),
                   V_CARRIL                => Q_TRAYECTO.F_OBTENER_CARRIL_ACTUAL (V_TRAYECTO),
+                  V_SENTIDO               => Q_TRAYECTO.F_OBTENER_SENTIDO_CIRCULACION (V_TRAYECTO),
+                  V_NUMERO_CRUCES         => V_NUMERO_CRUCES,
+                  V_ARRAY_CRUCES          => V_ARRAY_CRUCES_STREAM,
                   V_POSICION              => Q_TRAYECTO.F_OBTENER_POSICION_ACTUAL (V_TRAYECTO),
                   V_VELOCIDAD             => Q_TRAYECTO.F_OBTENER_VELOCIDAD_ACTUAL (V_TRAYECTO),
                   V_DATOS_TRAYECTO_STREAM => V_DATOS_TRAYECTO_STREAM);
@@ -276,7 +333,8 @@ begin
                Q_SERVIDOR.P_ACTUALIZAR_TRAYECTO (V_DATOS_TRAYECTO_STREAM);
 
                Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_CABECERA_DINAMICA_TRAYECTO;
-               Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO);
+               Q_TRAYECTO.Q_ACCIONES.P_VISUALIZAR_PARTE_DINAMICA_TRAYECTO (V_TRAYECTO                => V_TRAYECTO,
+                                                                           V_LISTA_TRAMOS_ADAPTACION => V_LISTA_TRAMOS_ADAPTACION);
 
                exit when Q_TRAYECTO.F_ESTA_TRAYECTO_TERMINADO (V_TRAYECTO);
 
@@ -286,7 +344,8 @@ begin
 
             Ada.Text_Io.Put_Line ("");
 
-            -- El delay es para que en la tabla de trayectos del servidor llegue a aparecer el vehiculo detenido antes de eliminar el trayecto.
+            -- El delay es para que en la tabla de trayectos del servidor llegue a aparecer el vehiculo detenido antes de eliminar el
+            -- trayecto.
             delay 1.0;
 
             -- Eliminar el trayecto del servidor.

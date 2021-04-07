@@ -21,7 +21,8 @@ package Q_SERVIDOR is
    
    type T_TERMINAL_ACCESS is access all Q_TERMINAL.T_TERMINAL'Class;
    
-   procedure P_REGISTRAR (V_TERMINAL : T_TERMINAL_ACCESS;
+   procedure P_REGISTRAR (V_ID_PROCESO : in Integer;
+                          V_TERMINAL : T_TERMINAL_ACCESS;
                           V_MATRICULA : in String;
                           V_REGISTRADO : out Boolean);
    
@@ -37,6 +38,10 @@ package Q_SERVIDOR is
    procedure P_ACTUALIZAR_TRAYECTO (V_DATOS_TRAYECTO_STREAM : in Q_DATOS_TRAYECTO_STREAM.T_DATOS_TRAYECTO_STREAM);
    
    procedure P_ELIMINAR_TRAYECTO (V_TRAYECTO_ID : in Natural);
+   
+   --
+   -- Procedimiento para terminar el cliente que haya tenido una colision.
+   procedure P_NOTIFICAR_COLISION (V_MATRICULA : in String);
 
 end Q_SERVIDOR;
 ---------------

@@ -20,6 +20,9 @@ package Q_TIPOS_REMOTOS is
    
    procedure P_NOTIFICAR_REGISTRO (V_TERMINAL_VEHICULO : access T_TERMINAL_VEHICULO;
                                    V_MATRICULA : in String);
+   
+   procedure P_NOTIFICAR_COLISION (V_TERMINAL_VEHICULO : access T_TERMINAL_VEHICULO;
+                                   V_ID_PROCESO : in Integer);
 
 end Q_TIPOS_REMOTOS;
 --------------------

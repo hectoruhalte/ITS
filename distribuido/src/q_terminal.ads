@@ -19,6 +19,9 @@ package Q_TERMINAL is
    procedure P_NOTIFICAR_REGISTRO (V_TERMINAL_VEHICULO : access T_TERMINAL;
                                    V_MATRICULA : in String) is abstract;
    
+   procedure P_NOTIFICAR_COLISION (V_TERMINAL_VEHICULO : access T_TERMINAL;
+                                   V_ID_PROCESO : in Integer) is abstract;
+   
 private
    
    type T_TERMINAL is abstract tagged limited null record;

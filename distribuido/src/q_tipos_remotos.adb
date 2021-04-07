@@ -9,6 +9,7 @@
 --------------------------------------------------------------------------------------------------------------------------------------------
 
 with Ada.Text_IO;
+with GNAT.OS_Lib;
 
 package body Q_TIPOS_REMOTOS is
 
@@ -23,6 +24,19 @@ package body Q_TIPOS_REMOTOS is
 
    end;
    -----------------------------------------------------------
+
+   ------------------------------------------------------------------------------------
+   procedure P_NOTIFICAR_COLISION (V_TERMINAL_VEHICULO : access T_TERMINAL_VEHICULO;
+                                   V_ID_PROCESO : in Integer) is
+
+   begin
+
+      Ada.Text_Io.Put_Line (" --");
+      Ada.Text_Io.Put_Line (" El vehiculo ha sufrido una colision ");
+      Ada.Text_Io.Put_Line (" --");
+
+   end P_NOTIFICAR_COLISION;
+   ------------------------------------------------------------------------------------
 
 end Q_TIPOS_REMOTOS;
 --------------------------------------------------------------------------------------------------------------------------------------------
