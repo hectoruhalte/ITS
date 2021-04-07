@@ -13,12 +13,21 @@ with Q_SEGMENTO;
 with Q_ADAPTACION_TRAMO;
 --
 with Q_CONEXION;
-with Ada.Text_IO;
 
 package body Q_RUTA.Q_DIJKSTRA is
    
    -- Variable global para cargar la adaptacion de los tramos una sola vez y hacer que la busqueda de la ruta sea mas rapida.
    V_LISTA_TRAMOS_ADAPTACION : Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.T_LISTA;
+   
+   ---------------------------------
+   procedure P_GENERAR_ADAPTACION is
+      
+   begin
+      
+      Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS_ADAPTACION);
+      
+   end P_GENERAR_ADAPTACION;
+   ---------------------------------
 
    ---------------------------------------------------------------------------------------
    function F_IGUALDAD_COSTE_TRAMOS (V_COSTE_TRAMO_1 : in T_COSTE_TRAMO;
@@ -162,9 +171,6 @@ package body Q_RUTA.Q_DIJKSTRA is
                                    V_RUTA : out T_RUTA;
                                    V_COSTE_RUTA : out Integer) is
 
-      -- Variable para guardar la lista de tramos adaptados.
-      --V_LISTA_TRAMOS_ADAPTACION : Q_ADAPTACION_TRAMO.Q_LISTA_TRAMOS.T_LISTA;
-
       -- Variable para almacenar un coste de la lista de coste de tramos.
       -- Variable para almacenar el coste del tramo conexion obtenido de la lista de costes de tramos.
       V_COSTE_TRAMO_AUXILIAR, V_COSTE_TRAMO_CONEXION_ANTERIOR : T_COSTE_TRAMO;
@@ -196,26 +202,8 @@ package body Q_RUTA.Q_DIJKSTRA is
 
       -- Variable para contener el tramo id de cada conexion.
       V_CONEXION_TRAMO_ID : Natural := 0;
-      
-      --V_COMIENZO, V_FINAL : Ada.Real_Time.Time;
 
    begin
-      
-      -- Calculo de la ruta. Inicializar listas auxiliares.
-      --V_COMIENZO := Ada.Real_Time.Clock;
-      --V_COMIENZO := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
-	
-      -- Cargar la lista de tramos adaptados.
-      --Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS_ADAPTACION);
-      
-      --V_FINAL := Ada.Real_Time.Clock;
-      --V_FINAL := (Integer(ADA.CALENDAR.Seconds(ADA.CALENDAR.CLOCK)));
-      
-      --Ada.Text_Io.Put_Line 
-      --  (Ada.Characters.Latin_1.HT & 
-      --     "Se ha tardado : " & 
-      --     Duration'Image(Ada.Real_Time.To_Duration(Ada.Real_Time."-"(Left  => V_FINAL,
-      --                                                                Right => V_COMIENZO))) & " segundos en cargar la adaptacion");
       
       -- Comprobar si la lista de tramos a visitar esta vacia.
       if Q_LISTA_TRAMOS_ID.F_CUANTOS_ELEMENTOS (V_TRAMOS_A_VISITAR) = 0 then
@@ -612,16 +600,16 @@ package body Q_RUTA.Q_DIJKSTRA is
 
    begin
       
-      Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS_ADAPTACION);
-      
       -- Obtener el segmento mas cercano a esa posicion de origen dada.
-      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_ORIGEN,
+      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_LISTA_TRAMOS => V_LISTA_TRAMOS_ADAPTACION,
+                                                                 V_POSICION => V_POSICION_ORIGEN,
                                                                  V_POSICION_SEGMENTO => V_POSICION_INICIAL,
                                                                  V_DISTANCIA_A_SEGMENTO => V_DISTANCIA_MINIMA,
                                                                  V_TRAMO => V_TRAMO_ORIGEN);
 
       -- Obtener el segmento mas cercano a esa posicion final dada.
-      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_POSICION => V_POSICION_FINAL,
+      Q_TRAMO.Q_ACCIONES.P_OBTENER_TRAMO_MAS_CERCANO_A_POSICION (V_LISTA_TRAMOS => V_LISTA_TRAMOS_ADAPTACION,
+                                                                 V_POSICION => V_POSICION_FINAL,
                                                                  V_POSICION_SEGMENTO => V_POSICION_DESTINO,
                                                                  V_DISTANCIA_A_SEGMENTO => V_DISTANCIA_MINIMA,
                                                                  V_TRAMO => V_TRAMO_DESTINO);
@@ -684,9 +672,6 @@ package body Q_RUTA.Q_DIJKSTRA is
 
             -- Comprobar si el segmento es de doble sentido.
             -- Obtener la lista de segmentos del tramo.
-            -- Cargar la lista de tramos adaptados.
-            --Q_ADAPTACION_TRAMO.P_GENERAR_LISTA_TRAMOS (V_LISTA_TRAMOS);
-
             Q_TRAMO.Q_LISTA_SEGMENTOS.P_INICIALIZAR_LISTA (V_LISTA_SEGMENTOS_TRAMO_ORIGEN);
 
             V_LISTA_SEGMENTOS_TRAMO_ORIGEN := Q_TRAMO.F_OBTENER_LISTA_SEGMENTOS (V_TRAMO_ORIGEN);
