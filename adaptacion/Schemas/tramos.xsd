@@ -97,6 +97,17 @@
 					</documentation>
 				</annotation>
 			</element>
+			<element name="sentidoCirculacion" type="its:TipoSentido" minOccurs="0" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Sentido de circulacion. Tipo de dato pensado para indicar el sentido de la circulacion
+						Si el tramo se recorre:
+							Origen -> Final  (Ascendente)  => Sentido 1.
+							Final  -> Origen (Descendente) => Sentido 2.
+						En caso de que no este presente el tipo será porque el tramo es de sentido único => Sentido 1.		
+					</documentation>
+				</annotation>
+			</element>
 			<element name="altura" minOccurs="1" maxOccurs="1">
 				<annotation>
 					<documentation>
@@ -130,6 +141,37 @@
 			</element>
 			<element name="listaConexiones" type="its:TipoConexiones"
 				minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+		
+	<complexType name="TipoSentido">
+		<sequence>
+			<element name="ascendente" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Sentido [1|2] cuando el tramo se recorre de manera ascendente.
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="1" />
+						<maxInclusive value="2" />
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="descendente" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>
+						Sentido [1|2] cuando el tramo se recorre de manera descendente.
+					</documentation>
+				</annotation>
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="1" />
+						<maxInclusive value="2" />
+					</restriction>
+				</simpleType>
 			</element>
 		</sequence>
 	</complexType>
@@ -220,6 +262,9 @@
 								.- Velocidad. Restricción de la velocidad en la conexion entre tramos.
 								.- En caso de que el tramo se conecte a/desde una glorieta se indicara si se trata de una
 								   entrada o una salida hacia/de la glorieta
+								--
+								.- Lista de Id's del cruce. Unico para cada cruce dado en un mapa. Pensado para detectar 
+								   colisiones en cruces.
 			</documentation>
 		</annotation>
 		<sequence>
@@ -262,6 +307,9 @@
 					</restriction>
 				</simpleType>
 			</element>
+			<element name="listaCruces" type="its:TipoCruces"
+				minOccurs="1" maxOccurs="1">
+			</element>
 			<element name="restriccionVelocidad" type="its:Velocidad" minOccurs="1" maxOccurs="1">
 				<annotation>
 					<documentation>
@@ -270,7 +318,7 @@
 					</documentation>
 				</annotation>
 			</element>
-			<element name="conexionGlorieta" type="its:tipoConexionGlorieta" minOccurs="0" maxOccurs="1">
+			<element name="conexionGlorieta" type="its:TipoConexionGlorieta" minOccurs="0" maxOccurs="1">
 				<annotation>
 					<documentation>
 						Numero de entrada o salida a una glorieta
@@ -280,7 +328,26 @@
 		</sequence>
 	</complexType>
 	
-	<complexType name="tipoConexionGlorieta">
+	<complexType name="TipoCruces">
+		<annotation>
+			<documentation>
+				Tipo para almacenar los cruces de cada conexion entre tramos.
+				Cuando haya mas de un cruce id en la lista implicara una invasion de carril para incorporarse a un tramo
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="cruceId" minOccurs="1" maxOccurs="100">
+				<simpleType>
+					<restriction base="integer">
+						<minInclusive value="1" />
+						<maxInclusive value="100" />
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="TipoConexionGlorieta">
 		<choice>
 			<xs:element name="entrada"/>
 			<xs:element name="salida"/>
