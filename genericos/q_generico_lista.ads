@@ -23,8 +23,6 @@ generic
 
 package Q_GENERICO_LISTA is
    
-   pragma Pure;
-
    X_LISTA_LLENA : Exception;
    X_NO_SE_PUEDE_ELIMINAR_ELEMENTO_LISTA_ESTA_VACIA : Exception;
    X_NO_SE_PUEDE_BUSCAR_ELEMENTO_LISTA_ESTA_VACIA : Exception;
@@ -75,6 +73,9 @@ package Q_GENERICO_LISTA is
 
    -- Al insertar el ultimo elemento en la primera posicion. Eliminar el ultimo elemento es eliminar el primer elemento de la lista.
    procedure P_ELIMINAR_ULTIMO_ELEMENTO (V_LISTA : in out T_LISTA);
+   
+   -- Memoria
+   procedure P_FREE (V_LISTA : in out T_LISTA);
 
 private
 
