@@ -17,8 +17,8 @@ package Q_RESTRICCION is
 	type T_RESTRICCION is private;
 
 	procedure P_PONER_RESTRICCION (V_VELOCIDAD : in Q_TIPOS_BASICOS.T_VELOCIDAD;
-				       V_SENAL : in T_SENAL;
-				       V_RESTRICCION : out T_RESTRICCION);
+				                     V_SENAL : in T_SENAL;
+				                     V_RESTRICCION : out T_RESTRICCION);
 
 	function F_OBTENER_RESTRICCION_VELOCIDAD (V_RESTRICCION : in T_RESTRICCION) return Q_TIPOS_BASICOS.T_VELOCIDAD;
 

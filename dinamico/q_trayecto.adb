@@ -158,8 +158,8 @@ package body Q_TRAYECTO is
       
    begin
       
-      return Q_PROGRESION.F_OBTENER_ID_TRAMO_ACTUAL (Q_PROGRESION.F_OBTENER_ELEMENTO_ACTUAL_PROGRESION (V_TRAYECTO.R_PROGRESION));
-        
+      return V_TRAYECTO.R_TRAMO_ACTUAL_ID;  
+      
    end F_OBTENER_TRAMO_ACTUAL_ID;
    ---------------------------------------------------------------------------------
    
@@ -172,6 +172,26 @@ package body Q_TRAYECTO is
       
    end F_OBTENER_CARRIL_ACTUAL;
    -------------------------------------------------------------------------------
+   
+   -------------------------------------------------------------------------------------
+   function F_OBTENER_SENTIDO_CIRCULACION (V_TRAYECTO : in T_TRAYECTO) return Natural is
+      
+   begin
+      
+      return V_TRAYECTO.R_SENTIDO_ACTUAL;
+      
+   end F_OBTENER_SENTIDO_CIRCULACION;
+   -------------------------------------------------------------------------------------
+   
+   ---------------------------------------------------------------------------------------------------------------
+   function F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO : In T_TRAYECTO) return Q_CONEXION.Q_LISTA_CRUCES.T_LISTA is
+      
+   begin
+      
+      return V_TRAYECTO.R_LISTA_CRUCES;
+      
+   end F_OBTENER_LISTA_CRUCES_ACTUAL;
+   ---------------------------------------------------------------------------------------------------------------
 
    -----------------------------------------------------------
    procedure P_CREAR_TRAYECTO (V_VEHICULO : in Q_VEHICULO.T_VEHICULO;
@@ -216,6 +236,12 @@ package body Q_TRAYECTO is
       Q_PROGRESION.P_GENERAR_PROGRESION_CARRILES (V_RUTA => V_RUTA,
                                                   V_PROGRESION_CARRILES => V_TRAYECTO.R_PROGRESION_CARRILES);
       
+      Q_PROGRESION.P_GENERAR_PROGRESION_SENTIDO_CIRCULACION 
+        (V_POSICION_ORIGEN                => V_POSICION_ORIGEN,
+         V_POSICION_FINAL                 => V_POSICION_FINAL,
+         V_RUTA                           => V_RUTA,
+         V_PROGRESION_SENTIDO_CIRCULACION => V_TRAYECTO.R_PROGRESION_SENTIDO_CIRCULACION);
+      
       -- Al crear el trayecto el tramo actual es el tramo de origen.
       V_TRAYECTO.R_TRAMO_ACTUAL_ID := V_TRAYECTO.R_ID_TRAMO_ORIGEN;
 
@@ -224,6 +250,11 @@ package body Q_TRAYECTO is
 
       -- Al crear el trayecto (de momento de asume que siempre se parte de parado) al velocidad inicial sera 0.
       V_TRAYECTO.R_VELOCIDAD_ACTUAL := 0;
+      
+      -- Obtener el sentido de circulacion.
+      V_TRAYECTO.R_SENTIDO_ACTUAL := 
+        Q_PROGRESION.F_OBTENER_SENTIDO_CIRCULACION (V_TRAMO_ID                       => V_TRAYECTO.R_TRAMO_ACTUAL_ID,
+                                                    V_PROGRESION_SENTIDO_CIRCULACION => V_TRAYECTO.R_PROGRESION_SENTIDO_CIRCULACION);
 
       -- Al crear el trayecto el tiempo trasncurrido se pondra a 0.
       V_TRAYECTO.R_TIEMPO_TRANSCURRIDO := 0;

@@ -14,6 +14,7 @@ with Q_RUTA;
 with Q_TRAMO;
 with Q_VEHICULO;
 with Q_PROGRESION;
+with Q_CONEXION;
 
 -- Paquete para definir el tipo y las operaciones dinamicas de un trayecto, dado un vehiculo y una ruta.
 
@@ -55,6 +56,10 @@ package Q_TRAYECTO is
    function F_OBTENER_TRAMO_ACTUAL_ID (V_TRAYECTO : in T_TRAYECTO) return Natural;
    
    function F_OBTENER_CARRIL_ACTUAL (V_TRAYECTO : in T_TRAYECTO) return Natural;
+   
+   function F_OBTENER_SENTIDO_CIRCULACION (V_TRAYECTO : in T_TRAYECTO) return Natural;
+   
+   function F_OBTENER_LISTA_CRUCES_ACTUAL (V_TRAYECTO : In T_TRAYECTO) return Q_CONEXION.Q_LISTA_CRUCES.T_LISTA;
 
    procedure P_CREAR_TRAYECTO (V_VEHICULO : in Q_VEHICULO.T_VEHICULO;
                                V_POSICION_ORIGEN : in Q_TIPOS_BASICOS.T_POSICION_UTM;
@@ -116,18 +121,27 @@ private
       -- Lista de tramos que pertenecen a una rotonda en la que se pueda cambiar de carril.
       R_TRAMOS_EN_GLORIETA : Q_PROGRESION.T_LISTA_TRAMOS_GLORIETA;
       
+      -- Lista con el sentido de circulacion para cada tramo del trayecto.
+      R_PROGRESION_SENTIDO_CIRCULACION : Q_PROGRESION.T_LISTA_SENTIDO_CIRCULACION;
+      
       -- Tramo actual.
       R_TRAMO_ACTUAL_ID : Integer range 0 .. Q_TRAMO.F_OBTENER_NUMERO_MAXIMO_TRAMOS := 0;
 
       -- Numero que identifica el carril dentro del tramo en el que se encuentra el vehiculo.
       -- Siendo 1 el carril de la derecha.
       R_CARRIL_ACTUAL : Natural range 1 .. 3 := 1;
+      
+      -- Sentido de circulacion.
+      R_SENTIDO_ACTUAL : Natural range 1 .. 2;
 
       -- Velocidad actual del vehiculo.
       R_VELOCIDAD_ACTUAL : Q_TIPOS_BASICOS.T_VELOCIDAD;
 
       -- Posicion actual
       R_POSICION_ACTUAL : Q_TIPOS_BASICOS.T_POSICION_UTM;
+      
+      -- Lista de cruces del elemento de progresio actual
+      R_LISTA_CRUCES : Q_CONEXION.Q_LISTA_CRUCES.T_LISTA;
 
       -- Tiempo transcurrido desde el comienzo del trayecto.
       R_TIEMPO_TRANSCURRIDO : Integer := 0;
