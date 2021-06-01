@@ -135,6 +135,17 @@
 		</its:caracteristicasVehiculo>
 	</its:datosVehiculo>
 	<its:datosVehiculo>
+		<its:marcaVehiculo>TOYOTA    </its:marcaVehiculo>
+		<its:modeloVehiculo>COROLLA</its:modeloVehiculo>
+		<its:caracteristicasVehiculo>
+			<its:velocidadMaxima>168</its:velocidadMaxima>
+			<its:longitud>4.282</its:longitud>
+			<its:altura>1.435</its:altura>
+			<its:consumoUrbano>2.8</its:consumoUrbano>
+			<its:consumoCarretera>4.8</its:consumoCarretera>
+		</its:caracteristicasVehiculo>
+	</its:datosVehiculo>
+	<its:datosVehiculo>
 		<its:marcaVehiculo>VOLKSWAGEN</its:marcaVehiculo>
 		<its:modeloVehiculo>GOLF   </its:modeloVehiculo>
 		<its:caracteristicasVehiculo>
