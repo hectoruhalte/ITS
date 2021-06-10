@@ -45,7 +45,7 @@ do
 		tramos=$(cat tramos_file);
 		rm tramos_file;
 		tiempo_ruta=$(grep -aA 125 "VEHICULO : $matricula  |  $marca" resultado_estatico.txt | grep -a "TIEMPO (s)" | awk '{print $NF}');
-		distancia_ruta=$(grep -aA 125 "VEHICULO : 9558 KVJ  |  OPEL" resultado_estatico.txt | grep -a "DISTANCIA RUTA (m)" | awk '{print $NF}');
+		distancia_ruta=$(grep -aA 125 "VEHICULO : $matricula  |  $marca" resultado_estatico.txt | grep -a "DISTANCIA RUTA (m)" | awk '{print $NF}');
 	fi
 	echo "$i,$matricula,$marca $modelo,$calle,$salida_x,$salida_y,$calle_destino,$destino_x,$destino_y,$distancia_recta,$ruta,$tramos,$tiempo_ruta,$distancia_ruta";
 done
