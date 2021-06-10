@@ -37,7 +37,7 @@ do
 	else
 		# Seleccionar los tramos de la ruta
 		ruta="RUTA";
-		grep -aA 120 "VEHICULO : $matricula  |  $marca" resultado_estatico.txt | grep -aB 100 "TIEMPO (s)" | grep -a ^\| | grep -av ID | awk -F "|" '{print $2}' > tramos_ruta;
+		grep -aA 120 "VEHICULO : $matricula  |  $marca" resultado_estatico.txt | grep -aB 100 -m 1 "TIEMPO (s)" | grep -a ^\| | grep -av ID | awk -F "|" '{print $2}' > tramos_ruta;
 		while read tramo
 		do
 			echo -n "$tramo " >> tramos_file;
