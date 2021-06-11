@@ -8,8 +8,8 @@ grep -aA 2 "SALIDA :" resultado_estatico.txt | grep -v \- | grep -v SALIDA | gre
 grep -aA 4 "SALIDA :" resultado_estatico.txt | grep "X :" | awk -F ":" '{print $2}' > salidas_x;
 grep -aA 5 "SALIDA :" resultado_estatico.txt | grep "Y :" | awk -F ":" '{print $2}' > salidas_y;
 grep -aA 2 "DESTINO :" resultado_estatico.txt | grep -v \- | grep -v DESTINO | grep -v ^$ > calle_destinos;
-grep -aA 4 "SALIDA :" resultado_estatico.txt | grep "X :" | awk -F ":" '{print $2}' > destinos_x;
-grep -aA 5 "SALIDA :" resultado_estatico.txt | grep "Y :" | awk -F ":" '{print $2}' > destinos_y;
+grep -aA 4 "DESTINO :" resultado_estatico.txt | grep "X :" | awk -F ":" '{print $2}' > destinos_x;
+grep -aA 5 "DESTINO :" resultado_estatico.txt | grep "Y :" | awk -F ":" '{print $2}' > destinos_y;
 grep -a "DISTANCIA SALIDA-DESTINO" resultado_estatico.txt | awk '{print $6}' > distancias_recta;
 grep -aA 2 "DISTANCIA SALIDA-DESTINO" resultado_estatico.txt | grep -i ruta > hay_rutas;
 #Cabecera
