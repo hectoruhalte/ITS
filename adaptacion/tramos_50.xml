@@ -147,7 +147,7 @@
 		<its:finalLatitud>43.4612516</its:finalLatitud>
 		<its:finalLongitud>-3.817717</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4614334</its:posicionSegmentoLatitud>
@@ -2589,7 +2589,7 @@
 		<its:finalLatitud>43.4617550</its:finalLatitud>
 		<its:finalLongitud>-3.8177593</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4613419</its:posicionSegmentoLatitud>
@@ -2699,7 +2699,7 @@
 		<its:finalLatitud>43.4612516</its:finalLatitud>
 		<its:finalLongitud>-3.817717</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4612870</its:posicionSegmentoLatitud>
@@ -5446,7 +5446,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>20</its:restriccionVelocidad>
+				<its:restriccionVelocidad>30</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -5462,7 +5462,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>4</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4605179</its:posicionSegmentoLatitud>
@@ -6588,7 +6588,7 @@
 		<its:finalLatitud>43.4614633</its:finalLatitud>
 		<its:finalLongitud>-3.8178688</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4616737</its:posicionSegmentoLatitud>
@@ -6629,7 +6629,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -6641,7 +6641,7 @@
 		<its:finalLatitud>43.4626389</its:finalLatitud>
 		<its:finalLongitud>-3.8179500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4624596</its:posicionSegmentoLatitud>
@@ -6682,7 +6682,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>78</its:tramoId>
@@ -6691,7 +6691,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>20</its:restriccionVelocidad>
+				<its:restriccionVelocidad>30</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -7353,7 +7353,7 @@
 		<its:finalLatitud>43.4614105</its:finalLatitud>
 		<its:finalLongitud>-3.8225701</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4609642</its:posicionSegmentoLatitud>
@@ -7758,7 +7758,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4599228</its:posicionSegmentoLatitud>
@@ -7997,7 +7997,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>90</its:tramoId>
@@ -8006,7 +8006,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>91</its:tramoId>
@@ -8091,7 +8091,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>92</its:tramoId>
@@ -8100,7 +8100,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>93</its:tramoId>
@@ -8934,7 +8934,7 @@
 		<its:finalLatitud>43.4631119</its:finalLatitud>
 		<its:finalLongitud>-3.8171301</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4626694</its:posicionSegmentoLatitud>
@@ -9313,7 +9313,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 				<its:conexionGlorieta>
 					<its:salida/>
 				</its:conexionGlorieta>
@@ -9328,7 +9328,7 @@
 		<its:finalLatitud>43.4617004</its:finalLatitud>
 		<its:finalLongitud>-3.8213401</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4614220</its:posicionSegmentoLatitud>
@@ -9471,7 +9471,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>118</its:tramoId>
@@ -9492,7 +9492,7 @@
 		<its:finalLatitud>43.4611397</its:finalLatitud>
 		<its:finalLongitud>-3.8223500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4613724</its:posicionSegmentoLatitud>
@@ -9548,7 +9548,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -9712,7 +9712,7 @@
 		<its:finalLatitud>43.4606556</its:finalLatitud>
 		<its:finalLongitud>-3.8221011</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4609375</its:posicionSegmentoLatitud>
@@ -9774,7 +9774,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>32</its:tramoId>
@@ -9783,7 +9783,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -9799,7 +9799,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>4</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4610666</its:posicionSegmentoLatitud>
@@ -10063,7 +10063,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4603195</its:posicionSegmentoLatitud>
@@ -10140,7 +10140,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>91</its:tramoId>
@@ -10184,7 +10184,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4603691</its:posicionSegmentoLatitud>
@@ -10290,7 +10290,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4597168</its:posicionSegmentoLatitud>
@@ -10409,7 +10409,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>70</its:tramoId>
@@ -10447,7 +10447,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>3</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -10463,7 +10463,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4597092</its:posicionSegmentoLatitud>
@@ -10811,7 +10811,7 @@
 		<its:finalLatitud>43.4588585</its:finalLatitud>
 		<its:finalLongitud>-3.8159201</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4593430</its:posicionSegmentoLatitud>
@@ -10913,7 +10913,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4593544</its:posicionSegmentoLatitud>
@@ -11120,7 +11120,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>96</its:tramoId>
@@ -11138,7 +11138,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -12322,7 +12322,7 @@
 		<its:finalLatitud>43.4632416</its:finalLatitud>
 		<its:finalLongitud>-3.8183300</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4629784</its:posicionSegmentoLatitud>
@@ -13079,7 +13079,7 @@
 		<its:finalLatitud>43.4570389</its:finalLatitud>
 		<its:finalLongitud>-3.8317699</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4572220</its:posicionSegmentoLatitud>
@@ -13168,7 +13168,7 @@
 		<its:finalLatitud>43.4617882</its:finalLatitud>
 		<its:finalLongitud>-3.8208101</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4617081</its:posicionSegmentoLatitud>
@@ -13242,7 +13242,7 @@
 		<its:finalLatitud>43.4620705</its:finalLatitud>
 		<its:finalLongitud>-3.8227000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4617119</its:posicionSegmentoLatitud>
@@ -14026,7 +14026,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4603271</its:posicionSegmentoLatitud>
@@ -14115,7 +14115,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>124</its:tramoId>
@@ -14145,7 +14145,7 @@
 		<its:finalLatitud>43.4604607</its:finalLatitud>
 		<its:finalLongitud>-3.8113999</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4603920</its:posicionSegmentoLatitud>
@@ -14162,7 +14162,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>160</its:tramoId>
@@ -14183,7 +14183,7 @@
 		<its:finalLatitud>43.4611836</its:finalLatitud>
 		<its:finalLongitud>-3.8132120</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607315</its:posicionSegmentoLatitud>
@@ -14318,7 +14318,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4606667</its:posicionSegmentoLatitud>
@@ -14423,7 +14423,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607315</its:posicionSegmentoLatitud>
@@ -14485,7 +14485,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>35</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>126</its:tramoId>
@@ -14494,7 +14494,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>35</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -14727,7 +14727,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4588776</its:posicionSegmentoLatitud>
@@ -14762,7 +14762,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -14774,7 +14774,7 @@
 		<its:finalLatitud>43.4579315</its:finalLatitud>
 		<its:finalLongitud>-3.8180101</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4588356</its:posicionSegmentoLatitud>
@@ -15035,7 +15035,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4588089</its:posicionSegmentoLatitud>
@@ -15166,7 +15166,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>134</its:tramoId>
@@ -15175,7 +15175,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -15191,7 +15191,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4586716</its:posicionSegmentoLatitud>
@@ -15214,7 +15214,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>162</its:tramoId>
@@ -15223,7 +15223,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>163</its:tramoId>
@@ -15843,7 +15843,7 @@
 		<its:finalLatitud>43.4634705</its:finalLatitud>
 		<its:finalLongitud>-3.8184700</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4632874</its:posicionSegmentoLatitud>
@@ -15878,7 +15878,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>171</its:tramoId>
@@ -16434,7 +16434,7 @@
 		<its:finalLatitud>43.4586792</its:finalLatitud>
 		<its:finalLongitud>-3.8278000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4585609</its:posicionSegmentoLatitud>
@@ -16493,7 +16493,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -16997,7 +16997,7 @@
 		<its:finalLatitud>43.4618912</its:finalLatitud>
 		<its:finalLongitud>-3.8202100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4617996</its:posicionSegmentoLatitud>
@@ -17062,7 +17062,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>184</its:tramoId>
@@ -17087,7 +17087,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4618340</its:posicionSegmentoLatitud>
@@ -17125,7 +17125,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>186</its:tramoId>
@@ -17146,7 +17146,7 @@
 		<its:finalLatitud>43.4619713</its:finalLatitud>
 		<its:finalLongitud>-3.8229401</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4620399</its:posicionSegmentoLatitud>
@@ -17175,7 +17175,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>188</its:tramoId>
@@ -17200,7 +17200,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4620895</its:posicionSegmentoLatitud>
@@ -17247,7 +17247,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>189</its:tramoId>
@@ -17256,7 +17256,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -17459,7 +17459,7 @@
 		<its:finalLatitud>43.4609489</its:finalLatitud>
 		<its:finalLongitud>-3.8242500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607964</its:posicionSegmentoLatitud>
@@ -17566,7 +17566,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -18390,7 +18390,7 @@
 		<its:finalLatitud>43.4596710</its:finalLatitud>
 		<its:finalLongitud>-3.8100600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4602203</its:posicionSegmentoLatitud>
@@ -18647,7 +18647,7 @@
 		<its:finalLatitud>43.4606781</its:finalLatitud>
 		<its:finalLongitud>-3.8114300</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4605064</its:posicionSegmentoLatitud>
@@ -18682,7 +18682,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -18801,7 +18801,7 @@
 		<its:finalLatitud>43.4588013</its:finalLatitud>
 		<its:finalLongitud>-3.8181400</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4579811</its:posicionSegmentoLatitud>
@@ -18940,7 +18940,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4586563</its:posicionSegmentoLatitud>
@@ -18981,7 +18981,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>163</its:tramoId>
@@ -18999,7 +18999,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>197</its:tramoId>
@@ -19020,7 +19020,7 @@
 		<its:finalLatitud>43.4576492</its:finalLatitud>
 		<its:finalLongitud>-3.8193600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4586029</its:posicionSegmentoLatitud>
@@ -20046,7 +20046,7 @@
 		<its:finalLatitud>43.4636383</its:finalLatitud>
 		<its:finalLongitud>-3.8185799</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4635086</its:posicionSegmentoLatitud>
@@ -20075,7 +20075,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>207</its:tramoId>
@@ -20895,7 +20895,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>216</its:tramoId>
@@ -20996,7 +20996,7 @@
 		<its:finalLatitud>43.4579391</its:finalLatitud>
 		<its:finalLongitud>-3.8281400</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4576492</its:posicionSegmentoLatitud>
@@ -21139,7 +21139,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>385</its:tramoId>
@@ -21160,7 +21160,7 @@
 		<its:finalLatitud>43.4588013</its:finalLatitud>
 		<its:finalLongitud>-3.8280699</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4586983</its:posicionSegmentoLatitud>
@@ -21201,7 +21201,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>220</its:tramoId>
@@ -21477,7 +21477,7 @@
 		<its:finalLatitud>43.4619904</its:finalLatitud>
 		<its:finalLongitud>-3.8197200</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4619026</its:posicionSegmentoLatitud>
@@ -21552,7 +21552,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4619331</its:posicionSegmentoLatitud>
@@ -21672,7 +21672,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4620094</its:posicionSegmentoLatitud>
@@ -21725,7 +21725,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>186</its:tramoId>
@@ -21743,7 +21743,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>229</its:tramoId>
@@ -21768,7 +21768,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.46196</its:posicionSegmentoLatitud>
@@ -21806,7 +21806,7 @@
 		<its:finalLatitud>43.4614105</its:finalLatitud>
 		<its:finalLongitud>-3.8225701</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4619713</its:posicionSegmentoLatitud>
@@ -21961,7 +21961,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>84</its:tramoId>
@@ -21970,7 +21970,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -21982,7 +21982,7 @@
 		<its:finalLatitud>43.4619293</its:finalLatitud>
 		<its:finalLongitud>-3.8238101</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4619942</its:posicionSegmentoLatitud>
@@ -22083,7 +22083,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>231</its:tramoId>
@@ -22108,7 +22108,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4623566</its:posicionSegmentoLatitud>
@@ -22197,7 +22197,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -22454,7 +22454,7 @@
 		<its:finalLatitud>43.4612617</its:finalLatitud>
 		<its:finalLongitud>-3.8263600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4617691</its:posicionSegmentoLatitud>
@@ -22669,7 +22669,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>236</its:tramoId>
@@ -22690,7 +22690,7 @@
 		<its:finalLatitud>43.4610846</its:finalLatitud>
 		<its:finalLongitud>-3.8174136</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4609261</its:posicionSegmentoLatitud>
@@ -22732,7 +22732,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>17</its:tramoId>
@@ -22741,7 +22741,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -22753,7 +22753,7 @@
 		<its:finalLatitud>43.4598007</its:finalLatitud>
 		<its:finalLongitud>-3.8095601</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4596825</its:posicionSegmentoLatitud>
@@ -22806,7 +22806,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>238</its:tramoId>
@@ -22827,7 +22827,7 @@
 		<its:finalLatitud>43.4614410</its:finalLatitud>
 		<its:finalLongitud>-3.8111353</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607353</its:posicionSegmentoLatitud>
@@ -22928,7 +22928,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -22997,7 +22997,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -23013,7 +23013,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4585686</its:posicionSegmentoLatitud>
@@ -23066,7 +23066,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>197</its:tramoId>
@@ -23085,7 +23085,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -23097,7 +23097,7 @@
 		<its:finalLatitud>43.4591103</its:finalLatitud>
 		<its:finalLongitud>-3.8201201</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4586639</its:posicionSegmentoLatitud>
@@ -23194,7 +23194,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4576569</its:posicionSegmentoLatitud>
@@ -23353,7 +23353,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4576454</its:posicionSegmentoLatitud>
@@ -23412,7 +23412,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>239</its:tramoId>
@@ -23437,7 +23437,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4584351</its:posicionSegmentoLatitud>
@@ -23530,7 +23530,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>3</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>202</its:tramoId>
@@ -23539,7 +23539,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -23555,7 +23555,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4584236</its:posicionSegmentoLatitud>
@@ -23602,7 +23602,7 @@
 				    <its:cruceId>2</its:cruceId>
 				    <its:cruceId>4</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>240</its:tramoId>
@@ -23627,7 +23627,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4585533</its:posicionSegmentoLatitud>
@@ -23680,7 +23680,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>200</its:tramoId>
@@ -23689,7 +23689,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>411</its:tramoId>
@@ -23845,7 +23845,7 @@
 		<its:finalLatitud>43.4611702</its:finalLatitud>
 		<its:finalLongitud>-3.8096099</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4613533</its:posicionSegmentoLatitud>
@@ -23880,7 +23880,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -24050,7 +24050,7 @@
 		<its:finalLatitud>43.4639893</its:finalLatitud>
 		<its:finalLongitud>-3.8188000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4636803</its:posicionSegmentoLatitud>
@@ -24134,7 +24134,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4636688</its:posicionSegmentoLatitud>
@@ -25085,7 +25085,7 @@
 		<its:finalLatitud>43.4582291</its:finalLatitud>
 		<its:finalLongitud>-3.8237100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4581299</its:posicionSegmentoLatitud>
@@ -25192,7 +25192,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>264</its:tramoId>
@@ -25213,7 +25213,7 @@
 		<its:finalLatitud>43.4587288</its:finalLatitud>
 		<its:finalLongitud>-3.8247399</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4581757</its:posicionSegmentoLatitud>
@@ -25418,7 +25418,7 @@
 		<its:finalLatitud>43.4580193</its:finalLatitud>
 		<its:finalLongitud>-3.8281901</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4579926</its:posicionSegmentoLatitud>
@@ -25447,7 +25447,7 @@
 		<its:finalLatitud>43.4589806</its:finalLatitud>
 		<its:finalLongitud>-3.8282599</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4588280</its:posicionSegmentoLatitud>
@@ -25488,7 +25488,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>271</its:tramoId>
@@ -25509,7 +25509,7 @@
 		<its:finalLatitud>43.4583282</its:finalLatitud>
 		<its:finalLongitud>-3.8305500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4587784</its:posicionSegmentoLatitud>
@@ -26603,7 +26603,7 @@
 		<its:finalLatitud>43.4626007</its:finalLatitud>
 		<its:finalLongitud>-3.8199501</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4623451</its:posicionSegmentoLatitud>
@@ -26672,7 +26672,7 @@
 		<its:finalLatitud>43.4626007</its:finalLatitud>
 		<its:finalLongitud>-3.8215799</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4623375</its:posicionSegmentoLatitud>
@@ -26765,7 +26765,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4623222</its:posicionSegmentoLatitud>
@@ -26887,7 +26887,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -26899,7 +26899,7 @@
 		<its:finalLatitud>43.4617500</its:finalLatitud>
 		<its:finalLongitud>-3.8244300</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4619102</its:posicionSegmentoLatitud>
@@ -26996,7 +26996,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -27012,7 +27012,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4618759</its:posicionSegmentoLatitud>
@@ -27374,7 +27374,7 @@
 		<its:finalLatitud>43.4611893</its:finalLatitud>
 		<its:finalLongitud>-3.8265500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4612389</its:posicionSegmentoLatitud>
@@ -27403,7 +27403,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>285</its:tramoId>
@@ -27424,7 +27424,7 @@
 		<its:finalLatitud>43.4607506</its:finalLatitud>
 		<its:finalLongitud>-3.8256600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4612236</its:posicionSegmentoLatitud>
@@ -27525,7 +27525,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>286</its:tramoId>
@@ -27534,7 +27534,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -27546,7 +27546,7 @@
 		<its:finalLatitud>43.4599915</its:finalLatitud>
 		<its:finalLongitud>-3.8088701</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4598160</its:posicionSegmentoLatitud>
@@ -27625,7 +27625,7 @@
 				    <its:cruceId>2</its:cruceId>
 				    <its:cruceId>3</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>288</its:tramoId>
@@ -27667,7 +27667,7 @@
 		<its:finalLatitud>43.4594498</its:finalLatitud>
 		<its:finalLongitud>-3.8093901</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4597626</its:posicionSegmentoLatitud>
@@ -27720,7 +27720,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>340</its:tramoId>
@@ -28151,7 +28151,7 @@
 		<its:finalLatitud>43.4606705</its:finalLatitud>
 		<its:finalLongitud>-3.8096600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4611092</its:posicionSegmentoLatitud>
@@ -28222,7 +28222,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>294</its:tramoId>
@@ -28419,7 +28419,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4640427</its:posicionSegmentoLatitud>
@@ -28554,7 +28554,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4639740</its:posicionSegmentoLatitud>
@@ -28909,7 +28909,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4627838</its:posicionSegmentoLatitud>
@@ -28984,7 +28984,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>247</its:tramoId>
@@ -30305,7 +30305,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4582481</its:posicionSegmentoLatitud>
@@ -30440,7 +30440,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -30452,7 +30452,7 @@
 		<its:finalLatitud>43.4575806</its:finalLatitud>
 		<its:finalLongitud>-3.8235700</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4582405</its:posicionSegmentoLatitud>
@@ -30547,7 +30547,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>313</its:tramoId>
@@ -30568,7 +30568,7 @@
 		<its:finalLatitud>43.4584808</its:finalLatitud>
 		<its:finalLongitud>-3.8260701</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4587097</its:posicionSegmentoLatitud>
@@ -31425,7 +31425,7 @@
 		<its:finalLatitud>43.4595184</its:finalLatitud>
 		<its:finalLongitud>-3.8287001</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4590149</its:posicionSegmentoLatitud>
@@ -31520,7 +31520,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -31532,7 +31532,7 @@
 		<its:finalLatitud>43.4591904</its:finalLatitud>
 		<its:finalLongitud>-3.8276100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4589958</its:posicionSegmentoLatitud>
@@ -31603,7 +31603,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>317</its:tramoId>
@@ -31779,7 +31779,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>40</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 				<its:conexionGlorieta>
 					<its:entrada/>
 				</its:conexionGlorieta>
@@ -31791,7 +31791,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>40</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 				<its:conexionGlorieta>
 					<its:entrada/>
 				</its:conexionGlorieta>
@@ -33126,7 +33126,7 @@
 		<its:finalLatitud>43.4623413</its:finalLatitud>
 		<its:finalLongitud>-3.8224900</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4625778</its:posicionSegmentoLatitud>
@@ -33530,7 +33530,7 @@
 		<its:finalLatitud>43.4602394</its:finalLatitud>
 		<its:finalLongitud>-3.8291500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4611702</its:posicionSegmentoLatitud>
@@ -33811,7 +33811,7 @@
 		<its:finalLatitud>43.4607506</its:finalLatitud>
 		<its:finalLongitud>-3.8269401</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4611664</its:posicionSegmentoLatitud>
@@ -33927,7 +33927,7 @@
 		<its:finalLatitud>43.4606590</its:finalLatitud>
 		<its:finalLongitud>-3.8255100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607201</its:posicionSegmentoLatitud>
@@ -33977,7 +33977,7 @@
 		<its:finalLatitud>43.4601288</its:finalLatitud>
 		<its:finalLongitud>-3.8081000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4599953</its:posicionSegmentoLatitud>
@@ -34272,7 +34272,7 @@
 		<its:finalLatitud>43.4591789</its:finalLatitud>
 		<its:finalLongitud>-3.8092401</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4594002</its:posicionSegmentoLatitud>
@@ -34313,7 +34313,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>341</its:tramoId>
@@ -34322,7 +34322,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -34835,7 +34835,7 @@
 		<its:finalLatitud>43.4602585</its:finalLatitud>
 		<its:finalLongitud>-3.8104801</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4606743</its:posicionSegmentoLatitud>
@@ -34984,7 +34984,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>158</its:tramoId>
@@ -37270,7 +37270,7 @@
 		<its:finalLatitud>43.4581299</its:finalLatitud>
 		<its:finalLongitud>-3.8246801</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4582329</its:posicionSegmentoLatitud>
@@ -37389,7 +37389,7 @@
 		<its:finalLatitud>43.4570999</its:finalLatitud>
 		<its:finalLongitud>-3.8234799</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4575386</its:posicionSegmentoLatitud>
@@ -37467,7 +37467,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>371</its:tramoId>
@@ -37497,7 +37497,7 @@
 		<its:finalLatitud>43.4577103</its:finalLatitud>
 		<its:finalLongitud>-3.8224599</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4575844</its:posicionSegmentoLatitud>
@@ -37611,7 +37611,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>376</its:tramoId>
@@ -37636,7 +37636,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4566917</its:posicionSegmentoLatitud>
@@ -37744,7 +37744,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>378</its:tramoId>
@@ -37753,7 +37753,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>379</its:tramoId>
@@ -37793,7 +37793,7 @@
 		<its:finalLatitud>43.4602394</its:finalLatitud>
 		<its:finalLongitud>-3.8291500</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4595566</its:posicionSegmentoLatitud>
@@ -37900,7 +37900,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -37912,7 +37912,7 @@
 		<its:finalLatitud>43.4591789</its:finalLatitud>
 		<its:finalLongitud>-3.8272099</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4592400</its:posicionSegmentoLatitud>
@@ -37974,7 +37974,7 @@
 		<its:finalLatitud>43.4586792</its:finalLatitud>
 		<its:finalLongitud>-3.8278000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4591446</its:posicionSegmentoLatitud>
@@ -38197,7 +38197,7 @@
 		<its:finalLatitud>43.4575119</its:finalLatitud>
 		<its:finalLongitud>-3.8283000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4577065</its:posicionSegmentoLatitud>
@@ -38304,7 +38304,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>385</its:tramoId>
@@ -38892,7 +38892,7 @@
 		<its:finalLatitud>43.4631882</its:finalLatitud>
 		<its:finalLongitud>-3.8241501</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4634705</its:posicionSegmentoLatitud>
@@ -39011,7 +39011,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>397</its:tramoId>
@@ -39330,7 +39330,7 @@
 		<its:finalLatitud>43.4607086</its:finalLatitud>
 		<its:finalLongitud>-3.8296299</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4602737</its:posicionSegmentoLatitud>
@@ -39413,7 +39413,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>402</its:tramoId>
@@ -39422,7 +39422,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>403</its:tramoId>
@@ -39447,7 +39447,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607391</its:posicionSegmentoLatitud>
@@ -39548,7 +39548,7 @@
 		<its:finalLatitud>43.4603119</its:finalLatitud>
 		<its:finalLongitud>-3.8264000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4607162</its:posicionSegmentoLatitud>
@@ -40131,7 +40131,7 @@
 		<its:finalLatitud>43.4598389</its:finalLatitud>
 		<its:finalLongitud>-3.8079600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4600906</its:posicionSegmentoLatitud>
@@ -40380,7 +40380,7 @@
 		<its:finalLatitud>43.4596405</its:finalLatitud>
 		<its:finalLongitud>-3.8087001</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4594574</its:posicionSegmentoLatitud>
@@ -41387,7 +41387,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4647484</its:posicionSegmentoLatitud>
@@ -41444,7 +41444,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>423</its:tramoId>
@@ -42213,7 +42213,7 @@
 		<its:finalLatitud>43.4618111</its:finalLatitud>
 		<its:finalLongitud>-3.8150899</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4618759</its:posicionSegmentoLatitud>
@@ -42314,7 +42314,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>20</its:restriccionVelocidad>
+				<its:restriccionVelocidad>30</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>431</its:tramoId>
@@ -43744,7 +43744,7 @@
 		<its:finalLatitud>43.4568596</its:finalLatitud>
 		<its:finalLongitud>-3.8234100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4570427</its:posicionSegmentoLatitud>
@@ -43779,7 +43779,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -43791,7 +43791,7 @@
 		<its:finalLatitud>43.4571915</its:finalLatitud>
 		<its:finalLongitud>-3.8223801</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4570885</its:posicionSegmentoLatitud>
@@ -43904,7 +43904,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>441</its:tramoId>
@@ -43925,7 +43925,7 @@
 		<its:finalLatitud>43.4571609</its:finalLatitud>
 		<its:finalLongitud>-3.8239000</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4571152</its:posicionSegmentoLatitud>
@@ -43975,7 +43975,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>442</its:tramoId>
@@ -44232,7 +44232,7 @@
 		<its:finalLatitud>43.4578400</its:finalLatitud>
 		<its:finalLongitud>-3.8208001</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4577065</its:posicionSegmentoLatitud>
@@ -44505,7 +44505,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4565392</its:posicionSegmentoLatitud>
@@ -44576,7 +44576,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>379</its:tramoId>
@@ -44595,7 +44595,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>448</its:tramoId>
@@ -44605,7 +44605,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -44621,7 +44621,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4564896</its:posicionSegmentoLatitud>
@@ -44782,7 +44782,7 @@
 		<its:finalLatitud>43.4585495</its:finalLatitud>
 		<its:finalLongitud>-3.8272400</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4591789</its:posicionSegmentoLatitud>
@@ -45365,7 +45365,7 @@
 		<its:finalLatitud>43.4572182</its:finalLatitud>
 		<its:finalLongitud>-3.8267601</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4575005</its:posicionSegmentoLatitud>
@@ -45540,7 +45540,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>			
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -45556,7 +45556,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4578896</its:posicionSegmentoLatitud>
@@ -45621,7 +45621,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>384</its:tramoId>
@@ -46109,7 +46109,7 @@
 		<its:finalLatitud>43.4576111</its:finalLatitud>
 		<its:finalLongitud>-3.8336799</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4567642</its:posicionSegmentoLatitud>
@@ -47016,7 +47016,7 @@
 		<its:finalLatitud>43.4630585</its:finalLatitud>
 		<its:finalLongitud>-3.8246300</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4631615</its:posicionSegmentoLatitud>
@@ -47069,7 +47069,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>458</its:tramoId>
@@ -47094,7 +47094,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4632263</its:posicionSegmentoLatitud>
@@ -47189,7 +47189,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -47710,7 +47710,7 @@
 		<its:finalLatitud>43.4605217</its:finalLatitud>
 		<its:finalLongitud>-3.8299100</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4606934</its:posicionSegmentoLatitud>
@@ -47769,7 +47769,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -47781,7 +47781,7 @@
 		<its:finalLatitud>43.4607506</its:finalLatitud>
 		<its:finalLongitud>-3.8256600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4603271</its:posicionSegmentoLatitud>
@@ -48038,7 +48038,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4599380</its:posicionSegmentoLatitud>
@@ -48145,7 +48145,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -48157,7 +48157,7 @@
 		<its:finalLatitud>43.4595604</its:finalLatitud>
 		<its:finalLongitud>-3.8078201</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4597931</its:posicionSegmentoLatitud>
@@ -48282,7 +48282,7 @@
 		<its:finalLatitud>43.4598389</its:finalLatitud>
 		<its:finalLongitud>-3.8079600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4596596</its:posicionSegmentoLatitud>
@@ -49395,7 +49395,7 @@
 		<its:finalLatitud>43.4617691</its:finalLatitud>
 		<its:finalLongitud>-3.8110099</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>40</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4614906</its:posicionSegmentoLatitud>
@@ -49825,7 +49825,7 @@
 		<its:finalLatitud>43.4596710</its:finalLatitud>
 		<its:finalLongitud>-3.8100600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4594726</its:posicionSegmentoLatitud>
@@ -49908,7 +49908,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -50150,7 +50150,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4650188</its:posicionSegmentoLatitud>
@@ -50179,7 +50179,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>423</its:tramoId>
@@ -50198,7 +50198,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>482</its:tramoId>
@@ -50233,7 +50233,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4650115</its:posicionSegmentoLatitud>
@@ -50287,7 +50287,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>422</its:tramoId>
@@ -50886,7 +50886,7 @@
 		<its:finalLatitud>43.4613118</its:finalLatitud>
 		<its:finalLongitud>-3.8177593</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4617999</its:posicionSegmentoLatitud>
@@ -51131,7 +51131,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>20</its:restriccionVelocidad>
+				<its:restriccionVelocidad>25</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -51147,7 +51147,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4618547</its:posicionSegmentoLatitud>
@@ -51460,7 +51460,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>20</its:velocidadMaxima>
+		<its:velocidadMaxima>30</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4620804</its:posicionSegmentoLatitud>
@@ -52159,7 +52159,7 @@
 		<its:finalLatitud>43.45651</its:finalLatitud>
 		<its:finalLongitud>-3.82332</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4570444</its:posicionSegmentoLatitud>
@@ -52236,7 +52236,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>497</its:tramoId>
@@ -52257,7 +52257,7 @@
 		<its:finalLatitud>43.4572438</its:finalLatitud>
 		<its:finalLongitud>-3.8216885</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4571930</its:posicionSegmentoLatitud>
@@ -52334,7 +52334,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -52350,7 +52350,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.45724</its:posicionSegmentoLatitud>
@@ -52986,7 +52986,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4567109</its:posicionSegmentoLatitud>
@@ -53075,7 +53075,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>442</its:tramoId>
@@ -53109,7 +53109,7 @@
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4567384</its:posicionSegmentoLatitud>
@@ -53556,7 +53556,7 @@
 		<its:finalLatitud>43.45512</its:finalLatitud>
 		<its:finalLongitud>-3.83338</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 			<its:posicionSegmentoLatitud>43.4552136</its:posicionSegmentoLatitud>
@@ -53597,7 +53597,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -53863,7 +53863,7 @@
 		<its:finalLatitud>43.4628720</its:finalLatitud>
 		<its:finalLongitud>-3.8252299</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4630168</its:posicionSegmentoLatitud>
@@ -53922,7 +53922,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -53934,7 +53934,7 @@
 		<its:finalLatitud>43.4633042</its:finalLatitud>
 		<its:finalLongitud>-3.8247473</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.46310</its:posicionSegmentoLatitud>
@@ -54000,7 +54000,7 @@
 		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4637043</its:posicionSegmentoLatitud>
@@ -54035,7 +54035,7 @@
 		        <its:listaCruces>
 		            <its:cruceId>2</its:cruceId>
 		        </its:listaCruces>
-		        <its:restriccionVelocidad>30</its:restriccionVelocidad>
+		        <its:restriccionVelocidad>50</its:restriccionVelocidad>
 		    </its:conexion>
 			<its:conexion>
 				<its:tramoId>516</its:tramoId>
@@ -54571,7 +54571,7 @@
 		<its:finalLatitud>43.4646797</its:finalLatitud>
 		<its:finalLongitud>-3.8215699</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4642367</its:posicionSegmentoLatitud>
@@ -54726,7 +54726,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>398</its:tramoId>
@@ -54736,7 +54736,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>398</its:tramoId>
@@ -54746,7 +54746,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>398</its:tramoId>
@@ -54756,7 +54756,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>399</its:tramoId>
@@ -54766,7 +54766,7 @@
 				    <its:cruceId>1</its:cruceId>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -54846,7 +54846,7 @@
 		<its:finalLatitud>43.4602518</its:finalLatitud>
 		<its:finalLongitud>-3.8299162</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 			<its:posicionSegmentoLatitud>43.4604352</its:posicionSegmentoLatitud>
@@ -54887,7 +54887,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -55015,7 +55015,7 @@
 		<its:finalLatitud>43.4599190</its:finalLatitud>
 		<its:finalLongitud>-3.8269300</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4599290</its:posicionSegmentoLatitud>
@@ -55194,7 +55194,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -55206,7 +55206,7 @@
 		<its:finalLatitud>43.4594917</its:finalLatitud>
 		<its:finalLongitud>-3.8070600</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		    <its:segmento>
 				<its:posicionSegmentoLatitud>43.4595764</its:posicionSegmentoLatitud>
@@ -55328,7 +55328,7 @@
 		<its:finalLatitud>43.4593554</its:finalLatitud>
 		<its:finalLongitud>-3.8085534</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 		     <its:segmento>
 			<its:posicionSegmentoLatitud>43.4595413</its:posicionSegmentoLatitud>
@@ -55407,7 +55407,7 @@
 				    <its:cruceId>3</its:cruceId>
 				    <its:cruceId>5</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>526</its:tramoId>
@@ -55418,7 +55418,7 @@
 				    <its:cruceId>4</its:cruceId>
 				    <its:cruceId>6</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>527</its:tramoId>
@@ -55469,7 +55469,7 @@
 				    <its:cruceId>3</its:cruceId>
 				    <its:cruceId>4</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>35</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>527</its:tramoId>
@@ -55481,7 +55481,7 @@
 				    <its:cruceId>5</its:cruceId>
 				    <its:cruceId>6</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>40</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
@@ -56161,7 +56161,7 @@
 		<its:finalLatitud>43.4642181</its:finalLatitud>
 		<its:finalLongitud>-3.8205400</its:finalLongitud>
 		<its:altura>10</its:altura>
-		<its:velocidadMaxima>30</its:velocidadMaxima>
+		<its:velocidadMaxima>50</its:velocidadMaxima>
 		<its:listaSegmentos>
 			<its:segmento>
 				<its:posicionSegmentoLatitud>43.4646946</its:posicionSegmentoLatitud>
@@ -56316,7 +56316,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>45</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>532</its:tramoId>
@@ -56325,7 +56325,7 @@
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>532</its:tramoId>
@@ -56334,7 +56334,7 @@
 				<its:listaCruces>
 				    <its:cruceId>2</its:cruceId>
 				</its:listaCruces>
-				<its:restriccionVelocidad>30</its:restriccionVelocidad>
+				<its:restriccionVelocidad>50</its:restriccionVelocidad>
 			</its:conexion>
 		</its:listaConexiones>
 	</its:datosTramo>
