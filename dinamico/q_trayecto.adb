@@ -192,6 +192,16 @@ package body Q_TRAYECTO is
       
    end F_OBTENER_LISTA_CRUCES_ACTUAL;
    ---------------------------------------------------------------------------------------------------------------
+   
+   -----------------------------------------------------------------------------------
+   function F_OBTENER_DISTANCIA_RECORRIDA (V_TRAYECTO : in T_TRAYECTO) return Float is
+      
+   begin
+     
+      return V_TRAYECTO.R_DISTANCIA_RECORRIDA;
+      
+   end F_OBTENER_DISTANCIA_RECORRIDA;
+   -----------------------------------------------------------------------------------
 
    -----------------------------------------------------------
    procedure P_CREAR_TRAYECTO (V_VEHICULO : in Q_VEHICULO.T_VEHICULO;
