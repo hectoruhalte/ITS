@@ -359,7 +359,17 @@ package body Q_TRAYECTO.Q_ACCIONES is
          if Integer(Float(V_TRAYECTO.R_VELOCIDAD_ACTUAL)/10.0)**2 > Integer(V_TRAYECTO.R_DISTANCIA_POR_RECORRER) then
 
             -- De momento frenamos en 9 Km/h la velocidad que traiamos, que no sera muy alta.
-            V_TRAYECTO.R_VELOCIDAD_ACTUAL := V_VELOCIDAD_INICIAL - 9;
+            begin 
+               
+               V_TRAYECTO.R_VELOCIDAD_ACTUAL := V_VELOCIDAD_INICIAL - 9;
+               
+            exception
+                
+               when Constraint_Error =>
+                  
+                  V_TRAYECTO.R_VELOCIDAD_ACTUAL := 0;
+                  
+            end;
             -- Para el calculo de la distancia recorrida.
             V_VELOCIDAD_OBJETIVO := V_VELOCIDAD_INICIAL;
 
