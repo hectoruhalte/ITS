@@ -30904,8 +30904,8 @@
 		<its:finalLatitud>43.4590492</its:finalLatitud>
 		<its:finalLongitud>-3.8246000</its:finalLongitud>
 		<its:sentidoCirculacion>
-		    <its:ascendente>2</its:ascendente>
-		    <its:descendente>2</its:descendente>
+		    <its:ascendente>1</its:ascendente>
+		    <its:descendente>1</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
 		<its:velocidadMaxima>50</its:velocidadMaxima>
@@ -53938,8 +53938,8 @@
 		<its:finalLatitud>43.45415</its:finalLatitud>
 		<its:finalLongitud>-3.82854</its:finalLongitud>
 		<its:sentidoCirculacion>
-		    <its:ascendente>1</its:ascendente>
-		    <its:descendente>1</its:descendente>
+		    <its:ascendente>2</its:ascendente>
+		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
 		<its:velocidadMaxima>50</its:velocidadMaxima>
@@ -54826,7 +54826,7 @@
 		<its:listaConexiones>
 			<its:conexion>
 				<its:tramoId>144</its:tramoId>
-				<its:carrilActual>2</its:carrilActual>
+				<its:carrilActual>1</its:carrilActual>
 				<its:carrilSiguiente>1</its:carrilSiguiente>
 				<its:listaCruces>
 				    <its:cruceId>4</its:cruceId>
@@ -54835,7 +54835,7 @@
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>144</its:tramoId>
-				<its:carrilActual>3</its:carrilActual>
+				<its:carrilActual>2</its:carrilActual>
 				<its:carrilSiguiente>1</its:carrilSiguiente>
 				<its:listaCruces>
 				    <its:cruceId>1</its:cruceId>
