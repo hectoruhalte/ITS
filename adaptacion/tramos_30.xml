@@ -54832,6 +54832,9 @@
 				    <its:cruceId>4</its:cruceId>
 				</its:listaCruces>
 				<its:restriccionVelocidad>45</its:restriccionVelocidad>
+				<its:conexionGlorieta>
+				    <its:entrada/>
+				</its:conexionGlorieta>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>144</its:tramoId>
@@ -54841,6 +54844,9 @@
 				    <its:cruceId>1</its:cruceId>
 				</its:listaCruces>
 				<its:restriccionVelocidad>40</its:restriccionVelocidad>
+				<its:conexionGlorieta>
+				    <its:entrada/>
+				</its:conexionGlorieta>
 			</its:conexion>
 			<its:conexion>
 				<its:tramoId>176</its:tramoId>
