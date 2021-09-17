@@ -1061,7 +1061,7 @@ package body Q_PROGRESION is
             V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := V_CARRIL_A_USAR;
 
             P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
-                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA); 
 
             -- Ahora hay que seguir corrigiendo los tramos anteriores a este hasta el limite. Suponiendo que no sea
             -- el ultimo tramo => I = 1
@@ -1083,9 +1083,11 @@ package body Q_PROGRESION is
                       (V_POSICION => J+1,
                        V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
 
-                  V_CARRIL_SIGUIENTE := 
-                    F_DEVOLVER_ELEMENTO (V_POSICION => J+1,
-                                         V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_CARRIL;
+                  --V_CARRIL_SIGUIENTE := 
+                  --  F_DEVOLVER_ELEMENTO (V_POSICION => J+1,
+                  --                       V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL_).R_CARRIL;
+                  -- Problema Sainz de la Maza.
+                  V_CARRIL_SIGUIENTE := V_CARRIL_A_USAR;
 
                   begin
 	
@@ -1141,6 +1143,8 @@ package body Q_PROGRESION is
 
                         end loop;
 
+                        -- Problema Sainz de la Maza
+                        V_CARRIL_SIGUIENTE := V_CARRIL_MAS_CERCANO;
                         V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := V_CARRIL_MAS_CERCANO;
 
                   end;
@@ -1366,7 +1370,7 @@ package body Q_PROGRESION is
             -- Si la salida es la 2 o 3 => Habra que entrar por el carril 2, y en cuanto se pase la ultima salida que no
             -- sea la nuestra pasar al carril derecho.
             if V_SALIDAS_NO_TOMADAS >= 2 and V_SALIDAS_NO_TOMADAS < 4 then
-
+               
                -- Entre el tramo siguiente al de entrada a la rotonda y el anterior al de salida circular por el 
                -- carril 2 si existe. Si no existe no hacer nada.
                if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_GLORIETA_ID) >= 2 then
@@ -1384,7 +1388,7 @@ package body Q_PROGRESION is
                      -- 	carril ideal a 2 para el tramo de entrada y corregir desde ahi hacia atras.
                      if K <= V_POSICION_TRAMO_SALIDA_DE_GLORIETA -1 and
                        K >= V_POSICION_TRAMO_ENTRADA_A_GLORIETA then
-
+                        
                         V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_ID_TRAMO_ACTUAL :=
                           F_DEVOLVER_ELEMENTO
                             (V_POSICION => K,
@@ -1428,7 +1432,7 @@ package body Q_PROGRESION is
                            V_CORRECCION_POR_GLORIETA := False;
 
                         else
-
+                           
                            -- Si entramos aqui es para corregir la progresion de carriles 
                            -- optimo.
                            -- La entrada a esta rotonda (tramo K) 
@@ -1442,7 +1446,7 @@ package body Q_PROGRESION is
                            -- optima aux. Asi ya tendriamos toda la progresion optima.
 
                            for L in reverse 1 .. K loop
-
+                              
                               P_INSERTAR_ELEMENTO
                                 (V_ELEMENTO =>
                                    F_DEVOLVER_ELEMENTO 
@@ -1455,7 +1459,9 @@ package body Q_PROGRESION is
 
                            -- Inicializar la progresion de carril optimo.
                            P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
-
+                           
+                           -- Hay que corregir no solo el tramo de entrada a la rotonda, sino todos los anteriores tambien, hasta que solo
+                           -- haya un carril.
                            P_CORREGIR_PROGRESION_CARRIL_OPTIMO 
                              (V_INDICE_TRAMO_A_CORREGIR => K,
                               V_INDICE_TRAMO_LIMITE_CORRECCION => 
@@ -1520,11 +1526,6 @@ package body Q_PROGRESION is
                   P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO_AUX);
 
                   for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) loop
-
-                     Ada.Text_Io.Put_Line (Integer'Image(K));
-                     Ada.Text_IO.Put_Line (Integer'Image(V_POSICION_TRAMO_ENTRADA_A_GLORIETA));
-                     Ada.Text_IO.Put_Line (Integer'Image(V_POSICION_TRAMO_SALIDA_DE_GLORIETA));
-                     Ada.Text_IO.Put_Line ("--");
                      
                      if K <= V_POSICION_TRAMO_SALIDA_DE_GLORIETA -1 and
                         K >= V_POSICION_TRAMO_ENTRADA_A_GLORIETA then
