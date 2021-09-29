@@ -55827,12 +55827,12 @@
 	<its:datosTramo>
 		<its:id>462</its:id>
 		<its:nombreTramo>Avenida de Camilo Alonso Vega</its:nombreTramo>
-		<its:comienzoLatitud>43.4671751</its:comienzoLatitud>
-		<its:comienzoLongitud>-3.8192411</its:comienzoLongitud>
+		<its:comienzoLatitud>43.4655685</its:comienzoLatitud>
+		<its:comienzoLongitud>-3.8206999</its:comienzoLongitud>
 		<its:finalLatitud>43.4656223</its:finalLatitud>
 		<its:finalLongitud>-3.8204239</its:finalLongitud>
 		<its:sentidoCirculacion>
-		    <its:ascendente>2</its:ascendente>
+		    <its:ascendente>1</its:ascendente>
 		    <its:descendente>2</its:descendente>
 		</its:sentidoCirculacion>
 		<its:altura>10</its:altura>
