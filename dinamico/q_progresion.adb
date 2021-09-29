@@ -1044,7 +1044,7 @@ package body Q_PROGRESION is
       -- Hay que recorrer la lista actual de carril optimo y copiarla y pasarla a la corregida.
       -- Una vez que se alcance el tramo a corregir, se pasa a calcular los nuevos carriles hasta el tramo limite a corregir.
       for I in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO_ACTUAL) loop
-
+         
          if I > V_INDICE_TRAMO_A_CORREGIR then
 
             -- Simplemente añadir el elemento de la progresion actual a la corregida.
@@ -1061,7 +1061,7 @@ package body Q_PROGRESION is
             V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX.R_CARRIL := V_CARRIL_A_USAR;
 
             P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO_AUX,
-                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA); 
+                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
 
             -- Ahora hay que seguir corrigiendo los tramos anteriores a este hasta el limite. Suponiendo que no sea
             -- el ultimo tramo => I = 1
@@ -1072,23 +1072,26 @@ package body Q_PROGRESION is
                -- Corregir la progresion desde el tramo I-1 (el I acaba de ser corregido) hasta el limite de 
                -- correccion.
                for J in reverse V_INDICE_TRAMO_LIMITE_CORRECCION .. I-1 loop
-
+                  
                   V_TRAMO_ORIGEN_ID := 
                     F_DEVOLVER_ELEMENTO 
                       (V_POSICION => J,
                        V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
-
+                  
                   V_TRAMO_DESTINO_ID :=
                     F_DEVOLVER_ELEMENTO
                       (V_POSICION => J+1,
                        V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL).R_ID_TRAMO_ACTUAL;
 
-                  --V_CARRIL_SIGUIENTE := 
-                  --  F_DEVOLVER_ELEMENTO (V_POSICION => J+1,
-                  --                       V_LISTA => V_PROGRESION_CARRILES_OPTIMO_ACTUAL_).R_CARRIL;
-                  -- Problema Sainz de la Maza.
-                  V_CARRIL_SIGUIENTE := V_CARRIL_A_USAR;
-
+                  -- Problema Sainz de la Maza. Se ha corregido el tramo 450 (I=3), pero hay que seguir corregiendo los anteriores.
+                  -- El tramo 380 (I=2).
+                  --    Primera Iteracion J=2. Pero en la LISTA PROGRESION ACTUAL, para J+1 = 3 => Tramo 450, el carril optimo es 1
+                  --    Pero en realidad ya lo hemos cambiado al 2.
+                  -- No se puede usar la lista de progresion actual, sino obtener el carril optimo del ultimo elemento insertado
+                  -- en la lista de carriles optimo corregida. Es decir posicion 1.             
+                  V_CARRIL_SIGUIENTE := F_DEVOLVER_ELEMENTO (V_POSICION => 1,
+                                                             V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA).R_CARRIL;
+                  
                   begin
 	
                      V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_ID_TRAMO_ACTUAL := V_TRAMO_ORIGEN_ID;
@@ -1143,15 +1146,22 @@ package body Q_PROGRESION is
 
                         end loop;
 
-                        -- Problema Sainz de la Maza
-                        V_CARRIL_SIGUIENTE := V_CARRIL_MAS_CERCANO;
                         V_ELEMENTO_PROGRESION_CARRILES_OPTIMO.R_CARRIL := V_CARRIL_MAS_CERCANO;
 
                   end;
 
                   P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO,
                                        V_LISTA => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+                  
+               end loop;
+               
+               -- Hay que copiar el resto de la progresion que ya estaba corregida (de una rotonda anterior seguramente).
+               for J in reverse 1 .. V_INDICE_TRAMO_LIMITE_CORRECCION -1 loop
 
+                  P_INSERTAR_ELEMENTO (V_ELEMENTO => F_DEVOLVER_ELEMENTO (V_POSICION => J,
+                                                                          V_LISTA    => V_PROGRESION_CARRILES_OPTIMO_ACTUAL),
+                                       V_LISTA    => V_PROGRESION_CARRILES_OPTIMO_CORREGIDA);
+                  
                end loop;
 
                -- Aqui ya se tiene toda la progresion de carril optimo corregida.
@@ -1300,7 +1310,7 @@ package body Q_PROGRESION is
 
          P_INSERTAR_ELEMENTO (V_ELEMENTO => V_ELEMENTO_PROGRESION_CARRILES_OPTIMO,
                               V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
-
+         
       end loop;
 
       --
@@ -1308,7 +1318,7 @@ package body Q_PROGRESION is
       -- Comprobar las conexiones dadas entre tramos por la progresion de carriles optimo y ver si alguna conexion es la entrada
       -- a una glorieta.
       for I in 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO) - 1 loop
-
+         
          if Q_ADAPTACION_TRAMO.F_ES_ENTRADA_A_GLORIETA
            (V_TRAMO_ORIGEN_ID => F_DEVOLVER_ELEMENTO (V_POSICION => I,
                                                       V_LISTA => V_PROGRESION_CARRILES_OPTIMO).R_ID_TRAMO_ACTUAL,
@@ -1374,7 +1384,7 @@ package body Q_PROGRESION is
                -- Entre el tramo siguiente al de entrada a la rotonda y el anterior al de salida circular por el 
                -- carril 2 si existe. Si no existe no hacer nada.
                if Q_ADAPTACION_TRAMO.F_NUMERO_CARRILES_TRAMO_GLORIETA (V_TRAMO_GLORIETA_ID) >= 2 then
-
+                  
                   -- Circular por el carril 2 de la glorieta.
                   P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO_AUX);
 
@@ -1385,7 +1395,8 @@ package body Q_PROGRESION is
                      -- Si tiene mas de un carril deberiamos entrar a la rotonda por carril 2.
                      -- Si el tramo se ensancha se pone el carril ideal para ese tramo al 2 y punto.
                      -- Si el tramo no se ensancha y tiene mas de un carril habra que establecer el 
-                     -- 	carril ideal a 2 para el tramo de entrada y corregir desde ahi hacia atras.
+                     -- carril ideal a 2 para el tramo de entrada y corregir desde ahi hacia atras.
+                     
                      if K <= V_POSICION_TRAMO_SALIDA_DE_GLORIETA -1 and
                        K >= V_POSICION_TRAMO_ENTRADA_A_GLORIETA then
                         
@@ -1496,20 +1507,20 @@ package body Q_PROGRESION is
                      end if;
 
                   end loop;
-
+                  
                   if not V_PROGRESION_CORREGIDA then
 
                      P_INICIALIZAR_LISTA (V_PROGRESION_CARRILES_OPTIMO);
 
                      for K in reverse 1 .. F_CUANTOS_ELEMENTOS (V_PROGRESION_CARRILES_OPTIMO_AUX) loop
-
+                        
                         P_INSERTAR_ELEMENTO
                           (V_ELEMENTO =>
                              F_DEVOLVER_ELEMENTO 
                                (V_POSICION => K,
                                 V_LISTA => V_PROGRESION_CARRILES_OPTIMO_AUX),
                            V_LISTA => V_PROGRESION_CARRILES_OPTIMO);
-
+                        
                      end loop;
 	
                   end if;
@@ -1707,7 +1718,7 @@ package body Q_PROGRESION is
                V_CORRECCION_POR_GLORIETA := True;
 
             end if;
-
+            
          end if;
 
          -- Reiniciar el contador de salidas por si el en la progresion hubiera otra glorieta mas adelante.
@@ -1716,7 +1727,7 @@ package body Q_PROGRESION is
          V_PROGRESION_CORREGIDA := False;
 
       end loop;
-
+      
       -- Aqui ya tengo: Los carriles optimos para cada tramo y los carriles optimos de las glorietas si las hubiera.
       if V_CORRECCION_POR_GLORIETA then
 		
