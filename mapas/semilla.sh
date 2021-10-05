@@ -3,6 +3,10 @@
 #
 # Script para obtener el tramo semilla de los mapas
 #
+# Hector Uhalte
+#
+# 2-10-2021
+#
 ###################################################
 
 # Estas dos variables deberian ser variables de linea de comandos.
