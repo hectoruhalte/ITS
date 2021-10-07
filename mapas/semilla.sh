@@ -140,7 +140,7 @@ else
                         	echo "No hay continuidad entre los segmentos $(($i-1)) y el $1";
                         	echo "Error de continuidad. Necesidad de intervencion manual";
                         	echo "--";
-				break;
+				exit 1;
                 	fi
         	fi
 		echo "El sentido del tramo semilla es descendente";
@@ -170,6 +170,49 @@ echo "Obteniendo las coordenadas del final del tramo";
 nodo_final=$(tail -n 1 nodos_tramo_semilla);
 latitud_final=$(grep "<node id=\"$nodo_final\"" $MAPA | awk -F "lat=\"" '{print $2}' | awk -F "\"" '{print $1}');
 longitud_final=$(grep "<node id=\"$nodo_final\"" $MAPA | awk -F "lon=\"" '{print $2}' | awk -F "\"" '{print $1}');
+echo "Coordenadas de final obtenidas";
+echo "--";
+
+# Obtener sentido de circulacion.
+# Para todos los segmentos del tramo semilla la etiqueta one way debera tener el mismo valor, de lo contrario deberian ser tramos distintos.
+echo "Obteniendo sentido de circulacion";
+declare -A sentido_unico=();
+for ((i=1;i<=$segmentos_semilla;i++))
+do
+	sentido_unico[$i]=$(cat semilla\_$i | grep "<tag k=\"oneway\"" | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
+	if [ $i -gt 1 ]
+	then
+		# Comparar los sentidos unicos de todos los segmentos. Todos deben tener el mismo valor.
+		# Si no es asi. Intervencion manual.
+		if [ "${sentido_unico[$(($i-1))]}" != "${sentido_unico[$i]}" ]
+		then
+			echo "Algun segmento tiene el sentido unico distinto";
+			exit 1;
+		fi
+	fi 
+done
+comienzo_x=$(./m_transformar_coordenadas $latitud_comienzo $longitud_comienzo | awk '{print $1}');
+comienzo_y=$(./m_transformar_coordenadas $latitud_comienzo $longitud_comienzo | awk '{print $2}');
+final_x=$(./m_transformar_coordenadas $latitud_final $longitud_final | awk '{print $1}');
+final_y=$(./m_transformar_coordenadas $latitud_final $longitud_final | awk '{print $2}');
+angulo=$(./m_obtener_angulo $comienzo_x $comienzo_y $final_x $final_y);
+if (( $(echo "$angulo < 2.3561945" | bc -l))) || (( $(echo "$angulo > 5.4977871" | bc -l)))
+then
+	sentido_1=1;
+	sentido_2=2;
+else
+	sentido_1=2;
+	sentido_2=1;
+fi
+
+# Comprobar si el tramo es de sentido unico o no.
+if [ "${sentido_unico[1]}" == "yes" ]
+then
+	sentido_2=$(Sentido_1);
+fi
+
+echo "Sentido de circulacion establecido";
+echo "--";
 
 # Sacar el tramo en formato ITS
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -183,5 +226,9 @@ echo -e "\t\t<its:comienzoLatitud>$latitud_comienzo</its:comienzoLatitud>";
 echo -e "\t\t<its:comienzoLongitud>$longitud_comienzo</its:comienzoLongitud>";
 echo -e "\t\t<its:finalLatitud>$latitud_final</its:finalLatitud>";
 echo -e "\t\t<its:finalLongitud>$longitud_final</its:finalLongitud>";
+echo -e "\t\t<its:sentidoCirculacion>";
+echo -e "\t\t\t<its:ascendente>$sentido_1</its:ascendente>";
+echo -e "\t\t\t<its:descendente>$sentido_2</its:descendente>";
+echo -e "\t\t</its:sentidoCirculacion>";
 echo -e "\t</its:datosTramo>";
 echo "</its:tramoSet>";
