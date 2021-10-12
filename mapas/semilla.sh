@@ -20,25 +20,101 @@ segmentos_semilla=$(grep -c "<tag k=\"name\" v=\"$SEMILLA\"/>" $MAPA);
 echo "Segmentos de la via semilla : $segmentos_semilla";
 echo "--";
 
-# Obtener los numeros de linea en la que aparece el nombre de la semilla.
 echo "Extrayendo segmentos ... ";
-grep -n "<tag k=\"name\" v=\"Calle del Lábaro\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
+
+grep -n "<tag k=\"name\" v=\"$SEMILLA\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
+i=1;
+while read num_linea
+do
+        lineas=$(head -n $num_linea $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
+        linea_comienzo=$(($num_linea-2001+$lineas));
+        linea_final=$(head -n $(($num_linea+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
+        # Extraer las vias
+        head -n $linea_final $MAPA | tail -n $(($linea_final-$linea_comienzo+1)) > semilla_$i;
+	let i++;
+done < fichero_numeros_linea
+
+# En caso de que haya mas de un segmento habra que comprobar si puede ser un solo tramo:
+#       1.- Comprobar si el limite de velocidad es el mismo en los dos segmentos.
+#       2.- Si lo es, entonces comprobar el orden de los segmentos (comprobar si el nodo comun del primer segmento es el primero o el 
+#           ultimo. Esto establecera el orden de los segmentos.
+declare -A vel_max=();
+for ((i=1;i<=$segmentos_semilla;i++))
+do
+        vel_max[$i]=$(grep "<tag k=\"maxspeed\"" semilla\_$i | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
+        if [ $i -gt 1 ]
+        then
+                if [ "${vel_max[$(($i-1))]}" != "${vel_max[$i]}" ]
+                then
+                        echo "Las velocidades maximas de los segmentos no coinciden. Hace falta mas de un tramo";
+                        break;
+                        exit 1;
+                fi
+        fi
+        # Obtener los nodos de los segmentos
+        cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' > nodos\_$i;
+
+        # Hay que comprobar si el tramo semilla esta efectivamente formado por esos segmentos.
+        # Hay que comprobar las conexiones entre segmentos y ver si los puntos de conexion pertenecen a alguna via que no sea la semilla.
+        # Ejemplo: Calle Simancas. Muchos segmentos pero hay puntos de conexion con Vazquez de Mella y el tramo semilla no puede ser uno
+        # Sera el tramo desde el comienzo hasta el cruce con Vazquez de Mella.
+
+        # Extraer el numero de nodos del segmento
+	numero_nodos=$(wc -l nodos\_$i | awk '{print $1}');
+        for ((j=1;j<=$numero_nodos;j++))
+        do
+                if [ $j -gt 1 ]
+                then
+                        # Ignorar el primer nodo, aparecera seguro en dos vias con distinto nombre.
+                        # Comprobar si cada uno de los siguientes nodos aparece en una via con un nombre distinto a la semilla.
+                        # Si es asi. Se fija en i el numero de segmentos para el tramo semilla y en j los nodos del ultimo segmento.
+                        # 1.- Comprobar si el nodo aparece mas de una vez en el mapa
+                        nodo=$(awk "NR==$j" nodos\_$i);
+                        if [ $(grep -c "<nd ref=\"$nodo\"/>" $MAPA) -gt 1 ]
+                        then
+                                # El nodo aparece en mas de una via. Comprobar si el nombre de las vias es el de la semilla.
+                                # De no ser asi. El tramo semilla estara compuesto por i segmentos y en el segmento i por j nodos.
+                                grep -n "<nd ref=\"$nodo\"/>" $MAPA | awk -F ":" '{print $1}' > numeros_linea_aux;
+                                while read num_linea_aux
+                                do
+                                        lineas_aux=$(head -n $num_linea_aux $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
+                                        linea_comienzo_aux=$(($num_linea_aux-2001+$lineas_aux));
+                                        linea_final_aux=$(head -n $(($num_linea_aux+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
+                                        if [ "$(head -n $linea_final_aux $MAPA | tail -n $(($linea_final_aux-$linea_comienzo_aux+1)) | grep "<tag k=\"name\"")" ]
+                                        then
+                                                # Obtener el nombre
+                                                nombre=$(head -n $linea_final_aux $MAPA | tail -n $(($linea_final_aux-$linea_comienzo_aux+1)) | grep "<tag k=\"name\"" | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
+                                                if [ "$nombre" != "$SEMILLA" ]
+                                                then
+							#Siempre vamos a llegar aqui, al menos una vez.
+                                                        numero_real_segmentos=$i;
+							numero_real_nodos_ultimo_segmento=$j;
+							break;
+                                                fi
+                                        fi
+                                done < numeros_linea_aux
+				rm numeros_linea_aux;
+			fi
+                fi
+        done
+done
+
 i=1
 # Obtener la linea de comienzo y de final de la via de cada segmento. Como maximo 2000 nodos y 10 tags (suponemos) en cada via.
 echo "Tramo Id:way_id#1, way_id#2, ..., way_id#n." > Relacion_tramos_way_ids;
 echo -n "1:" >> Relacion_tramos_way_ids;
 while read num_linea
 do
-	lineas=$(head -n $num_linea $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
-	linea_comienzo=$(($num_linea-2001+$lineas));
-	linea_final=$(head -n $(($num_linea+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
-	# Extraer las vias
-	head -n $linea_final $MAPA | tail -n $(($linea_final-$linea_comienzo+1)) > semilla_$i;
 	# Guardar la relacion de tramo id (ITS) con las way_id's del mapa original.
 	# Formato => 
 	# Tramo Id (ITS): $way_id#1,$way_id#2, ... , $way_id#n
 	way_id=$(cat semilla\_$i | grep "way id" | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
 	echo -n "$way_id, " >> Relacion_tramos_way_ids; 
+	if [ $i -eq $numero_real_segmentos ]
+	then
+		# Asi evitamos obtener segmentos que no necesitamos";
+		break;
+	fi
 	let i++;	
 done < fichero_numeros_linea
 echo "" >> Relacion_tramos_way_ids;
@@ -46,46 +122,25 @@ echo "Segmentos extraidos";
 echo "--";
 echo "";
 
-# En caso de que haya mas de un segmento habra que comprobar si puede ser un solo tramo:
-#	1.- Comprobar si el limite de velocidad es el mismo en los dos segmentos.
-#	2.- Si lo es, entonces comprobar el orden de los segmentos (comprobar si el nodo comun del primer segmento es el primero o el 
-#           ultimo. Esto establecera el orden de los segmentos.
-declare -A vel_max=();
-for ((i=1;i<=$segmentos_semilla;i++))
-do
-	vel_max[$i]=$(grep "<tag k=\"maxspeed\"" semilla\_$i | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
-	if [ $i -gt 1 ]
-	then
-		if [ "${vel_max[$(($i-1))]}" != "${vel_max[$i]}" ]
-		then
-			echo "Las velocidades maximas de los segmentos no coinciden. Hace falta mas de un tramo";
-			break;
-			exit 1;
-		fi
-	fi
-	# Obtener los nodos de los segmentos
-	cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' > nodos\_$i;
-done
-
 declare -A nodo_primero=();
 declare -A nodo_ultimo=();
 # Comprobar el sentido del tramo. El ultimo nodo del primer segmento debera ser el primer nodo del segundo segmento para un sentido 1->2
 # Si no, habra que comprobar que el ultimo nodo del segundo segmento es el primer nodo del primer segmento para un sentido 2->1.
 sentido_ascendente=true;
-for ((i=1;i<=$segmentos_semilla;i++))
+for ((i=1;i<=$numero_real_segmentos;i++))
 do
 	if [ $i -eq 1 ]
 	then
 		# El nodo de conexion debera ser el ultimo.
 		nodo_ultimo[$i]=$(tail -n 1 nodos\_$i);
 	fi
-	if [ $i -gt 1 ] && [ $i -lt $segmentos_semilla ]
+	if [ $i -gt 1 ] && [ $i -lt $numero_real_segmentos ]
 	then
 		# Segmento intermedio habra que tomar el primer y el ultimo nodo para la conexion.
 		nodo_primero[$i]=$(head -n 1 nodos\_$i);
 		nodo_ultimo[$i]=$(tail -n 1 nodos\_$i);
 	fi
-	if [ $i -eq $segmentos_semilla ]
+	if [ $i -eq $numero_real_segmentos ]
 	then
 		# Ultimo segmento. El nodo de conexion debera ser el primero.
 		nodo_primero[$i]=$(head -n 1 nodos\_$i);
@@ -109,11 +164,22 @@ then
 	echo "El sentido del tramo semilla es ascendente";
 	echo "--";
 	# Unificar nodos del tramo semilla.
-	for ((i=1;i<=$segmentos_semilla;i++))
+	for ((i=1;i<=$numero_real_segmentos;i++))
 	do
-		cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' >> nodos_bruto;
+		if [ $i -eq $numero_real_segmentos ]
+		then
+			# Solo coger los "numero_real_nodos_ultimo_segmento" nodos.
+			cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' > nodos_aux;
+			for ((j=1;j<=$numero_real_nodos_ultimo_segmento;j++))
+			do
+				awk "NR==$j" nodos_aux >> nodos_bruto; 
+			done
+			rm nodos_aux;
+		else
+			cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' >> nodos_bruto;
+		fi
+		rm nodos\_$i;
 	done
-	
 	# Eliminar los nodos de conexion que estaran repetidos.
 	cat nodos_bruto | uniq > nodos_tramo_semilla;
 	rm nodos_bruto;
@@ -121,14 +187,14 @@ else
 	# Comprobar continuidad de manera descendente.
 	declare -A nodo_primero=();
 	declare -A nodo_ultimo=();
-	for ((i=$segmentos_semilla;i>=1;i--))
+	for ((i=$numero_real_segmentos;i>=1;i--))
 	do
-        	if [ $i -eq $segmentos_semilla ]
+        	if [ $i -eq $numero_real_segmentos ]
         	then
                 	# El nodo de conexion debera ser el primero.
                 	nodo_primero[$i]=$(head -n 1 nodos\_$i);
         	fi
-        	if [ $i -gt 1 ] && [ $i -lt $segmentos_semilla ]
+        	if [ $i -gt 1 ] && [ $i -lt $numero_real_segmentos ]
         	then
                 	# Segmento intermedio habra que tomar el primer y el ultimo nodo para la conexion.
                 	nodo_primero[$i]=$(head -n 1 nodos\_$i);
@@ -139,7 +205,7 @@ else
                 	# Primer segmento. El nodo de conexion debera ser el ultimo.
                 	nodo_ultimo[$i]=$(tail -n 1 nodos\_$i);
         	fi
-        	if [ $i -lt $segmentos_semilla ]
+        	if [ $i -lt $numero_real_segmentos ]
         	then
                 	# Comprobar conexiones y continuidad. Si hay un error salir del bucle.
                 	if [ "${nodo_ultimo[$(($i-1))]}" != "${nodo_primero[$i]}" ]
@@ -154,9 +220,21 @@ else
 		echo "El sentido del tramo semilla es descendente";
         	echo "--";
         	# Unificar nodos del tramo semilla.
-        	for ((i=$segmentos_semilla;i>=1;i--))
+        	for ((i=$numero_real_segmentos;i>=1;i--))
         	do
-                	cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' >> nodos_bruto;
+			if [ $i -eq 1 ]
+                	then
+                        	# Solo coger los ultimos "numero_real_nodos_ultimo_segmento" nodos del primer segmento.
+                        	cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' > nodos_aux;
+                        	for ((j=$numero_real_nodos_ultimo_segmento;j>=1;j--))
+                        	do
+                                	awk "NR==$j" nodos_aux >> nodos_bruto;
+                        	done
+                        	rm nodos_aux;
+			else
+				cat semilla\_$i | grep "<nd ref" | awk -F "\"" '{print $2}' >> nodos_bruto;
+                	fi
+			rm nodos_\$i;
         	done
 
         	# Eliminar los nodos de conexion que estaran repetidos.
@@ -164,6 +242,7 @@ else
         	rm nodos_bruto;
 	done
 fi
+#Aqui
 
 # Obtener coordenadas del comienzo del tramo
 echo "Obteniendo las coordenadas del origen del tramo";
@@ -279,6 +358,7 @@ do
 	fi
         let i++;
 done < fichero_numeros_linea
+rm tramo_conexion* fichero_numeros_linea;
 rm way_ids_actuales;
 echo "Conexiones extraidas";
 echo "--";
@@ -310,6 +390,7 @@ for ((i=1;i<=$numero_conexiones;i++))
 do
 	cat conexion\_$i;
 done
+rm conexion*;
 echo -e "\t\t</its:listaConexiones>";
 echo -e "\t</its:datosTramo>";
 echo "</its:tramoSet>";
