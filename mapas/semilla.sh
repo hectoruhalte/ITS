@@ -25,6 +25,8 @@ echo "Extrayendo segmentos ... ";
 grep -n "<tag k=\"name\" v=\"Calle del Lábaro\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
 i=1
 # Obtener la linea de comienzo y de final de la via de cada segmento. Como maximo 2000 nodos y 10 tags (suponemos) en cada via.
+echo "Tramo Id:way_id#1, way_id#2, ..., way_id#n." > Relacion_tramos_way_ids;
+echo -n "1:" >> Relacion_tramos_way_ids;
 while read num_linea
 do
 	lineas=$(head -n $num_linea $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
@@ -32,8 +34,14 @@ do
 	linea_final=$(head -n $(($num_linea+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
 	# Extraer las vias
 	head -n $linea_final $MAPA | tail -n $(($linea_final-$linea_comienzo+1)) > semilla_$i;
+	# Guardar la relacion de tramo id (ITS) con las way_id's del mapa original.
+	# Formato => 
+	# Tramo Id (ITS): $way_id#1,$way_id#2, ... , $way_id#n
+	way_id=$(cat semilla\_$i | grep "way id" | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
+	echo -n "$way_id, " >> Relacion_tramos_way_ids; 
 	let i++;	
 done < fichero_numeros_linea
+echo "" >> Relacion_tramos_way_ids;
 echo "Segmentos extraidos";
 echo "--";
 echo "";
@@ -208,11 +216,74 @@ fi
 # Comprobar si el tramo es de sentido unico o no.
 if [ "${sentido_unico[1]}" == "yes" ]
 then
-	sentido_2=$(Sentido_1);
+	sentido_2=$sentido_1;
 fi
 
 echo "Sentido de circulacion establecido";
 echo "--";
+
+# Conexiones:
+# Buscar el nodo final del tramo en otra via. Como sabemos que es otra via? Tenemos que coger los id's de las vias de nuestro tramo semilla.
+for ((i=1;i<=$segmentos_semilla;i++))
+do
+	grep "way id" semilla\_$i | awk -F "id=\"" '{print $2}' | awk -F "\"" '{print $1}' >> way_ids_actuales;
+done
+
+# Habra que obtener las vias en las que sale ese nodo, y comprobar que vias no son el tramo actual semilla.
+# Obtener los numeros de linea en la que aparece el nodo de conexion.
+echo "Extrayendo tramos de conexion ... ";
+grep -n "<nd ref=\"$nodo_final\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
+i=1
+numero_conexiones=0;
+# Obtener la linea de comienzo y de final de la via de cada segmento. Como maximo 2000 nodos y 10 tags (suponemos) en cada via.
+while read num_linea
+do
+        lineas=$(head -n $num_linea $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
+        linea_comienzo=$(($num_linea-2001+$lineas));
+        linea_final=$(head -n $(($num_linea+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
+        # Extraer las vias
+        head -n $linea_final $MAPA | tail -n $(($linea_final-$linea_comienzo+1)) > tramo_conexion_$i;
+	# Comprobar si el way id esta o no en el fichero de way_ids_actuales.
+	way_id=$(grep "<way id=" tramo_conexion\_$i | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
+	if [ ! "$(grep $way_id way_ids_actuales)" ]
+	then
+		# Asignar el siguiente tramo id a la conexion.
+		if [ ! "$(grep $way_id Relacion_tramos_way_ids)" ]
+		then
+			let numero_conexiones++;
+			ultimo_id=$(tail -n 1 Relacion_tramos_way_ids | awk -F ":" '{print $1}');
+			nuevo_id=$(($ultimo_id+1));
+			echo -e "\t\t\t<its:conexion>" > conexion_$i;
+			echo -e "\t\t\t\t<its:tramoId>$nuevo_id</its:tramoId>" >> conexion_$i;
+			# Comprobar el numero de carriles en el tramo semilla (el ultimo de los segmentos) y en el tramo destino.
+			carriles_semilla=$(cat semilla\_$segmentos_semilla | grep lanes | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
+			carriles_siguiente=$(cat tramo_conexion\_$i | grep lanes | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
+			if [ "$carriles_semilla" == 1 ] && [ "$carriles_siguiente" == 1 ]
+			then
+				echo -e "\t\t\t\t<its:carrilActual>1</its:carrilActual>" >> conexion_$i;
+				echo -e "\t\t\t\t<its:carrilSiguiente>1</its:carrilSiguiente>" >> conexion_$i;
+				echo -e "\t\t\t\t<its:listaCruces>" >> conexion_$i;
+				echo -e "\t\t\t\t\t<its:cruceId>1</its:cruceId>" >> conexion_$i;
+				echo -e "\t\t\t\t</its:listaCruces>" >> conexion_$i;
+				# TO DO: Calculo automatico restriccion de velocidad.
+				echo -e "\t\t\t\t<its:restriccionVelocidad>15</its:restriccionVelocidad>" >> conexion_$i;
+			else
+				echo -e "\t\t\t\tESTABLECIMIENTO MANUAL DE LA CONEXION" >> conexion_$i;
+			fi
+			# Si solo hay un carril en ambos, entonces conexion por defecto.
+			# Si no es el caso, hay que generar mensaje de revision manual.
+			# Para la restriccion de velocidad, de momento manual. Pero se puede automatizar teniendo en cuenta el angulo de los
+			# dos ultimos nodos del tramo actual y los dos primeros nodos del siguiente tramo.
+			echo -e "\t\t\t</its:conexion>" >> conexion_$i;
+		fi
+	fi
+        let i++;
+done < fichero_numeros_linea
+rm way_ids_actuales;
+echo "Conexiones extraidas";
+echo "--";
+echo "";
+
 
 # Sacar el tramo en formato ITS
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -230,5 +301,15 @@ echo -e "\t\t<its:sentidoCirculacion>";
 echo -e "\t\t\t<its:ascendente>$sentido_1</its:ascendente>";
 echo -e "\t\t\t<its:descendente>$sentido_2</its:descendente>";
 echo -e "\t\t</its:sentidoCirculacion>";
+echo -e "\t\t<its:altura>10</its:altura>";
+echo -e "\t\t<its:velocidadMaxima>${vel_max[1]}</its:velocidadMaxima>";
+echo -e "\t\t<its:listaSegmentos>";
+echo -e "\t\t</its:listaSegmentos>";
+echo -e "\t\t<its:listaConexiones>";
+for ((i=1;i<=$numero_conexiones;i++))
+do
+	cat conexion\_$i;
+done
+echo -e "\t\t</its:listaConexiones>";
 echo -e "\t</its:datosTramo>";
 echo "</its:tramoSet>";
