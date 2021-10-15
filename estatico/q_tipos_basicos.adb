@@ -201,7 +201,72 @@ package body Q_TIPOS_BASICOS is
 		return V_POSICION_UTM;  
 	
 	end F_TRANSFORMAR_LAT_LON_A_UTM;
-	----------------------------------------------------------------------------------------------------------
+   ----------------------------------------------------------------------------------------------------------
+   
+   ------------------------------------------------------------------------------------------------------
+   function F_TRANSFORMAR_UTM_A_LAT_LON (V_POSICION_UTM : in T_POSICION_UTM) return T_POSICION_LAT_LON is
+      
+      V_LATITUD, V_LONGITUD, V_ARC, V_MU, V_EI, V_CA, V_CB, V_CC, V_CD, V_PHI_1, V_N0, V_R0, V_FACT1, V_A1, V_DD0, V_FACT2, V_T0, V_Q0, 
+      V_FACT3 , V_FACT4, V_LOF2, V_LOF3, V_LONGITUD_ORIGEN : Float := 0.0;
+        
+      V_X, V_Y : Integer;
+      
+   begin
+      
+      V_X := F_OBTENER_COORDENADA_X (V_POSICION_UTM);
+      V_Y := F_OBTENER_COORDENADA_Y (V_POSICION_UTM); 
+      
+      V_ARC := Float(V_Y) / C_K0;
+      
+      V_MU := V_ARC / (C_SEMIEJE_MAYOR * (1.0 - C_EXC**2/4.0 - 3.0*C_EXC**4/64.0 - 5.0*C_EXC**6/256.0));
+      
+      V_EI := (1.0 - Q_MATH.Sqrt(1.0-C_EXC**2)) / (1.0 + Q_MATH.Sqrt(1.0-C_EXC**2));
+   
+      V_CA := 3.0*V_EI/2.0 - 27.0*V_EI**3/32.0;
+   
+      V_CB := 21.0*V_EI**2/16.0 - 55.0*V_EI**4/32.0;
+   
+      V_CC := 151.0*V_EI**3/96.0;
+   
+      V_CD := 1097.0*V_EI**4/512.0;
+      
+      V_PHI_1 := V_MU + V_CA * Q_MATH.Sin (2.0*V_MU) + V_CB * Q_MATH.Sin (4.0*V_MU) + V_CC * Q_MATH.Sin(6.0*V_MU);
+      
+      V_N0 := C_SEMIEJE_MAYOR / Q_MATH.Sqrt(1.0 - (C_EXC*Q_MATH.Sin(V_PHI_1))**2);
+      
+      V_R0 := C_SEMIEJE_MAYOR * (1.0 - C_EXC**2) / Q_MATH.Sqrt((1.0-(C_EXC*Q_MATH.Sin(V_PHI_1))**2)**3);
+   
+      V_FACT1 := V_N0 * Q_MATH.Tan(V_PHI_1) / V_R0;
+      
+      V_A1 := Float(V_X) - C_E0;
+   
+      V_DD0 := V_A1 / (V_N0 * C_K0);
+   
+      V_FACT2 := V_DD0**2 / 2.0;
+   
+      V_T0 := Q_MATH.Tan(V_PHI_1)**2;
+   
+      V_Q0 := C_EXC_2 * Q_MATH.Cos(V_PHI_1)**2;
+   
+      V_FACT3 := (5.0 + 3.0*V_T0 + 10.0*V_Q0 - 4.0*V_Q0**2 - 9.0*C_EXC_2) * V_DD0**4/24.0;
+   
+      V_FACT4 := (61.0 + 90.0*V_T0 + 298.0*V_Q0 + 45.0*V_T0**2 - 252.0*C_EXC_2 - 3.0*V_Q0**2) * V_DD0**6/720.0;
+
+      V_LOF2 := (1.0 + 2.0*V_T0 + V_Q0) * V_DD0**3/6.0;
+   
+      V_LOF3 := (5.0 - 2.0*V_Q0 + 28.0*V_T0 - 3.0*V_Q0**2 + 8.0*C_EXC_2 + 24.0*V_T0**2) * V_DD0**5/120.0;
+      
+      V_LATITUD := 180.0 * (V_PHI_1 - V_FACT1 * (V_FACT2 + V_FACT3 + V_FACT4)) / Ada.Numerics.Pi;
+   
+      V_LONGITUD_ORIGEN := (Float(C_ZONA) - 1.0)*6.0 - 180.0 + 3.0;
+   
+      V_LONGITUD := V_LONGITUD_ORIGEN + ((V_DD0 - V_LOF2 + V_LOF3)/Q_MATH.Cos(V_PHI_1)) * 180.0/Ada.Numerics.Pi;
+      
+      return F_OBTENER_POSICION_LAT_LON (V_LATITUD  => V_LATITUD,
+                                         V_LONGITUD => V_LONGITUD);
+      
+   end F_TRANSFORMAR_UTM_A_LAT_LON;
+   ------------------------------------------------------------------------------------------------------
 
 	----------------------------------------------------------------------------------------
 	function F_OBTENER_REF_X_Y (V_POSICION_UTM : in T_POSICION_UTM) return T_POSICION_UTM is

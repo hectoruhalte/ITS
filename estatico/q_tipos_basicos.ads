@@ -65,6 +65,8 @@ package Q_TIPOS_BASICOS is
    function F_OBTENER_LONGITUD (V_POSICION : in T_POSICION_LAT_LON) return T_LONGITUD;
 
    function F_TRANSFORMAR_LAT_LON_A_UTM (V_POSICION_LAT_LON : in T_POSICION_LAT_LON) return T_POSICION_UTM;
+   
+   function F_TRANSFORMAR_UTM_A_LAT_LON (V_POSICION_UTM : in T_POSICION_UTM) return T_POSICION_LAT_LON;
 
    -- Funcion para obtener coordenadas X Y con referencia en el punto de tangencia. Traslacion
    function F_OBTENER_REF_X_Y (V_POSICION_UTM : in T_POSICION_UTM) return T_POSICION_UTM;
@@ -92,12 +94,20 @@ private
 
    -- Semieje menor tierra modelo WGS84 en metros
    C_SEMIEJE_MENOR : constant Float := 6_356_752.3;
+   
+   -- Excentricidad tierra
+   C_EXC : constant Float := 0.081819191;
+   
+   C_EXC_2 : constant Float := 0.006739497;
 
    -- E0
    C_E0 : constant FLoat := 500_000.0;
 
    -- K0
    C_K0 : constant Float := 0.9996;
+   
+   -- Zonat UTM
+   C_ZONA : constant Integer := 30;
 
    -- Posicion usada internamente en el sistema. Con referencia a las coordenadas UTM del punto de tangencia.
    type T_POSICION_UTM is record
