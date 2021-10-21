@@ -391,4 +391,6 @@ done
 echo -e "\t\t</its:listaConexiones>";
 echo -e "\t</its:datosTramo>";
 echo "</its:tramoSet>";
+#Nodo de conexion.
+tail -n 1 nodos_tramo_semilla | awk '{print $1}' > nodo_conexion;
 rm conexion* semilla_* nodos_*;
