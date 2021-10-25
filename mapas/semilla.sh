@@ -33,8 +33,12 @@ echo "Extrayendo segmentos ... ";
 grep -n "<tag k=\"name\" v=\"$SEMILLA\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
 i=1
 # Obtener la linea de comienzo y de final de la via de cada segmento. Como maximo 2000 nodos y 10 tags (suponemos) en cada via.
+
+
 echo "Tramo Id:way_id#1, way_id#2, ..., way_id#n." > Relacion_tramos_way_ids;
 echo -n "1:" >> Relacion_tramos_way_ids;
+
+
 while read num_linea
 do
 	lineas=$(head -n $num_linea $MAPA | tail -n 2001 | grep -n "<way id=" | tail -n 1 | awk -F ":" '{print $1}');
@@ -42,22 +46,62 @@ do
 	linea_final=$(head -n $(($num_linea+10)) $MAPA | grep -n "</way>" | tail -n 1 | awk -F ":" '{print $1}');
 	# Extraer las vias
 	head -n $linea_final $MAPA | tail -n $(($linea_final-$linea_comienzo+1)) > semilla_$i;
-	# Guardar la relacion de tramo id (ITS) con las way_id's del mapa original.
-	# Formato => 
-	# Tramo Id (ITS): $way_id#1,$way_id#2, ... , $way_id#n
-	way_id=$(cat semilla\_$i | grep "way id" | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
-	echo -n "$way_id, " >> Relacion_tramos_way_ids; 
 	let i++;	
 done < fichero_numeros_linea
-echo "" >> Relacion_tramos_way_ids;
 echo "Segmentos extraidos";
 echo "--";
 echo "";
 
 # En caso de que haya mas de un segmento habra que comprobar si puede ser un solo tramo:
-#	1.- Comprobar si el limite de velocidad es el mismo en los dos segmentos.
-#	2.- Si lo es, entonces comprobar el orden de los segmentos (comprobar si el nodo comun del primer segmento es el primero o el 
+#       1.- Comprobar si los nodos de conexion entre los distintos segmentos perteneces solo al tramo semilla. 
+#           De no ser asi, se para y se toma el tramo semilla con los segmentos obtenidos.
+#	2.- Comprobar si el limite de velocidad es el mismo en todos los segmentos.
+#	    De no ser asi, se para y se toma el tramo semilla con los segmentos obtenidos.
+#	3.- Si lo es, entonces comprobar el orden de los segmentos (comprobar si el nodo comun del primer segmento es el primero o el 
 #           ultimo. Esto establecera el orden de los segmentos.
+
+# 1.-
+
+# Guardar la relacion de tramo id (ITS) con las way_id's del mapa original.
+# Formato => 
+# Tramo Id (ITS): $way_id#1,$way_id#2, ... , $way_id#n
+way_id=$(cat semilla_1 | grep "way id" | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
+way_id_conexion=$way_id;
+echo -n "$way_id, " >> Relacion_tramos_way_ids
+
+if [ $(($segmentos_semilla)) -gt 1 ]
+then
+	for((i=1;i<$segmentos_semilla;i++))
+	do
+		# Obtener el ultimo nodo del segmento i.
+		#cat semilla\_$i | grep "<nd ref=" | tail -n 1 | awk -F "=" '{print $2}' | awk -F "\"" '{print $1}';
+		nodo_1=$(cat semilla\_$i | grep "<nd ref=" | tail -n 1 | awk -F "=\"" '{print $2}' | awk -F "\"" '{print $1}');
+		nodo_2=$(cat semilla\_$(($i+1)) | grep "<nd ref=" | head -n 1 | awk -F "=\"" '{print $2}' | awk -F "\"" '{print $1}');
+		if [ "$nodo_1" != "$nodo_2" ]
+		then
+			# Parar en el segmento i.
+			for ((j=$(($i+1));j<=$segmentos_semilla;j++))
+			do
+				rm semilla\_$j;
+			done
+			segmentos_semilla=$i;
+			break;
+		else
+			# Guardar la relacion de tramo id (ITS) con las way_id's del mapa original.
+        		# Formato => 
+        		# Tramo Id (ITS): $way_id#1,$way_id#2, ... , $way_id#n
+        		way_id=$(cat semilla\_$(($i+1)) | grep "way id" | awk -F "<way id=\"" '{print $2}' | awk -F "\"" '{print $1}');
+        		way_id_conexion=$way_id;
+        		echo -n "$way_id, " >> Relacion_tramos_way_ids;
+		fi
+	done
+fi
+echo "" >> Relacion_tramos_way_ids;
+echo "Numero segmentos : $segmentos_semilla";
+# Aqui ya tengo los segmentos de semilla a utilizar.
+
+# 2.-
+
 declare -A vel_max=();
 for ((i=1;i<=$segmentos_semilla;i++))
 do
@@ -344,8 +388,11 @@ do
 			# dos ultimos nodos del tramo actual y los dos primeros nodos del siguiente tramo.
 			echo -e "\t\t\t</its:conexion>" >> conexion_$i;
 		fi
+	else
+		# En caso de hallar el way id del tramo semilla, eliminar la conexion i, para que haya continuidad al iterar despues las
+		# conexiones.
+		let i--;
 	fi
-	rm tramo_conexion\_$i;
         let i++;
 done < fichero_numeros_linea
 rm way_ids_actuales fichero_numeros_linea;
@@ -391,6 +438,7 @@ done
 echo -e "\t\t</its:listaConexiones>";
 echo -e "\t</its:datosTramo>";
 echo "</its:tramoSet>";
-#Nodo de conexion.
-tail -n 1 nodos_tramo_semilla | awk '{print $1}' > nodo_conexion;
-rm conexion* semilla_* nodos_*;
+#Conexion.
+nodo_conexion=$(tail -n 1 nodos_tramo_semilla | awk '{print $1}');
+echo "$way_id_conexion $nodo_conexion" > way_nodo_conexion;
+rm tramo_conexion* conexion* semilla_* nodos_*;
