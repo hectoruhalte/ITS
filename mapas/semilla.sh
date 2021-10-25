@@ -270,7 +270,8 @@ comienzo_y=$(./m_transformar_coordenadas $latitud_comienzo $longitud_comienzo | 
 final_x=$(./m_transformar_coordenadas $latitud_final $longitud_final | awk '{print $1}');
 final_y=$(./m_transformar_coordenadas $latitud_final $longitud_final | awk '{print $2}');
 angulo=$(./m_obtener_angulo $comienzo_x $comienzo_y $final_x $final_y);
-if (( $(echo "$angulo < 2.3561945" | bc -l))) || (( $(echo "$angulo > 5.4977871" | bc -l)))
+echo "ANGULO : $angulo";
+if (( $(echo "$angulo < 2.3561945" | bc -l))) && (( $(echo "$angulo > -0.7853982" | bc -l)))
 then
 	sentido_1=1;
 	sentido_2=2;
@@ -347,6 +348,8 @@ echo "Extrayendo tramos de conexion ... ";
 grep -n "<nd ref=\"$nodo_final\"/>" $MAPA | awk -F ":" '{print $1}' > fichero_numeros_linea;
 i=1
 numero_conexiones=0;
+ultimo_id=$(tail -n 1 Relacion_tramos_way_ids | awk -F ":" '{print $1}');
+nuevo_id=$(($ultimo_id+1));
 # Obtener la linea de comienzo y de final de la via de cada segmento. Como maximo 2000 nodos y 10 tags (suponemos) en cada via.
 while read num_linea
 do
@@ -363,10 +366,9 @@ do
 		if [ ! "$(grep $way_id Relacion_tramos_way_ids)" ]
 		then
 			let numero_conexiones++;
-			ultimo_id=$(tail -n 1 Relacion_tramos_way_ids | awk -F ":" '{print $1}');
-			nuevo_id=$(($ultimo_id+1));
 			echo -e "\t\t\t<its:conexion>" > conexion_$i;
 			echo -e "\t\t\t\t<its:tramoId>$nuevo_id</its:tramoId>" >> conexion_$i;
+			nuevo_id=$(($nuevo_id+1));
 			# Comprobar el numero de carriles en el tramo semilla (el ultimo de los segmentos) y en el tramo destino.
 			carriles_semilla=$(cat semilla\_$segmentos_semilla | grep lanes | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
 			carriles_siguiente=$(cat tramo_conexion\_$i | grep lanes | awk -F "v=\"" '{print $2}' | awk -F "\"" '{print $1}');
