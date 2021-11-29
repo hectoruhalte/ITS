@@ -11,6 +11,7 @@
 with Ada.Numerics.Generic_Elementary_Functions;
 with GNAT.Command_Line;
 with Ada.Text_IO;
+with Ada.Float_Text_IO;
 
 procedure m_obtener_angulo is
 
@@ -34,7 +35,12 @@ begin
    V_ANGULO := Q_MATH.Arctan (Y => Float(V_DELTA_Y) / V_DISTANCIA,
                               X => Float(V_DELTA_X) / V_DISTANCIA);
    
-   Ada.Text_IO.Put_Line (Float'Image(V_ANGULO));
+   Ada.Float_Text_IO.Put (Item => V_ANGULO,
+                          Fore => 1,
+                          Aft  => 7,
+                          Exp  => 0);
+   
+   Ada.Text_IO.Put_Line ("");
    
 end m_obtener_angulo;
 -------------------------------------------------------------------------------------------------------------------------------------------
