@@ -106,7 +106,6 @@ do
 						let num_ways++;
 					fi
 				fi
-				#let num_ways++;		
 			fi
 			rm way;
 		done < fichero_lineas;
